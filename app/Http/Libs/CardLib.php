@@ -5,11 +5,13 @@ namespace App\Http\Libs;
 
 
 use App\Jobs\CalcPrice;
+use App\Jobs\ContentCard;
 use App\Jobs\ContentCardDimensions;
 use App\Jobs\DiscountRemove;
 use App\Jobs\DiscountUpdate;
 use App\Jobs\ProductStockUpdate;
 use App\Jobs\StockUpdate;
+use App\Jobs\UploadImages;
 use App\Models\Card;
 use App\Models\CardCharacteristics;
 use App\Models\CardDimensions;
@@ -20,7 +22,8 @@ use App\Models\Seller;
 use App\Models\Stock;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Bus;
+use Exception as Exc;
 class CardLib
 {
     public static float $costOfLogistics = 55;
@@ -40,7 +43,7 @@ class CardLib
     public static function getComission($card)
     {
         if (!$card->comission) {
-            throw new \Exception("Нет комиссии для товара категории {$card->subjectName}");
+            throw new Exc("Нет комиссии для товара категории {$card->subjectName}");
         }
         return $card->comission->comission + self::$tariff;
     }
@@ -205,13 +208,13 @@ class CardLib
         return $card;
     }
 
-    public static function addPhoto(array $cardData, $seller)
+    public static function addPhoto(array $cardData)
     {
         $card = Card::where("nmID", $cardData['nmID'])->first();
         self::addPhotos($card->id, $cardData['photos']);
     }
 
-    public static function addSize(array $cardData, $seller)
+    public static function addSize(array $cardData)
     {
         $card = Card::where("nmID", $cardData['nmID'])->first();
         self::addSizes($card->id, $cardData['photos'], $card->seller_id);
@@ -308,5 +311,21 @@ class CardLib
             $cardSize->skus = $size['skus'][0];
             $cardSize->save();
         }
+    }
+
+    public static function makeJobAfterCreateCard($seller, $cardData)
+    {
+        Bus::chain([
+            new ContentCard($seller, [
+                'cursor' => [
+                    'limit' => 1
+                ],
+                'filter' => [
+                    'textSearch' => (string)$cardData['vendorCode'],
+                    "withPhoto" => -1
+                ]
+            ]),
+            new UploadImages($seller, $cardData['photos'], $cardData['vendorCode'])
+        ])->delay(now()->addMinutes(3))->dispatch();
     }
 }

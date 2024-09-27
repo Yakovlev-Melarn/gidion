@@ -7,7 +7,6 @@ use App\Http\Libs\Helper;
 use App\Http\Libs\WBContent;
 use App\Http\Libs\WBSupplier;
 use App\Models\Card;
-use App\Models\Job;
 use App\Models\Seller;
 use App\Models\Supplier;
 use Illuminate\Bus\Queueable;
@@ -15,7 +14,6 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Bus;
 
 class CopyCards implements ShouldQueue
 {
@@ -58,18 +56,7 @@ class CopyCards implements ShouldQueue
                     break;
                 }
                 if ($cardData = $this->copyCard($sortType, $i)) {
-                    Bus::chain([
-                        new ContentCard($this->seller, [
-                            'cursor' => [
-                                'limit' => 1
-                            ],
-                            'filter' => [
-                                'textSearch' => (string)$cardData['vendorCode'],
-                                "withPhoto" => -1
-                            ]
-                        ]),
-                        new UploadImages($this->seller, $cardData['photos'], $cardData['vendorCode'])
-                    ])->delay(now()->addMinutes(3))->dispatch();
+                    CardLib::makeJobAfterCreateCard($this->seller, $cardData);
                     $added++;
                 }
             }
@@ -115,7 +102,7 @@ class CopyCards implements ShouldQueue
                 }
                 $data = WBSupplier::getCardInfo($supplierSku['id']);
                 if (!empty($data['imt_name'])) {
-                    if ($cardData = $this->fillCardData($data, $supplierSku['subjectId'])) {
+                    if ($cardData = self::fillCardData($data, $supplierSku['subjectId'], $this->seller)) {
                         $result = WBContent::create($this->seller, $cardData);
                         if (!empty($result['error'])) {
                             return false;
@@ -129,7 +116,7 @@ class CopyCards implements ShouldQueue
         return false;
     }
 
-    private function fillCardData($data, $subjectId): array|bool
+    public static function fillCardData($data, $subjectId, $seller, $prefix = 'RS-X', $pack = 1): array|bool
     {
         $basket = Helper::getBasketNumber($data['nm_id']);
         if (!empty($data['description'])) {
@@ -139,10 +126,10 @@ class CopyCards implements ShouldQueue
         $data['imagesUrl'] = "https://basket-{$basket['basket']}.wbbasket.ru/vol{$basket['small']}/part{$basket['mid']}/{$data['nm_id']}/images/big/";
         $photos = [];
         for ($i = 1; $i <= $data['media']['photo_count']; $i++) {
-            $photos[] = "{$data['imagesUrl']}{$i}.jpg";
+            $photos[] = "{$data['imagesUrl']}{$i}.webp";
         }
         if (!empty($photos)) {
-            $chrs = WBContent::charcs($this->seller, $subjectId);
+            $chrs = WBContent::charcs($seller, $subjectId);
             $dimensions = ['width' => 10, 'length' => 10, 'height' => 10];
             $characteristics = [];
             if (!empty($data['options'])) {
@@ -196,19 +183,15 @@ class CopyCards implements ShouldQueue
                     'value' => $values
                 ];
             }
-            $brand = null;
-            if (!empty($data['selling']['brand_name'])) {
-                $brand = $data['selling']['brand_name'];
-            }
             $result = [
                 'card' => [
                     "subjectID" => (int)$subjectId,
                     "variants" => [
                         [
-                            "vendorCode" => "RS-X-{$data['nm_id']}-1",
+                            "vendorCode" => "{$prefix}-{$data['nm_id']}-{$pack}",
                             "title" => mb_substr(ucfirst(mb_strtolower($data['imt_name'])), 0, 59),
                             "description" => empty($data['description']) ? $data['imt_name'] : $data['description'],
-                            "brand" => Helper::getBrand($brand),
+                            "brand" => Helper::getBrand($data['selling']['brand_name']),
                             "dimensions" => [
                                 "height" => (int)$dimensions['height'],
                                 "length" => (int)$dimensions['length'],
@@ -216,7 +199,7 @@ class CopyCards implements ShouldQueue
                             ],
                             "characteristics" => $characteristicsList,
                             'sizes' => [[
-                                "price" => (int)ceil((($data['sellPrice'] + 55) / (100 - $this->seller->percentageOfMargin)) * 100)
+                                "price" => (int)ceil((($data['sellPrice'] + 55) / (100 - $seller->percentageOfMargin)) * 100)
                             ]]
                         ]
                     ]

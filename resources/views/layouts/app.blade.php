@@ -41,8 +41,11 @@
                     <div class="header-left">
                         <form method="post" action="{{ url('search') }}">
                             @csrf
+                            <label for="searchField"></label>
+                            <label for="searchTypeField"></label>
                             <div class="input-group search-area right d-lg-inline-flex d-none" style="width: 730px">
-                                <input type="text" name="search" required class="form-control srch" placeholder="Поиск...">
+                                <input type="text" id="searchField" name="search" required class="form-control srch"
+                                       placeholder="Поиск...">
                                 <div class="input-group-append">
                                     <span class="input-group-text"><button class="btn btn-sm" type="submit"
                                                                            href="javascript:void(0)"><i
@@ -50,7 +53,7 @@
                                 </div>
                                 <div class="input-group-append">
                                     <div class="input-group-text">
-                                        <select name="type" class="form-control-sm"
+                                        <select name="type" id="searchTypeField" class="form-control-sm"
                                                 style="background: #2C254A !important; border-color: transparent; height: 50px; width: 130px; color: #fff">
                                             <option value="card"
                                                     @if(isset($searchType)) @if($searchType == 'card') selected @endif @endif>
@@ -65,7 +68,7 @@
                             </div>
                         </form>
                     </div>
-                    <x-sellers/>
+                    <x-sellers></x-sellers>
                 </div>
             </nav>
         </div>
@@ -74,24 +77,25 @@
         <div style="min-height: 110px"></div>
         <div class="deznav-scroll">
             <ul class="metismenu" id="menu">
-                <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
+                <li><a class="has-arrow ai-icon" href="#" aria-expanded="false">
                         <i class="flaticon-091-shopping-cart"></i>
                         <span class="nav-text">Магазин</span>
                     </a>
                     <ul aria-expanded="false">
-                        <li><a href="/shop/orders">Заказы</a></li>
-                        <li><a href="/shop/stocks">Остатки</a></li>
+                        <li><a href="{{url('/shop/orders')}}">Заказы</a></li>
+                        <li><a href="{{url('/shop/stocks')}}">Остатки</a></li>
                     </ul>
                 </li>
-                <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
+                <li><a class="has-arrow ai-icon" href="#" aria-expanded="false">
                         <i class="flaticon-077-menu-1"></i>
                         <span class="nav-text">Товары</span>
                     </a>
                     <ul aria-expanded="false">
-                        <li><a href="/cards/list/1">Все товары</a></li>
-                        <li><a href="/cards/copy">Товары конкурентов</a></li>
-                        <li><a href="/cards/catalog">Каталоги поставщиков</a></li>
-                        <li><a href="/cards/delete">Удалить товары</a></li>
+                        <li><a href="{{url('/cards/list/1')}}">Все товары</a></li>
+                        <li><a href="{{url('/cards/copyCard')}}">Копирование карточки</a></li>
+                        <li><a href="{{url('/cards/copy')}}">Товары конкурентов</a></li>
+                        <li><a href="{{url('/cards/catalog')}}">Каталоги поставщиков</a></li>
+                        <li><a href="{{url('/cards/delete')}}">Удалить товары</a></li>
                     </ul>
                 </li>
                 {{--<li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
@@ -172,15 +176,15 @@
                         <li><a href="table-datatable-basic.html">Datatable</a></li>
                     </ul>
                 </li>--}}
-                <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
+                <li><a class="has-arrow ai-icon" href="#" aria-expanded="false">
                         <i class="flaticon-073-settings"></i>
                         <span class="nav-text">Настройки</span>
                     </a>
                     <ul aria-expanded="false">
-                        <li><a href="/settings/sellers">Магазины</a></li>
-                        <li><a href="/settings/suppliers">Поставщики</a></li>
-                        <li><a href="/settings/competitors">Конкуренты</a></li>
-                        <li><a href="/settings/process">Фоновые процессы</a></li>
+                        <li><a href="{{url('/settings/sellers')}}">Магазины</a></li>
+                        <li><a href="{{url('/settings/suppliers')}}">Поставщики</a></li>
+                        <li><a href="{{url('/settings/competitors')}}">Конкуренты</a></li>
+                        <li><a href="{{url('/settings/process')}}">Фоновые процессы</a></li>
                     </ul>
                 </li>
             </ul>

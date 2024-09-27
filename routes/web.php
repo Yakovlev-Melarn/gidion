@@ -42,6 +42,8 @@ Route::get('/cards/delete', [CardController::class, 'deleteCards'])->middleware(
 Route::post('/cards/delete', [CardController::class, 'deleteCards'])->middleware('auth');
 Route::get('/cards/list/{page}', [CardController::class, 'getList'])->middleware('auth');
 Route::post('/cards/changeFilter', [CardController::class, 'changeFilter'])->middleware('auth');
+Route::get('/cards/copyCard', [CardController::class, 'copyCard'])->middleware('auth');
+Route::post('/cards/copyCard', [CardController::class, 'copyCard'])->middleware('auth');
 Route::get('/cards/copy', [CardController::class, 'copy'])->middleware('auth');
 Route::post('/cards/copy', [CardController::class, 'copy'])->middleware('auth');
 Route::get('/cards/catalog', [CardController::class, 'catalog'])->middleware('auth');

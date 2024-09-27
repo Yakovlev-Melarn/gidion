@@ -14,7 +14,6 @@ use App\Jobs\ContentCard;
 use App\Jobs\CopyCards;
 use App\Jobs\PriceInfo;
 use App\Jobs\PriceUpdate;
-use App\Jobs\ProductStockUpdate;
 use App\Jobs\StockUpdate;
 use App\Jobs\Trash;
 use App\Jobs\UploadImages;
@@ -95,6 +94,30 @@ class CardController extends Controller
         ]);
     }
 
+    public function copyCard(Request $request)
+    {
+        if ($request->method() == 'POST') {
+            if ((int)$request->nmID) {
+                $seller = Seller::find(session()->get('sellerId'));
+                $data = WBSupplier::getDetail($request->nmID);
+                if (isset($data['data']['products'][0]['subjectId'])) {
+                    $productData = WBSupplier::getCardInfo($request->nmID);
+                    if (!empty($productData)) {
+                        $subjectId = $data['data']['products'][0]['subjectId'];
+                        $cardData = CopyCards::fillCardData($productData, $subjectId, $seller, $request->prefix, $request->pack);
+                        $result = WBContent::create($seller, $cardData);
+                        if (!empty($result['error'])) {
+                            return false;
+                        }
+                        $cardData['vendorCode'] = "{$request->prefix}-{$request->nmID}-{$request->pack}";
+                        CardLib::makeJobAfterCreateCard($seller, $cardData);
+                    }
+                }
+            }
+        }
+        return view('Cards/copycard');
+    }
+
     public function deleteCards(Request $request)
     {
         if ($request->method() == 'POST') {
@@ -117,14 +140,14 @@ class CardController extends Controller
         return ['error' => "card id {$id} not found"];
     }
 
-    private function update(Card $card, Request $request)
+    protected function update(Card $card, Request $request)
     {
         $seller = Seller::find($card->seller_id);
         CardLib::update($card, $request, $seller);
         return redirect()->back();
     }
 
-    private function updateSupplier(Card $card, Request $request)
+    protected function updateSupplier(Card $card, Request $request)
     {
         $card->supplier = $request->supplier;
         if ($card->save()) {
@@ -348,7 +371,7 @@ class CardController extends Controller
             ->select('cards.*')
             ->where('cards.syncStatus', 1)
             ->where('cards.seller_id', session()->get('sellerId'))
-            ->where('cards.supplier', '>', '0');
+            ->where('cards.supplier', '>=', '0');
         if (!empty($filter['supplier'])) {
             $cards = $cards->where("supplier", $filter['supplier']);
         }
