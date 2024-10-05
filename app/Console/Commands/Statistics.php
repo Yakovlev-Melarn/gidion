@@ -12,13 +12,9 @@ use App\Jobs\StockUpdate;
 use App\Jobs\Trash;
 use App\Models\Card;
 use App\Models\Catalog;
-use App\Models\MarketplaceOrder;
 use App\Models\Seller;
-use App\Models\Wbstorder;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
-use PHPHtmlParser\Dom;
-use PHPHtmlParser\Options;
 
 class Statistics extends Command
 {
@@ -35,7 +31,7 @@ class Statistics extends Command
         $this->$method();
     }
 
-    private function orders()
+    protected function orders()
     {
         $sellers = Seller::all();
         foreach ($sellers as $seller) {
@@ -43,7 +39,7 @@ class Statistics extends Command
         }
     }
 
-    private function prices()
+    protected function prices()
     {
         $sellers = Seller::all();
         foreach ($sellers as $seller) {
@@ -56,7 +52,7 @@ class Statistics extends Command
         }
     }
 
-    private function stocks()
+    protected function stocks()
     {
         $sellers = Seller::all();
         foreach ($sellers as $seller) {
@@ -64,7 +60,7 @@ class Statistics extends Command
         }
     }
 
-    private function sales()
+    protected function sales()
     {
         $sellers = Seller::all();
         foreach ($sellers as $seller) {
@@ -72,7 +68,7 @@ class Statistics extends Command
         }
     }
 
-    private function downloadCard()
+    protected function downloadCard()
     {
         if ($seller = Seller::find($this->sellerId)) {
             ContentCard::dispatch($seller, [
@@ -87,7 +83,7 @@ class Statistics extends Command
         }
     }
 
-    private function calcprice()
+    protected function calcprice()
     {
         $sellers = Seller::all();
         foreach ($sellers as $seller) {
@@ -95,7 +91,7 @@ class Statistics extends Command
         }
     }
 
-    private function updateStocks()
+    protected function updateStocks()
     {
         $sellers = Seller::all();
         foreach ($sellers as $seller) {
@@ -103,7 +99,7 @@ class Statistics extends Command
         }
     }
 
-    private function test()
+    protected function test()
     {
         $agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36';
         $url = 'https://api.samsonopt.ru/v1/sku?api_key=635dba79ee799d90ce09e82e1f659c0f&pagination_count=2&photo_size=xl';
@@ -150,25 +146,24 @@ class Statistics extends Command
         dd($result);*/
     }
 
-    private function deloldcards()
+    protected function deloldcards()
     {
-        $seller = Seller::find(16);
+        $seller = Seller::find(14);
         $cards = Card::where("seller_id", '=', $seller->id)
             ->where('supplier', '=', 10)
-            ->where('removeByStock', '=', 0)
             ->where('createdAt', '<', now()->subMonth()->toDateString());
         if (!empty($this->nmId)) {
             $cards = $cards->where('id', '>', $this->nmId);
         }
         //dd($cards->toRawSql());
-        $cards = $cards->limit(200)->get();
+        $cards = $cards->limit(1000)->get();
         $nmIds = [];
         $ids = [];
         $bar = $this->output->createProgressBar(count($cards));
         $bar->start();
         $lastId = 0;
         foreach ($cards as $card) {
-            if (MarketplaceOrder::where("nmId", '=', $card->nmID)
+            /*if (MarketplaceOrder::where("nmId", '=', $card->nmID)
                 ->where('createdAt', '>', now()->subMonth()->toDateString())->first()) {
                 $lastId = $card->id;
                 continue;
@@ -183,7 +178,7 @@ class Statistics extends Command
                     $lastId = $card->id;
                     continue;
                 }
-            }
+            }*/
             $nmIds[] = $card->nmID;
             $ids[] = $card->nmID;
             $bar->advance();

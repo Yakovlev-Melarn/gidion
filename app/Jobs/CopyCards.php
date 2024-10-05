@@ -19,7 +19,7 @@ class CopyCards implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public $tries = 5;
+    public $tries = 50;
     public $uniqueFor = 3600;
     public $timeout = 3600;
     public Seller $seller;
@@ -40,7 +40,7 @@ class CopyCards implements ShouldQueue
         $this->seller = $seller;
         $this->competitor = $competitor;
         $this->count = (int)$count;
-        $this->supplier = Supplier::find(8);
+        $this->supplier = Supplier::find(5);
         if (WBContent::limits($seller) < (int)$count) {
             $this->count = WBContent::limits($seller);
         }
@@ -75,6 +75,30 @@ class CopyCards implements ShouldQueue
     private function copyCard($sort, $page): bool|array
     {
         $supplierSkus = WBSupplier::getSkusByPage($this->competitor, $sort, $page);
+        /**
+         * @todo переписать примерно как-то так..
+         * $this->copySkus($supplierSkus);
+         *      copySkus($supplierSkus)
+         *          if($this->>validateDataProducts($supplierSkus)){
+         *              $supplierSkus = $this->getSkusByPage($supplierSkus);
+         *              $skiped = 0;
+         * $prefixSku = $this->>getPrefixSku();
+         *          }
+         *      getSkusByPage
+         *          return $supplierSkus['data']['products'];
+         *      validateDataProducts($supplierSkus)
+         *          if(empty($supplierSkus['data']['products'])
+         *              return false;
+         *          if(Card::where("vendorCode", "{$prefixSku}-{$supplierSku['id']}-1")->first())
+         *              return false;
+         *          if (!WBSupplier::getAmount($supplierSku['id']))
+         *              return false;
+         *          if ($sellPrice > 300)
+         *              return false;
+         *          if (empty($data['imt_name']))
+         *              return false;
+         * .......
+         */
         if (!empty($supplierSkus['data']['products'])) {
             $skiped = 0;
             $prefixSku = 'RS-X';
@@ -101,8 +125,22 @@ class CopyCards implements ShouldQueue
                     continue;
                 }
                 $data = WBSupplier::getCardInfo($supplierSku['id']);
+                if (!empty($data['nm_id'])) {
+                    $sellPrice = WBSupplier::getPrice($data['nm_id']);
+                    if ($sellPrice > 300) {
+                        $skiped++;
+                        if ($skiped == 100) {
+                            $this->supplier->skipPage += 1;
+                            $this->supplier->save();
+                        }
+                        echo "Товар стоит {$sellPrice} руб., это выше допустимого порога.";
+                        continue;
+                    }
+                } else {
+                    continue;
+                }
                 if (!empty($data['imt_name'])) {
-                    if ($cardData = self::fillCardData($data, $supplierSku['subjectId'], $this->seller)) {
+                    if ($cardData = self::fillCardData($data, $supplierSku['subjectId'], $this->seller, $prefixSku, 1, $sellPrice * 5)) {
                         $result = WBContent::create($this->seller, $cardData);
                         if (!empty($result['error'])) {
                             return false;
@@ -116,7 +154,7 @@ class CopyCards implements ShouldQueue
         return false;
     }
 
-    public static function fillCardData($data, $subjectId, $seller, $prefix = 'RS-X', $pack = 1): array|bool
+    public static function fillCardData($data, $subjectId, $seller, $prefix = 'RS-X', $pack = 1, $price = null): array|bool
     {
         $basket = Helper::getBasketNumber($data['nm_id']);
         if (!empty($data['description'])) {
@@ -183,13 +221,16 @@ class CopyCards implements ShouldQueue
                     'value' => $values
                 ];
             }
+            if (empty($price)) {
+                $price = (int)ceil((($data['sellPrice'] + 55) / (100 - $seller->percentageOfMargin)) * 100);
+            }
             $result = [
                 'card' => [
                     "subjectID" => (int)$subjectId,
                     "variants" => [
                         [
                             "vendorCode" => "{$prefix}-{$data['nm_id']}-{$pack}",
-                            "title" => mb_substr(ucfirst(mb_strtolower($data['imt_name'])), 0, 59),
+                            "title" => Helper::mbUcfirst(mb_substr(mb_strtolower($data['imt_name']), 0, 59)),
                             "description" => empty($data['description']) ? $data['imt_name'] : $data['description'],
                             "brand" => Helper::getBrand($data['selling']['brand_name']),
                             "dimensions" => [
@@ -199,7 +240,7 @@ class CopyCards implements ShouldQueue
                             ],
                             "characteristics" => $characteristicsList,
                             'sizes' => [[
-                                "price" => (int)ceil((($data['sellPrice'] + 55) / (100 - $seller->percentageOfMargin)) * 100)
+                                "price" => (int)$price
                             ]]
                         ]
                     ]

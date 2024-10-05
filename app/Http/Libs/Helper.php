@@ -11,6 +11,11 @@ class Helper
         return sprintf('#%06X', mt_rand(0, 0xFFFFFF));
     }
 
+    public static function mbUcfirst($text)
+    {
+        return mb_strtoupper(mb_substr($text, 0, 1)) . mb_substr($text, 1);
+    }
+
     public static function getBrand($brand)
     {
         if (empty($brand) || $brand == "Сима Ленд" || $brand == "Сималенд" || strtolower($brand) == 'сималенд' || strtolower($brand) == 'сима-ленд' || strtolower($brand) == 'сима ленд') {
@@ -23,7 +28,6 @@ class Helper
     {
         $mid = (int)($nmId / 1000);
         $small = (int)($mid / 100);
-        $basket = '15';
         if ($small < 144) {
             $basket = '01';
         } elseif ($small < 288) {

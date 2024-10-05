@@ -72,39 +72,46 @@
                                                 <p>Наличие: <span class="item"> У поставщика {{ $order->card->slstock->amount }} <i
                                                             class="fa fa-check-circle text-warning"></i></span></p>
                                                 @php
-                                                    if($order->card->dimensions->width == 10 && $order->card->dimensions->height == 10 && $order->card->dimensions->length==10){
+                                                    use App\Http\Libs\Helper;if(isset($order)){
+if($order->card->dimensions->width == 10 && $order->card->dimensions->height == 10 && $order->card->dimensions->length==10){
                                                             if($order->card->cardcatalog){
-                                                                $order->card->dimensions->width = ceil(\App\Http\Libs\Helper::arrSearch(json_decode($order->card->cardcatalog->package_size,1),'type','width'));
-                                                                $order->card->dimensions->height = ceil(\App\Http\Libs\Helper::arrSearch(json_decode($order->card->cardcatalog->package_size,1),'type','height'));;
-                                                                $order->card->dimensions->length = ceil(\App\Http\Libs\Helper::arrSearch(json_decode($order->card->cardcatalog->package_size,1),'type','depth'));;
+                                                                $order->card->dimensions->width = ceil(Helper::arrSearch(json_decode($order->card->cardcatalog->package_size,1),'type','width'));
+                                                                $order->card->dimensions->height = ceil(Helper::arrSearch(json_decode($order->card->cardcatalog->package_size,1),'type','height'));;
+                                                                $order->card->dimensions->length = ceil(Helper::arrSearch(json_decode($order->card->cardcatalog->package_size,1),'type','depth'));;
                                                             } else {
                                                                 $order->card->dimensions->width = 0;
                                                                 $order->card->dimensions->height = 0;
                                                                 $order->card->dimensions->length = 0;
                                                             }
                                                     }
+}
                                                 @endphp
-                                                    <p>Габариты:
+                                                Габариты:
                                                     <div class="item">
                                                         <div class="input-group input-group-sm pt-2 whl">
                                                             <div class="input-group-prepend">
                                                                 <span class="input-group-text">Длина</span>
                                                             </div>
-                                                            <input type="number" class="form-control w"
-                                                                   value="{{ $order->card->dimensions->width }}">
+                                                            <label>
+                                                                <input type="number" class="form-control w"
+                                                                       value="{{ $order->card->dimensions->width }}">
+                                                            </label>
                                                             <div class="input-group-prepend">
                                                                 <span class="input-group-text">Ширина</span>
                                                             </div>
-                                                            <input type="number" class="form-control h"
-                                                                   value="{{ $order->card->dimensions->height }}">
+                                                            <label>
+                                                                <input type="number" class="form-control h"
+                                                                       value="{{ $order->card->dimensions->height }}">
+                                                            </label>
                                                             <div class="input-group-prepend">
                                                                 <span class="input-group-text">Высота</span>
                                                             </div>
-                                                            <input type="number" class="form-control l"
-                                                                   value="{{ $order->card->dimensions->length }}">
+                                                            <label>
+                                                                <input type="number" class="form-control l"
+                                                                       value="{{ $order->card->dimensions->length }}">
+                                                            </label>
                                                         </div>
                                                     </div>
-                                                    </p>
                                             @endif
                                         @endif
                                         <p>Артикул: <span class="item">{{ $order->article }}</span></p>
@@ -124,6 +131,10 @@
                                         </p>
                                         <p>Штраф за отмену: <span
                                                 class="item text-danger">{{ ceil($order->convertedPrice/100*0.35)<100?100:ceil($order->convertedPrice/100*0.35) }} ₽</span>
+                                        </p>
+                                        <p>Статус заказа: @if($order->actual)<span
+                                                class="item text-success">Актуален</span>@else<span
+                                                class="item text-danger">Отменен</span>@endif
                                         </p>
                                         <div class="row">
                                             <div class="col-md-6">

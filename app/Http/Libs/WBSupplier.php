@@ -79,7 +79,7 @@ class WBSupplier
     {
         $url = explode('/', $url);
         $url = array_pop($url);
-        $url = "{$url}&sort={$sort}&page={$page}";
+        $url = "{$url}&sort={$sort}&page={$page}&&priceU=6100;30000";
         $response = Http::withHeaders([])
             ->timeout(3600)
             ->acceptJson()

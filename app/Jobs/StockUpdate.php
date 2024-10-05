@@ -3,7 +3,6 @@
 namespace App\Jobs;
 
 use App\Http\Libs\CardLib;
-use App\Http\Libs\SamsonLib;
 use App\Http\Libs\WBMarketplace;
 use App\Http\Libs\WBSupplier;
 use App\Models\Card;
@@ -14,7 +13,6 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Http;
 
 class StockUpdate implements ShouldQueue
 {
@@ -34,7 +32,6 @@ class StockUpdate implements ShouldQueue
     public function handle(): void
     {
         $this->prepareAmount();
-        //$this->prepareObAmount();
         $this->prepareUpload();
     }
 
@@ -83,42 +80,14 @@ class StockUpdate implements ShouldQueue
         if ($card->slstock->is_local) {
             return;
         }
-        $card->slstock->amount = 0;
+        /*$card->slstock->amount = 0;
         $card->slstock->toUpload = 1;
-        $card->slstock->save();
-        /*if (($card->slstock->amount != $amount) || ($amount == 0)) {
+        $card->slstock->save();*/
+        if (($card->slstock->amount != $amount) || ($amount == 0)) {
             $card->slstock->amount = $amount;
             $card->slstock->toUpload = 1;
             $card->slstock->save();
-        }*/
-    }
-
-    private function prepareObAmount()
-    {
-        $offset = 0;
-        do {
-            $cards = Card::where("seller_id", $this->seller->id)
-                ->where("supplier", 11)
-                ->where("removeByStock", 0)
-                ->limit(300)
-                ->offset($offset)
-                ->get();
-            $offset += 300;
-            foreach ($cards as $card) {
-                $result = SamsonLib::getProductStock($card->origSku);
-                $amount = 0;
-                if (!empty($result['data'])) {
-                    foreach ($result['data'] as $stock) {
-                        if(!empty($stock['type'])) {
-                            if ($stock['type'] == 'idp') {
-                                $amount = $stock['value'] > 5 ? 5 : 0;
-                            }
-                        }
-                    }
-                }
-                $this->saveStock($card, $amount);
-            }
-        } while ($cards->count() > 0);
+        }
     }
 
     private function prepareAmount()
