@@ -11,6 +11,15 @@ class Helper
         return sprintf('#%06X', mt_rand(0, 0xFFFFFF));
     }
 
+    public static function extractSupplerSku($vendorCode)
+    {
+        $result = explode('-', $vendorCode);
+        if (!empty($result[2])) {
+            return $result[2];
+        }
+        return false;
+    }
+
     public static function mbUcfirst($text)
     {
         return mb_strtoupper(mb_substr($text, 0, 1)) . mb_substr($text, 1);

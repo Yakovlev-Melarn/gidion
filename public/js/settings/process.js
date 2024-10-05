@@ -18,6 +18,10 @@ $(".startProcessRemoveDiscount").click(function () {
     $(this).prop('disabled', true);
     $.post('/settings/process/run', {process: 'removeDiscount'});
 });
+$(".startUploadPhotos").click(function () {
+    $(this).prop('disabled', true);
+    $.post('/settings/process/run', {process: 'uploadPhotos'});
+});
 $(".startProcessUpdateStock").click(function () {
     $(this).prop('disabled', true);
     $.post('/settings/process/run', {process: 'updateStock'});

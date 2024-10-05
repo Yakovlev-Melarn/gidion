@@ -156,16 +156,11 @@ class CopyCards implements ShouldQueue
 
     public static function fillCardData($data, $subjectId, $seller, $prefix = 'RS-X', $pack = 1, $price = null): array|bool
     {
-        $basket = Helper::getBasketNumber($data['nm_id']);
         if (!empty($data['description'])) {
             $data['description'] = mb_substr($data['description'], 0, 1999);
         }
         $data['sellPrice'] = WBSupplier::getPrice($data['nm_id']);
-        $data['imagesUrl'] = "https://basket-{$basket['basket']}.wbbasket.ru/vol{$basket['small']}/part{$basket['mid']}/{$data['nm_id']}/images/big/";
-        $photos = [];
-        for ($i = 1; $i <= $data['media']['photo_count']; $i++) {
-            $photos[] = "{$data['imagesUrl']}{$i}.webp";
-        }
+        $photos = CardLib::getPhotosBySupplierProduct($data['nm_id'], $data['media']['photo_count']);
         if (!empty($photos)) {
             $chrs = WBContent::charcs($seller, $subjectId);
             $dimensions = ['width' => 10, 'length' => 10, 'height' => 10];

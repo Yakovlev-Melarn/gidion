@@ -46,13 +46,17 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text">% наценки</span>
                             </div>
-                            <input type="number" class="form-control percent" value="{{ $percentageOfMargin }}">
+                            <label>
+                                <input type="number" class="form-control percent" value="{{ $percentageOfMargin }}">
+                            </label>
                             <div class="input-group-append">
                                 <span class="input-group-text">% наценки = комиссии ВБ</span>
                             </div>
                             <div class="input-group-append">
                                 <div class="input-group-text">
-                                    <input type="checkbox" class="wbpercent mb-1" value="1">
+                                    <label>
+                                        <input type="checkbox" class="wbpercent mb-1" value="1">
+                                    </label>
                                 </div>
                             </div>
                         </div>
@@ -81,6 +85,17 @@
                     </div>
                     <div class="col-md-6 text-right">
                         <button class="btn btn-primary btn-sm startTrash">Начать</button>
+                    </div>
+                </div>
+                <hr/>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6 class="pt-3">Загрузить фото для товаров без фотографий @if($noProductPhotoCount > 99)
+                                > {{$noProductPhotoCount}} @else
+                                {{$noProductPhotoCount}} @endif</h6>
+                    </div>
+                    <div class="col-md-6 text-right">
+                        <button class="btn btn-primary btn-sm startUploadPhotos" @if($processUploadPhotos) disabled @endif>Начать</button>
                     </div>
                 </div>
                 <hr/>

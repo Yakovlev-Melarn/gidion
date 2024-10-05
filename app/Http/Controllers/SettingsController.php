@@ -1,12 +1,17 @@
 <?php
-
+/**
+ * php artisan queue:work --queue=default,synccards,updateprice,updatestock,copycards,uploadphotos
+ */
 namespace App\Http\Controllers;
 
 use App\Http\Libs\CardLib;
+use App\Http\Libs\Helper;
 use App\Http\Libs\WBContent;
+use App\Http\Libs\WBSupplier;
 use App\Jobs\CalcPrice;
 use App\Jobs\DiscountRemove;
 use App\Jobs\StockUpdate;
+use App\Jobs\UploadImages;
 use App\Models\Card;
 use App\Models\Competitor;
 use App\Models\Job;
@@ -44,22 +49,24 @@ class SettingsController extends Controller
         return response()->json(['status' => 0]);
     }
 
-    private function deleteCards(Request $request)
+    protected function deleteCards()
     {
         Card::where("syncStatus", 0)->where("seller_id", session()->get('sellerId'))->delete();
     }
 
-    private function removeDiscount(){
-        $prices = Price::where("discount",'>',0)->get();
-        foreach ($prices as $price){
-            if(!empty($price->card)){
+    protected function removeDiscount()
+    {
+        $prices = Price::where("discount", '>', 0)->get();
+        foreach ($prices as $price) {
+            if (!empty($price->card)) {
                 DiscountRemove::dispatch($price->card->seller, $price->card);
                 $price->discount = 0;
                 $price->save();
             }
         }
     }
-    private function syncCards(Request $request)
+
+    protected function syncCards()
     {
         $seller = Seller::find(session()->get('sellerId'));
         $settings = [
@@ -74,7 +81,7 @@ class SettingsController extends Controller
         SyncCardsJob::dispatch($seller, $settings)->onQueue('synccards');
     }
 
-    private function updatePrice(Request $request)
+    protected function updatePrice(Request $request)
     {
         $seller = Seller::find(session()->get('sellerId'));
         if ($request->wbpercent) {
@@ -84,7 +91,7 @@ class SettingsController extends Controller
         }
     }
 
-    private function updateStock(Request $request)
+    protected function updateStock()
     {
         $seller = Seller::find(session()->get('sellerId'));
         StockUpdate::dispatch($seller)->onQueue('updatestock');
@@ -96,7 +103,7 @@ class SettingsController extends Controller
         $this->$process($request);
     }
 
-    private function trash(Request $request)
+    protected function trash()
     {
         $offset = 0;
         $seller = Seller::find(session()->get('sellerId'));
@@ -127,10 +134,10 @@ class SettingsController extends Controller
         } while ($emptyStocks->count() > 0);
     }
 
-    public function process(Request $request)
+    public function process()
     {
         $seller = Seller::find(session()->get('sellerId'));
-        $processSyncCards = $processUpdatePrice = $processUpdateStock = 0;
+        $processSyncCards = $processUpdatePrice = $processUpdateStock = $processUploadPhotos = 0;
         $oldCardsCount = Card::where("syncStatus", 0)->where("seller_id", $seller->id)->count();
         $emptyStock = DB::table('cards')->select('cards.*')
             ->leftJoin('stocks', 'cards.id', '=', 'stocks.card_id')
@@ -148,23 +155,42 @@ class SettingsController extends Controller
         if (Job::where("queue", "updatestock")->first()) {
             $processUpdateStock = 1;
         }
+        if (Job::where("queue", "uploadphotos")->first()) {
+            $processUploadPhotos = 1;
+        }
         return view('Settings/process', [
             'processSyncCards' => $processSyncCards,
             'oldCardsCount' => $oldCardsCount,
             'processUpdatePrice' => $processUpdatePrice,
             'processUpdateStock' => $processUpdateStock,
+            'processUploadPhotos' => $processUploadPhotos,
             'percentageOfMargin' => $seller->percentageOfMargin,
-            'emptyStockCount' => $emptyStock->count()
+            'emptyStockCount' => $emptyStock->count(),
+            'noProductPhotoCount' => CardLib::getProductsWithoutPhotos($seller)->count(),
         ]);
     }
 
-    public function sellers(Request $request)
+    public function uploadPhotos()
+    {
+        $seller = Seller::find(session()->get('sellerId'));
+        $cards = CardLib::getProductsWithoutPhotos($seller)->toArray();
+        foreach ($cards as $card) {
+            if ($supplierSku = Helper::extractSupplerSku($card['vendorCode'])) {
+                $supplierCardContent = WBSupplier::getCardInfo($supplierSku);
+                $photos = CardLib::getPhotosBySupplierProduct($supplierCardContent['nm_id'], $supplierCardContent['media']['photo_count']);
+                UploadImages::dispatch($seller, $photos, $card['vendorCode'])->onQueue('uploadphotos');
+            }
+        }
+
+    }
+
+    public function sellers()
     {
         $sellers = Seller::where("user_id", session()->get("auth"))->get();
         return view("Settings/sellers", ['sellers' => $sellers]);
     }
 
-    public function competitors(Request $request)
+    public function competitors()
     {
         $competitors = Competitor::where("user_id", session()->get("auth"))->get();
         return view("Settings/competitors", ['competitors' => $competitors]);
@@ -194,7 +220,7 @@ class SettingsController extends Controller
         return response()->json(['status' => 0]);
     }
 
-    public function suppliers(Request $request)
+    public function suppliers()
     {
         $suppliers = Supplier::where("user_id", session()->get("auth"))->get();
         return view("Settings/suppliers", ['suppliers' => $suppliers]);

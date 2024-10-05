@@ -24,6 +24,7 @@ use App\Models\Supplier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Bus;
 use Exception as Exc;
+
 class CardLib
 {
     public static float $costOfLogistics = 55;
@@ -311,6 +312,30 @@ class CardLib
             $cardSize->skus = $size['skus'][0];
             $cardSize->save();
         }
+    }
+
+    public static function getProductsWithoutPhotos($seller)
+    {
+        $result = WBContent::cardsList($seller, [
+            'cursor' => [
+                'limit' => 100
+            ],
+            'filter' => [
+                "withPhoto" => 0
+            ]
+        ]);
+        return new Data($result['cards']);
+    }
+
+    public static function getPhotosBySupplierProduct($nmId, $photoCount)
+    {
+        $basket = Helper::getBasketNumber($nmId);
+        $imagesUrl = "https://basket-{$basket['basket']}.wbbasket.ru/vol{$basket['small']}/part{$basket['mid']}/{$nmId}/images/big/";
+        $photos = [];
+        for ($i = 1; $i <= $photoCount; $i++) {
+            $photos[] = "{$imagesUrl}{$i}.webp";
+        }
+        return $photos;
     }
 
     public static function makeJobAfterCreateCard($seller, $cardData)
