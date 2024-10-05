@@ -219,6 +219,9 @@ class CopyCards implements ShouldQueue
             if (empty($price)) {
                 $price = (int)ceil((($data['sellPrice'] + 55) / (100 - $seller->percentageOfMargin)) * 100);
             }
+            if (empty($data['selling']['brand_name'])) {
+                $data['selling']['brand_name'] = 'TopGiper';
+            }
             $result = [
                 'card' => [
                     "subjectID" => (int)$subjectId,
