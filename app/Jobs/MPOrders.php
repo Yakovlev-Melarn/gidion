@@ -8,6 +8,7 @@ use App\Http\Libs\WBMarketplace;
 use App\Http\Libs\WBSupplier;
 use App\Models\MarketplaceOrder;
 use App\Models\Seller;
+use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -97,7 +98,7 @@ class MPOrders implements ShouldQueue
                 if (isset($mporder['deliveryType'])) {
                     $order->deliveryType = $mporder['deliveryType'];
                 }
-                if(isset($mporder['user'])) {
+                if (isset($mporder['user'])) {
                     $order->user = $mporder['user'];
                 }
                 $order->orderUid = $mporder['orderUid'];
@@ -148,13 +149,13 @@ class MPOrders implements ShouldQueue
                         $supplier = "{$supplier}\r\nhttps://www.wildberries.ru/catalog/{$order->card->supplierSku}/detail.aspx?targetUrl=GP\r\nOZON: https://www.ozon.ru/search/?from_global=true&text={$order->card->origSku}";
                     }
                     if ($order->card->supplier == 11) {
-                            $supplier = "{$supplier}\r\nhttps://office-burg.ru/search/?q={$order->card->supplierSku}\r\nOZON: https://www.ozon.ru/search/?from_global=true&text={$order->card->origSku}";
+                        $supplier = "{$supplier}\r\nhttps://office-burg.ru/search/?q={$order->card->supplierSku}\r\nOZON: https://www.ozon.ru/search/?from_global=true&text={$order->card->origSku}";
                     }
                     Telegramm::send("Новый заказ\r\n
                     Магазин: {$seller->name}\r\n
                     Товар: {$order->card->title}\r\n
                     Поставщик: {$supplier}\r\n
-                    Стоимость: {$convertedPriceRub}\r\n");
+                    Стоимость: {$convertedPriceRub}\r\n", session()->get('auth'));
                 }
                 $order->save();
             }
@@ -172,7 +173,7 @@ class MPOrders implements ShouldQueue
             $shipment = WBMarketplace::getOpenSupplies($seller);
         }
         if (!$shipment['id']) {
-            throw new \Exception("Нет созданой поставки!");
+            throw new Exception("Нет созданой поставки!");
         }
         return $shipment;
     }
