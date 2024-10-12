@@ -155,7 +155,7 @@ class MPOrders implements ShouldQueue
                     Магазин: {$seller->name}\r\n
                     Товар: {$order->card->title}\r\n
                     Поставщик: {$supplier}\r\n
-                    Стоимость: {$convertedPriceRub}\r\n", session()->get('auth'));
+                    Стоимость: {$convertedPriceRub}\r\n", $seller->user->id);
                 }
                 $order->save();
             }
