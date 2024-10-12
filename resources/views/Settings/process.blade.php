@@ -46,17 +46,16 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text">% наценки</span>
                             </div>
-                            <label>
-                                <input type="number" class="form-control percent" value="{{ $percentageOfMargin }}">
-                            </label>
+                            <label for="percent"></label>
+                            <input type="number" id="percent" class="form-control percent"
+                                   value="{{ $percentageOfMargin }}">
                             <div class="input-group-append">
                                 <span class="input-group-text">% наценки = комиссии ВБ</span>
                             </div>
                             <div class="input-group-append">
                                 <div class="input-group-text">
-                                    <label>
-                                        <input type="checkbox" class="wbpercent mb-1" value="1">
-                                    </label>
+                                    <label for="wbpercent"></label>
+                                    <input type="checkbox" id="wbpercent" class="wbpercent mb-1" value="1">
                                 </div>
                             </div>
                         </div>
@@ -95,7 +94,9 @@
                                 {{$noProductPhotoCount}} @endif</h6>
                     </div>
                     <div class="col-md-6 text-right">
-                        <button class="btn btn-primary btn-sm startUploadPhotos" @if($processUploadPhotos) disabled @endif>Начать</button>
+                        <button class="btn btn-primary btn-sm startUploadPhotos"
+                                @if($processUploadPhotos) disabled @endif>Начать
+                        </button>
                     </div>
                 </div>
                 <hr/>
