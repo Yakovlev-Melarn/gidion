@@ -41,13 +41,14 @@ class CopyCards implements ShouldQueue
         $this->competitor = $competitor;
         $this->count = (int)$count;
         $this->supplier = Supplier::find(5);
-        if (WBContent::limits($seller) < (int)$count) {
+        /*if (WBContent::limits($seller) < (int)$count) {
             $this->count = WBContent::limits($seller);
-        }
+        }*/
     }
 
     public function handle(): void
     {
+        echo "\r\nБудет создано {$this->count} карточек товара.\r\n";
         $added = 0;
         $startPage = $this->supplier->skipPage + 1;
         foreach ($this->sortTypes as $sortType) {

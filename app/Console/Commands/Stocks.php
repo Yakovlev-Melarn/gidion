@@ -13,9 +13,9 @@ class Stocks extends Command
 
     public function handle()
     {
-        $seller = Seller::find(14);
-        //foreach ($sellers as $seller) {
+        $sellers = Seller::all();
+        foreach ($sellers as $seller) {
             StatisticsStocks::dispatch($seller);
-        //}
+        }
     }
 }
