@@ -143,6 +143,8 @@ class ShopController extends Controller
     public function printOrderBarcode(Request $request)
     {
         $order = MarketplaceOrder::where("orderId", $request->orderId)->first();
+        $order->printabled = 1;
+        $order->save();
         Bartender::truncate();
         $this->fillBartender($order);
     }
