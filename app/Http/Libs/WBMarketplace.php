@@ -40,7 +40,7 @@ class WBMarketplace
         Http::withHeaders([])
             ->acceptJson()
             ->withToken($seller->apiKey)
-            ->post("https://suppliers-api.wildberries.ru/api/v3/supplies", [
+            ->post("https://marketplace-api.wildberries.ru/api/v3/supplies", [
                 'name' => date("Y-m-d H:i:s")
             ]);
     }
@@ -86,15 +86,17 @@ class WBMarketplace
         $result = Http::withHeaders([])
             ->acceptJson()
             ->withToken($seller->apiKey)
-            ->get("https://suppliers-api.wildberries.ru/api/v3/supplies", [
+            ->get("https://marketplace-api.wildberries.ru/api/v3/supplies", [
                 'limit' => 1000,
                 'next' => 0
             ]);
         $result = $result->json();
         $openShipment = false;
-        foreach ($result['supplies'] as $shipment) {
-            if (!$shipment['done']) {
-                $openShipment = $shipment;
+        if(!empty($result['supplies'])) {
+            foreach ($result['supplies'] as $shipment) {
+                if (!$shipment['done']) {
+                    $openShipment = $shipment;
+                }
             }
         }
         return $openShipment;
