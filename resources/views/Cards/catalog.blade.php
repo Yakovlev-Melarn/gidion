@@ -5,7 +5,7 @@
         <div class="col-lg-12 mt-3">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title">Катлог карточек поставщиков</h4>
+                    <h4 class="card-title">Каталог карточек поставщиков</h4>
                 </div>
                 <div class="card-body">
                     <div class="row">
