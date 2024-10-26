@@ -14,6 +14,7 @@
     <link href="{{ url('/vendor/select2/css/select2.min.css') }}" rel="stylesheet">
     <link href="{{ url('/vendor/jquery-ui/jquery-ui.css') }}" rel="stylesheet">
     <link href="{{ url('/css/style.css') }}" rel="stylesheet">
+    @yield('css')
 </head>
 <body>
 <div id="preloader">
@@ -166,16 +167,15 @@
                         <li><a href="form-pickers.html">Pickers</a></li>
                         <li><a href="form-validation-jquery.html">Jquery Validate</a></li>
                     </ul>
-                </li>
-                <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
+                </li>--}}
+                <li><a class="has-arrow ai-icon" href="#" aria-expanded="false">
                         <i class="flaticon-381-network"></i>
-                        <span class="nav-text">Table</span>
+                        <span class="nav-text">Утилиты</span>
                     </a>
                     <ul aria-expanded="false">
-                        <li><a href="table-bootstrap-basic.html">Bootstrap</a></li>
-                        <li><a href="table-datatable-basic.html">Datatable</a></li>
+                        <li><a href="{{url('/tools/calendar')}}">Календари</a></li>
                     </ul>
-                </li>--}}
+                </li>
                 <li><a class="has-arrow ai-icon" href="#" aria-expanded="false">
                         <i class="flaticon-073-settings"></i>
                         <span class="nav-text">Настройки</span>
