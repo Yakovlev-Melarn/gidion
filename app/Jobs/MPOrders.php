@@ -39,9 +39,6 @@ class MPOrders implements ShouldQueue
         }
         $sellers = Seller::all();
         foreach ($sellers as $seller) {
-            if ($seller->id == 14) {
-                continue;
-            }
             if (!empty($this->shipmentId)) {
                 //MarketplaceOrder::where("shipmentId", $this->shipmentId)->delete();
                 $shipment['id'] = $this->shipmentId;
