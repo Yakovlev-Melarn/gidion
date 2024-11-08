@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CalendarController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\LoginController as Login;
@@ -63,3 +64,4 @@ Route::get('/settings/addSupplier', [SettingsController::class, 'addSupplier'])-
 Route::post('/settings/addSupplier', [SettingsController::class, 'addSupplier'])->middleware('auth');
 Route::post('/settings/deleteSupplier', [SettingsController::class, 'deleteSupplier'])->middleware('auth');
 Route::post('/search', [SearchController::class, 'search'])->middleware('auth');
+Route::get('/tools/calendar', [CalendarController::class, 'index'])->middleware('auth');
