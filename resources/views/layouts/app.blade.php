@@ -14,6 +14,8 @@
     <link href="{{ url('/vendor/select2/css/select2.min.css') }}" rel="stylesheet">
     <link href="{{ url('/vendor/jquery-ui/jquery-ui.css') }}" rel="stylesheet">
     <link href="{{ url('/css/style.css') }}" rel="stylesheet">
+    @viteReactRefresh
+    @vite('resources/js/app.jsx')
     @yield('css')
 </head>
 <body>
