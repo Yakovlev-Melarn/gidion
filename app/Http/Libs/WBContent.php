@@ -6,6 +6,7 @@ namespace App\Http\Libs;
 
 use App\Models\Card;
 use App\Models\Seller;
+use Exception;
 use Illuminate\Support\Facades\Http;
 
 class WBContent
@@ -27,7 +28,7 @@ class WBContent
             ]
         ]);
         if (empty($result['cards'][0])) {
-            throw new \Exception("card {$card->nmID} not found");
+            throw new Exception("card {$card->nmID} not found");
         }
         $cardData = $result['cards'][0];
         $cardData['dimensions']['width'] = (int)$card->dimensions->width;
@@ -35,7 +36,7 @@ class WBContent
         $cardData['dimensions']['length'] = (int)$card->dimensions->length;
         $resultUpdate = self::update($seller, $cardData);
         if (!empty($resultUpdate['errorText'])) {
-            throw new \Exception($resultUpdate['errorText']);
+            throw new Exception($resultUpdate['errorText']);
         }
     }
 
@@ -61,18 +62,6 @@ class WBContent
             return $response['data']['listGoods'][0]['discountOnSite'];
         }
         return 0;
-    }
-
-    public static function limits(Seller $seller): int
-    {
-        $response = Http::withHeaders([])
-            ->timeout(3600)
-            ->acceptJson()
-            ->withToken($seller->apiKey)
-            ->withCookies([$seller->cookies], 'seller-content.wildberries.ru')
-            ->get("https://seller-content.wildberries.ru/ns/viewer/content-card/viewer/count");
-        $response = $response->json();
-        return 8000 - $response['data']['processedCard'];
     }
 
     public static function charcs(Seller $seller, int $subjectId): array

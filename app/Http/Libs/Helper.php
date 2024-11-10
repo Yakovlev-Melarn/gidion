@@ -4,6 +4,8 @@
 namespace App\Http\Libs;
 
 
+use App\Models\Log;
+
 class Helper
 {
     public static function randColor()
@@ -18,6 +20,14 @@ class Helper
             return $result[2];
         }
         return false;
+    }
+
+    public static function writeLog($type, $message)
+    {
+        $log = new Log();
+        $log->type = $type;
+        $log->message = $message;
+        $log->save();
     }
 
     public static function mbUcfirst($text)

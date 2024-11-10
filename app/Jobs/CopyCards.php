@@ -26,6 +26,7 @@ class CopyCards implements ShouldQueue
     public Supplier $supplier;
     public string $competitor;
     public int $count;
+    public int $catalog = 5;
     public array $sortTypes = [
         'newly',
         'rate',
@@ -40,15 +41,12 @@ class CopyCards implements ShouldQueue
         $this->seller = $seller;
         $this->competitor = $competitor;
         $this->count = (int)$count;
-        $this->supplier = Supplier::find(5);
-        /*if (WBContent::limits($seller) < (int)$count) {
-            $this->count = WBContent::limits($seller);
-        }*/
+        $this->supplier = Supplier::where('name', 'Wildberries')->first();
     }
 
     public function handle(): void
     {
-        echo "\r\nБудет создано {$this->count} карточек товара.\r\n";
+        Helper::writeLog("CopyCardsInfo", "Будет создано {$this->count} карточек товара.");
         $added = 0;
         $startPage = $this->supplier->skipPage + 1;
         foreach ($this->sortTypes as $sortType) {
@@ -141,7 +139,9 @@ class CopyCards implements ShouldQueue
                     continue;
                 }
                 if (!empty($data['imt_name'])) {
-                    if ($cardData = self::fillCardData($data, $supplierSku['subjectId'], $this->seller, $prefixSku, 1, $sellPrice * 5)) {
+                    if ($cardData = self::fillCardData(
+                        $data, $supplierSku['subjectId'], $this->seller, $prefixSku, 1, $sellPrice * 5
+                    )) {
                         $result = WBContent::create($this->seller, $cardData);
                         if (!empty($result['error'])) {
                             return false;
