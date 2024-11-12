@@ -11,7 +11,8 @@ class WBSupplier
     public static function getDetail($nmId): array
     {
         $result = Http::withHeaders([])
-            ->timeout(3600)
+            ->timeout(180)
+            ->connectTimeout(180)
             ->acceptJson()
             ->get("https://card.wb.ru/cards/v1/detail?appType=1&curr=rub&dest=123585811&spp=27&nm={$nmId}");
         return $result->json();
@@ -79,9 +80,10 @@ class WBSupplier
     {
         $url = explode('/', $url);
         $url = array_pop($url);
-        $url = "{$url}&sort={$sort}&page={$page}&&priceU=4700;30000";
+        $url = "{$url}&sort={$sort}&page={$page}&&priceU=100;30000";
         $response = Http::withHeaders([])
-            ->timeout(3600)
+            ->timeout(180)
+            ->connectTimeout(180)
             ->acceptJson()
             ->get("https://catalog.wb.ru/sellers/catalog?TestGroup=score_group_21&TestID=388&appType=1&curr=rub&dest=123585811&spp=27&uclusters=6&supplier={$url}");
         return $response->json();
@@ -91,7 +93,8 @@ class WBSupplier
     {
         $basket = Helper::getBasketNumber($nmId);
         $response = Http::withHeaders([])
-            ->timeout(3600)
+            ->timeout(180)
+            ->connectTimeout(180)
             ->acceptJson()
             ->get("https://basket-{$basket['basket']}.wbbasket.ru/vol{$basket['small']}/part{$basket['mid']}/{$nmId}/info/ru/card.json");
         return $response->json();

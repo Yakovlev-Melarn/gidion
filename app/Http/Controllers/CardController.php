@@ -104,6 +104,7 @@ class CardController extends Controller
                     $productData = WBSupplier::getCardInfo($request->nmID);
                     if (!empty($productData)) {
                         $subjectId = $data['data']['products'][0]['subjectId'];
+                        $productData['imt_name'] = $data['data']['products'][0]['name'];
                         $cardData = CopyCards::fillCardData($productData, $subjectId, $seller, $request->prefix, $request->pack);
                         $result = WBContent::create($seller, $cardData);
                         if (!empty($result['error'])) {

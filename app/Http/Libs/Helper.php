@@ -22,11 +22,12 @@ class Helper
         return false;
     }
 
-    public static function writeLog($type, $message)
+    public static function writeLog($type, $message, $errorType = null)
     {
         $log = new Log();
         $log->type = $type;
         $log->message = $message;
+        $log->errorType = $errorType;
         $log->save();
     }
 
@@ -77,8 +78,10 @@ class Helper
             $basket = '14';
         } elseif ($small < 2406) {
             $basket = '15';
-        } else {
+        } elseif ($small < 2622){
             $basket = '16';
+        } else {
+            $basket = '17';
         }
         return [
             'basket' => $basket,
