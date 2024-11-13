@@ -1,8 +1,8 @@
-@extends('layouts.app');
+@extends('layouts.app')
 @section('content')
     @if(!session()->has('sellerId'))
         <h3 class="text-center">Не добавлено ни одного магазина.</h3>
-        <div class="text-center"><a class="btn btn-primary" href="/settings/addSeller">Добавить</a></div>
+        <div class="text-center"><a class="btn btn-primary" href="{{url('/settings/addSeller')}}">Добавить</a></div>
     @else
         <div class="row">
             <div class="col-xl-12 col-lg-12 col-sm-12" style="height: 450px">
@@ -76,8 +76,7 @@
 									</span>
                             <div class="media-body text-white text-right">
                                 <p class="mb-1">Остатки на складах</p>
-                                <h3 class="text-white"><a href="/shop/stocks">{{ $productOnWh }} шт.</a></h3>
-                                <p class="mb-0 fs-13">
+                                <h3 class="text-white"><a href="{{url('/shop/stocks')}}">{{ $productOnWh }} шт.</a></h3>                                <p class="mb-0 fs-13">
                                     <span class="text mr-1">{{ number_format($stockPrice,0,'.',' ') }}</span> ₽
                                 </p>
                             </div>
@@ -114,7 +113,9 @@
                                 <p class="mb-1">В пути от клиента</p>
                                 <h3 class="text-white"><a href="#">{{ $inWayFromClient }} шт.</a></h3>
                                 <p class="mb-0 fs-13">
-                                    <span class="text-danger mr-1">{{ number_format($inWayFromClientPrice,0,'.',' ') }}</span> ₽
+                                    <span
+                                        class="text-danger mr-1">{{ number_format($inWayFromClientPrice,0,'.',' ') }}</span>
+                                    ₽
                                 </p>
                             </div>
                         </div>

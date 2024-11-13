@@ -14,20 +14,24 @@
     <link href="{{ url('/vendor/select2/css/select2.min.css') }}" rel="stylesheet">
     <link href="{{ url('/vendor/jquery-ui/jquery-ui.css') }}" rel="stylesheet">
     <link href="{{ url('/css/style.css') }}" rel="stylesheet">
+    <link href="{{ url('/css/custom.css') }}" rel="stylesheet">
     @viteReactRefresh
-    @vite('resources/js/app.jsx')
+    @vite('resources/js/main.jsx')
     @yield('css')
 </head>
 <body>
-<div id="preloader">
+<div id="main-wrapper">
+    <div id="root"></div>
+</div>
+{{--<div id="preloader">
     <div class="sk-three-bounce">
         <div class="sk-child sk-bounce1"></div>
         <div class="sk-child sk-bounce2"></div>
         <div class="sk-child sk-bounce3"></div>
     </div>
-</div>
-<div id="main-wrapper">
-    <div class="nav-header">
+</div>--}}
+<div id="main-wrapper1">
+    {{--<div class="nav-header">
         <a href="/" class="brand-logo" style="justify-content:center">
             <h4>Gidion</h4>
         </a>
@@ -36,7 +40,7 @@
                 <span class="line"></span><span class="line"></span><span class="line"></span>
             </div>
         </div>
-    </div>
+    </div>--}}
     <div class="header">
         <div class="header-content">
             <nav class="navbar navbar-expand">
@@ -101,75 +105,6 @@
                         <li><a href="{{url('/cards/delete')}}">Удалить товары</a></li>
                     </ul>
                 </li>
-                {{--<li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
-                        <i class="flaticon-061-puzzle"></i>
-                        <span class="nav-text">Charts</span>
-                    </a>
-                    <ul aria-expanded="false">
-                        <li><a href="./chart-flot.html">Flot</a></li>
-                        <li><a href="./chart-morris.html">Morris</a></li>
-                        <li><a href="./chart-chartjs.html">Chartjs</a></li>
-                        <li><a href="./chart-chartist.html">Chartist</a></li>
-                        <li><a href="./chart-sparkline.html">Sparkline</a></li>
-                        <li><a href="./chart-peity.html">Peity</a></li>
-                    </ul>
-                </li>
-                <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
-                        <i class="flaticon-003-diamond"></i>
-                        <span class="nav-text">Bootstrap</span>
-                    </a>
-                    <ul aria-expanded="false">
-                        <li><a href="./ui-accordion.html">Accordion</a></li>
-                        <li><a href="./ui-alert.html">Alert</a></li>
-                        <li><a href="./ui-badge.html">Badge</a></li>
-                        <li><a href="./ui-button.html">Button</a></li>
-                        <li><a href="./ui-modal.html">Modal</a></li>
-                        <li><a href="./ui-button-group.html">Button Group</a></li>
-                        <li><a href="./ui-list-group.html">List Group</a></li>
-                        <li><a href="./ui-media-object.html">Media Object</a></li>
-                        <li><a href="./ui-card.html">Cards</a></li>
-                        <li><a href="./ui-carousel.html">Carousel</a></li>
-                        <li><a href="./ui-dropdown.html">Dropdown</a></li>
-                        <li><a href="./ui-popover.html">Popover</a></li>
-                        <li><a href="./ui-progressbar.html">Progressbar</a></li>
-                        <li><a href="./ui-tab.html">Tab</a></li>
-                        <li><a href="./ui-typography.html">Typography</a></li>
-                        <li><a href="./ui-pagination.html">Pagination</a></li>
-                        <li><a href="./ui-grid.html">Grid</a></li>
-
-                    </ul>
-                </li>
-                <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
-                        <i class="flaticon-053-heart"></i>
-                        <span class="nav-text">Plugins</span>
-                    </a>
-                    <ul aria-expanded="false">
-                        <li><a href="./uc-select2.html">Select 2</a></li>
-                        <li><a href="./uc-nestable.html">Nestedable</a></li>
-                        <li><a href="./uc-noui-slider.html">Noui Slider</a></li>
-                        <li><a href="./uc-sweetalert.html">Sweet Alert</a></li>
-                        <li><a href="./uc-toastr.html">Toastr</a></li>
-                        <li><a href="./map-jqvmap.html">Jqv Map</a></li>
-                        <li><a href="./uc-lightgallery.html">Light Gallery</a></li>
-                    </ul>
-                </li>
-                <li><a href="widget-basic.html" class="ai-icon" aria-expanded="false">
-                        <i class="flaticon-381-settings-2"></i>
-                        <span class="nav-text">Widget</span>
-                    </a>
-                </li>
-                <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
-                        <i class="flaticon-044-file"></i>
-                        <span class="nav-text">Forms</span>
-                    </a>
-                    <ul aria-expanded="false">
-                        <li><a href="./form-element.html">Form Elements</a></li>
-                        <li><a href="./form-wizard.html">Wizard</a></li>
-                        <li><a href="./form-editor-summernote.html">Summernote</a></li>
-                        <li><a href="form-pickers.html">Pickers</a></li>
-                        <li><a href="form-validation-jquery.html">Jquery Validate</a></li>
-                    </ul>
-                </li>--}}
                 <li><a class="has-arrow ai-icon" href="#" aria-expanded="false">
                         <i class="flaticon-381-network"></i>
                         <span class="nav-text">Утилиты</span>
@@ -196,7 +131,7 @@
         </div>
     </div>
     <div class="content-body" style="min-height:895px">
-        <div class="container-fluid" style="padding: 0 10px 0 10px" id="bodySection">
+        <div class="container-fluid" id="bodySection">
             @yield('content')
         </div>
     </div>

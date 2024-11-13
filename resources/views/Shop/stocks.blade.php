@@ -1,4 +1,4 @@
-@extends('layouts.app');
+@extends('layouts.app')
 @section('content')
     <div class="container-fluid">
         <div class="row page-titles mx-0">
@@ -8,7 +8,7 @@
                 </div>
             </div>
             <div class="col-sm-6 p-md-0 text-right">
-                <a href="/shop/stocks/товаров, которые не участвуют в распродаже">Не участвуют в распродаже</a>
+                <a href="{{url('/shop/stocks/товаров, которые не участвуют в распродаже')}}">Не участвуют в распродаже</a>
             </div>
         </div>
         <div class="card" style="height: auto;">

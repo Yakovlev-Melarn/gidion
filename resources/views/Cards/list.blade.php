@@ -1,4 +1,4 @@
-@extends('layouts.app');
+@extends('layouts.app')
 @section('content')
     <div class="container-fluid">
         <div class="row page-titles mx-0">
@@ -20,7 +20,8 @@
                         </li>
                     @endif
                     @php
-                        if($page<6){
+                        if(isset($page) && isset($totalPages)){
+if($page<6){
                             $it = 0;
                             $max = 10;
                         } else {
@@ -30,10 +31,13 @@
                                 $max = $totalPages;
                             }
                         }
+}
                     @endphp
                     @for($i = $it;$i<$max;$i++)
                         @php
-                            $p = $i+1;
+                            if(!empty($i)){
+$p = $i+1;
+}
                         @endphp
                         <li class="page-item @if($page == $p) active @endif"><a class="page-link"
                                                                                 href="{{ url("cards/list/{$p}") }}">{{ $p }}</a>
@@ -54,7 +58,7 @@
                     <i class="fa fa-angle-down ml-3"></i>
                 </div>
                 <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end"
-                     style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(118px, 24px, 0px);">
+                     style="position: absolute; will-change: transform; top: 0; left: 0; transform: translate3d(118px, 24px, 0px);">
                     <a class="dropdown-item fSupplier" href="#"
                        data-supplierid="0">Все поставщики</a>
                     @foreach($suppliers as $supplier)
@@ -68,7 +72,7 @@
                     <i class="fa fa-angle-down ml-3"></i>
                 </div>
                 <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end"
-                     style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(118px, 24px, 0px);">
+                     style="position: absolute; will-change: transform; top: 0; left: 0; transform: translate3d(118px, 24px, 0px);">
                     <a class="dropdown-item fAmount" href="#"
                        data-amountid="0">С любым остатком</a>
                     @foreach($amountNames as $key => $name)
@@ -114,7 +118,8 @@
                     </li>
                 @endif
                 @php
-                    if($page<6){
+                    if(isset($page) && isset($totalPages)){
+if($page<6){
                         $it = 0;
                         $max = 10;
                     } else {
@@ -124,10 +129,13 @@
                             $max = $totalPages;
                         }
                     }
+}
                 @endphp
                 @for($i = $it;$i<$max;$i++)
                     @php
-                        $p = $i+1;
+                        if(!empty($i)){
+$p = $i+1;
+}
                     @endphp
                     <li class="page-item @if($page == $p) active @endif"><a class="page-link"
                                                                             href="{{ url("cards/list/{$p}") }}">{{ $p }}</a>

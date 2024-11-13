@@ -1,4 +1,4 @@
-@extends('layouts.app');
+@extends('layouts.app')
 @section('content')
     @if($loaded)
         <form method="post" action="/card/{{ $card->id }}">
