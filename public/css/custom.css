@@ -1,3 +1,14 @@
 #bodySection {
     padding: 10px;
 }
+
+#searchTypeField {
+    background: #2C254A !important;
+    border-color: transparent;
+    height: 50px;
+    width: 130px;
+    color: #fff;
+}
+.search-area{
+    width: 730px;
+}

@@ -17,7 +17,6 @@
     <link href="{{ url('/css/custom.css') }}" rel="stylesheet">
     @viteReactRefresh
     @vite('resources/js/main.jsx')
-    @yield('css')
 </head>
 <body>
 <div id="main-wrapper">
@@ -41,7 +40,7 @@
             </div>
         </div>
     </div>--}}
-    <div class="header">
+    {{--<div class="header">
         <div class="header-content">
             <nav class="navbar navbar-expand">
                 <div class="collapse navbar-collapse justify-content-between">
@@ -79,7 +78,7 @@
                 </div>
             </nav>
         </div>
-    </div>
+    </div>--}}
     <div class="deznav">
         <div style="min-height: 110px"></div>
         <div class="deznav-scroll">
