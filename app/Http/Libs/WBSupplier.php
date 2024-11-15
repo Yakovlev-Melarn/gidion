@@ -35,7 +35,7 @@ class WBSupplier
         $amount = 0;
         if (!empty($productDetail['sizes'][0]['stocks'])) {
             foreach ($productDetail['sizes'][0]['stocks'] as $stock) {
-                    $amount += $stock['qty'];
+                $amount += $stock['qty'];
             }
         }
         return $amount;
@@ -76,11 +76,20 @@ class WBSupplier
         return false;
     }
 
-    public static function getSkusByPage($url, $sort, $page)
+    public static function getCategoriesBySupplier($supplierId)
     {
-        $url = explode('/', $url);
-        $url = array_pop($url);
-        $url = "{$url}&sort={$sort}&page={$page}&&priceU=100;30000";
+        $response = Http::withHeaders([])
+            ->timeout(180)
+            ->connectTimeout(180)
+            ->acceptJson()
+            ->get("https://catalog.wb.ru/sellers/v6/filters?ab_testing=false&appType=1&curr=rub&dest=-1412209&filters=xsubject&spp=30&supplier={$supplierId}&uclusters=8");
+        return $response->json();
+    }
+
+    public static function getSkusByPage($url, $categoryId, $page)
+    {
+        $supplierId = Helper::getSupplierID($url);
+        $url = "{$supplierId}&xsubject={$categoryId}&page={$page}";
         $response = Http::withHeaders([])
             ->timeout(180)
             ->connectTimeout(180)

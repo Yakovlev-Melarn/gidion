@@ -10,6 +10,8 @@ use App\Models\Card;
 use App\Models\CopyCard;
 use App\Models\Seller;
 use App\Models\Supplier;
+use App\Models\SupplierCaregory;
+use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -28,6 +30,8 @@ class CopyCards implements ShouldQueue
     public string $competitor;
     public int $count;
     public int $catalog = 5;
+    public int $supplierId;
+    public array $categories = [];
     public array $sortTypes = [
         'newly',
         'rate',
@@ -43,21 +47,28 @@ class CopyCards implements ShouldQueue
         $this->competitor = $competitor;
         $this->count = (int)$count;
         $this->supplier = Supplier::where('name', 'Wildberries')->first();
+        $this->supplierId = Helper::getSupplierID($competitor);
     }
 
     public function handle(): void
     {
+        $this->getSupplierCategories();
         echo "Предварительно карточек товара будет создано: {$this->count}. \r\n";
         Helper::writeLog("CopyCardsInfo", "Будет создано {$this->count} карточек товара.");
-        foreach ($this->sortTypes as $sortType) {
-            for ($i = 1; $i <= 100; $i++) {
-                if (CopyCard::count() >= $this->count) {
-                    break;
-                }
-                $this->prepareCopyCard($sortType, $i);
+        $categories = SupplierCaregory::where("supplierId", $this->supplierId)->orderBy('categoryId')->get();
+        foreach ($categories as $category) {
+            echo "Опрашиваю категорию: {$category->name}. \r\n";
+            if (!$this->count) {
+                break;
             }
+            echo "Осталось создать карточек:  {$this->count}\r\n";
+            echo "Опрашиваю категорию: {$category->name}. Товаров: {$category->productsCount} \r\n";
+            $pages = ceil($category->productsCount / 100);
+            for ($i = 1; $i <= $pages; $i++) {
+                $this->prepareCopyCard($category->categoryId, $i);
+            }
+            $this->copyCard();
         }
-        $this->copyCard();
         $settings = [
             'cursor' => [
                 'limit' => 100
@@ -67,6 +78,25 @@ class CopyCards implements ShouldQueue
             ]
         ];
         SyncCardsJob::dispatch($this->seller, $settings);
+    }
+
+    private function getSupplierCategories()
+    {
+        SupplierCaregory::where("supplierId", $this->supplierId)->delete();
+        $categories = WBSupplier::getCategoriesBySupplier($this->supplierId);
+        try {
+            $items = $categories['data']['filters'][0]['items'];
+            foreach ($items as $category) {
+                $supplierCategory = new SupplierCaregory();
+                $supplierCategory->categoryId = $category['id'];
+                $supplierCategory->supplierId = $this->supplierId;
+                $supplierCategory->productsCount = $category['count'];
+                $supplierCategory->name = $category['name'];
+                $supplierCategory->save();
+            }
+        } catch (Exception $e) {
+            Helper::writeLog("CopyCardsInfo", "Не удалось получить дерево категорий. {$e->getMessage()}", 'emptyCategories');
+        }
     }
 
     private function getPrefixSku(): string
@@ -96,11 +126,6 @@ class CopyCards implements ShouldQueue
             Helper::writeLog("CopyCardsInfo", "Карточка nmId {$supplierSku['id']} без остатка.", 'zeroQuantityCopiedCard');
             return false;
         }
-        $price = $supplierSku['salePriceU'] / 100;
-        if ($price > 300) {
-            Helper::writeLog("CopyCardsInfo", "Карточка nmId {$supplierSku['id']} стоит {$price} руб., это выше допустимого порога.", 'highPriceCopiedCard');
-            return false;
-        }
         if (empty($supplierSku['name'])) {
             Helper::writeLog("CopyCardsInfo", "Карточка nmId {$supplierSku['id']} без названия.", 'emptyNameCopiedCard');
             return false;
@@ -112,9 +137,6 @@ class CopyCards implements ShouldQueue
     {
         foreach ($copySkus as $supplierSku) {
             if ($this->validateSupplierSku($supplierSku, $prefixSku)) {
-                if (CopyCard::count() >= $this->count) {
-                    break;
-                }
                 $this->addQueueCopyCards($supplierSku, $prefixSku);
             }
         }
@@ -150,13 +172,14 @@ class CopyCards implements ShouldQueue
                 $cardData['vendorCode'] = "RS-X-{$copyCard->id}-1";
                 CardLib::makeJobAfterCreateCard($this->seller, $cardData);
                 $copyCard->delete();
+                $this->count--;
             }
         }
     }
 
     private function copyCard()
     {
-        $copyCards = CopyCard::all();
+        $copyCards = CopyCard::where("price", '<=', '1500')->limit($this->count)->get();
         echo "Обработка окочена. Карточек в очереди на создание: {$copyCards->count()}\r\n";
         Helper::writeLog("CopyCardsInfo", "Обработка окочена. Карточек в очереди на создание: {$copyCards->count()}");
         if ($copyCards->count() > 0) {
@@ -164,9 +187,9 @@ class CopyCards implements ShouldQueue
         }
     }
 
-    private function prepareCopyCard($sort, $page)
+    private function prepareCopyCard($categoryId, $page)
     {
-        $supplierSkus = WBSupplier::getSkusByPage($this->competitor, $sort, $page);
+        $supplierSkus = WBSupplier::getSkusByPage($this->competitor, $categoryId, $page);
         if ($copySkus = $this->getCopyProducts($supplierSkus)) {
             $prefixSku = $this->getPrefixSku();
             $this->setCopyCards($copySkus, $prefixSku);

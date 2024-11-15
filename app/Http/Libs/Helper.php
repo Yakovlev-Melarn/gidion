@@ -22,6 +22,13 @@ class Helper
         return false;
     }
 
+    public static function getSupplierID($url)
+    {
+        $url = explode('/', $url);
+        $id = array_pop($url);
+        return $id;
+    }
+
     public static function writeLog($type, $message, $errorType = null)
     {
         $log = new Log();
@@ -78,7 +85,7 @@ class Helper
             $basket = '14';
         } elseif ($small < 2406) {
             $basket = '15';
-        } elseif ($small < 2622){
+        } elseif ($small < 2622) {
             $basket = '16';
         } else {
             $basket = '17';
