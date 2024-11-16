@@ -4,11 +4,10 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Seller;
-use Illuminate\Http\Request;
 
-class GetSellersListController extends Controller
+class InfoController extends Controller
 {
-    public function getList()
+    public function getSellersList()
     {
         $sellers = Seller::where('user_id', session()->get('auth'))->get();
         return response()->json($sellers);

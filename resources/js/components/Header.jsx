@@ -1,4 +1,8 @@
+import {useState} from 'react';
+import Sellers from "./Header/Sellers";
+
 export default function Header() {
+    const [seller] = useState('ВасЯ!');
     return (
         <div className="header">
             <div className="header-content">
@@ -6,7 +10,8 @@ export default function Header() {
                     <div className="collapse navbar-collapse justify-content-between">
                         <div className="header-left">
                             <div className="input-group search-area right d-lg-inline-flex d-none">
-                                <input type="text" id="searchField" name="search" required className="form-control srch"
+                                <input type="text" id="searchField" name="search" required
+                                       className="form-control srch"
                                        placeholder="Поиск..."/>
                                 <div className="input-group-append">
                                     <span className="input-group-text">
@@ -29,13 +34,11 @@ export default function Header() {
                             <li className="nav-item dropdown header-profile">
                                 <a className="nav-link" href="#" role="button" data-toggle="dropdown">
                                     <div className="header-info">
-                                        <span className='Profile'>Profile</span>
+                                        <span className='Profile'>{seller}</span>
                                     </div>
                                 </a>
-                                <div className="dropdown-menu dropdown-menu-right">
-                                    <a href={"/settings/changeSeller/#"} className="dropdown-item ai-icon">
-                                        <span className="ml-2">seller name</span>
-                                    </a>
+                                <div className="dropdown-menu dropdown-menu-right sellerList">
+                                    <Sellers seller={this.state.seller}/>
                                     <a href={"/login/logout"} className="dropdown-item ai-icon">
                                         <svg id="icon-logout" xmlns={"https://www.w3.org/2000/svg"}
                                              className="text-danger"

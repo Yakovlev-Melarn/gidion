@@ -9,6 +9,15 @@
     width: 130px;
     color: #fff;
 }
-.search-area{
+
+.search-area {
     width: 730px;
+}
+
+.sellerList {
+    border: solid 1px #473f72 !important;
+}
+
+a {
+    cursor: pointer;
 }

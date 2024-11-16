@@ -1,8 +1,7 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use \App\Http\Controllers\Api\GetSellersListController;
+use \App\Http\Controllers\Api\InfoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,4 +14,4 @@ use \App\Http\Controllers\Api\GetSellersListController;
 |
 */
 
-Route::get('/getSellerList',[GetSellersListController::class,'getList'])->middleware("apiauth");
+Route::get('/getSellerList',[InfoController::class,'getSellersList'])->middleware("apiauth");
