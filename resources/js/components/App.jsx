@@ -1,7 +1,7 @@
 import NavHeader from "./NavHeader";
 import Header from "./Header";
 
-export function token() {
+export function Token() {
     return document.querySelector(`meta[name="token"]`)
         .getAttribute('content');
 }

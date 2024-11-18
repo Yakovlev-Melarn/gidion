@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use App\Models\ReactSession;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -33,6 +33,7 @@ class LoginController extends Controller
 
     public function logout(Request $request)
     {
+        ReactSession::where('userId', session('auth'))->delete();
         $request->session()->forget(['auth', 'sellerId', 'sellerName']);
         return redirect()->back();
     }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\ReactSession;
 use App\Models\User;
 use Closure;
 use Illuminate\Http\Request;
@@ -20,7 +21,14 @@ class ApiAuth
         if (!$user = User::where("token", $token)->first()) {
             return response()->json(['error' => 'unauthorized'], 401);
         }
-        session()->put("auth", $user->id);
+        session()->put('auth', $user->id);
+        if (!ReactSession::where("userId", $user->id)->where("key", 'auth')->count()) {
+            $session = new ReactSession();
+            $session->userId = $user->id;
+            $session->key = 'auth';
+            $session->value = $user->id;
+            $session->save();
+        }
         return $next($request);
     }
 }
