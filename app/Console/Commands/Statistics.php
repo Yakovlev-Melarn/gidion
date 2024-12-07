@@ -95,7 +95,7 @@ class Statistics extends Command
     {
         $sellers = Seller::all();
         foreach ($sellers as $seller) {
-            StockUpdate::dispatch($seller);
+            StockUpdate::dispatch($seller)->onQueue('updatestock');
         }
     }
 

@@ -9,9 +9,9 @@ use App\Jobs\CalcPrice;
 use App\Jobs\ContentCard;
 use App\Jobs\MPOrders;
 use App\Jobs\PriceInfo;
-use App\Jobs\StockUpdate;
 use App\Models\Bartender;
 use App\Models\Card;
+use App\Models\Job;
 use App\Models\MarketplaceOrder;
 use App\Models\Seller;
 use App\Models\Wbstorder;
@@ -25,6 +25,35 @@ class ShopController extends Controller
 {
     const ORDER = 1;
     const SALE = 2;
+
+    public function addDelivery(Request $request)
+    {
+        if ($job = Job::where('payload', 'like', '%MPOrder%')->first()) {
+            $job->delete();
+        }
+        $seller = Seller::find($request->seller);
+        WBMarketplace::createSupplies($seller);
+    }
+
+    public function getOrders(Request $request)
+    {
+        $data = [];
+        $orders = MarketplaceOrder::where("seller_id", $request->seller)->where('shipmentId', $request->delivery)->get();
+        foreach ($orders as $order) {
+            CardLib::checkPhotos($order->card);
+        }
+        $orders = MarketplaceOrder::where("seller_id", $request->seller)->where('shipmentId', $request->delivery)->get();
+        foreach ($orders as $order) {
+            $data[] = [
+                $order->qrcode => [
+                    'order' => $order->toArray(),
+                    'card' => $order->card->toArray(),
+                    'photos' => $order->card->photos->toArray()
+                ]
+            ];
+        }
+        return $data;
+    }
 
     private function ordersale($type, $date)
     {
@@ -125,7 +154,6 @@ class ShopController extends Controller
                         $order->card->prices->percent = 1;
                         $order->card->prices->save();
                         CalcPrice::dispatch($seller, $seller->percentageOfMargin);
-                        StockUpdate::dispatch($seller);
                     }
                 }
                 $order->card->slstock->save();
@@ -175,13 +203,32 @@ class ShopController extends Controller
             $shipment['id'] = $shipmentId;
         }
         if (!empty($shipment['id'])) {
-            $orders = MarketplaceOrder::where("shipmentId", $shipment['id'])->where("status", 0)->orderBy('createdAt')->get();
+            $orders = MarketplaceOrder::where("shipmentId", $shipment['id'])->where("status", 0)->orderBy('nmId')->get();
         }
         return view('Shop/orders', [
             'shipmentId' => $shipment['id'],
             'count' => $orders->count(),
             'sum' => $orders->sum('convertedPrice'),
             'orders' => $orders
+        ]);
+    }
+
+    public function getDeliveries(Request $request)
+    {
+        $seller = Seller::find($request->seller);
+        $supplies = WBMarketplace::getOpenSupplies($seller, true);
+        $openSupplies = [];
+        foreach ($supplies['supplies'] as $supply) {
+            if (!$supply['done']) {
+                $openSupplies[] = $supply;
+            }
+        }
+        return $openSupplies;
+    }
+
+    public function delivery()
+    {
+        return view('/Shop/delivery', [
         ]);
     }
 
@@ -238,13 +285,13 @@ class ShopController extends Controller
                 if (empty($stock->card->prices)) {
                     PriceInfo::dispatch($seller);
                 }
-                if(!empty($stock->card->prices)) {
+                if (!empty($stock->card->prices)) {
                     $price = floor($stock->card->prices->price * ((100 - $spp) / 100));
                     $diff = $price - $stock->card->prices->s_price;
                 } else {
                     $diff = 0;
                 }
-                if(empty($stock->card->photos[0])) {
+                if (empty($stock->card->photos[0])) {
                     ContentCard::dispatch($seller, [
                         'cursor' => [
                             'limit' => 10

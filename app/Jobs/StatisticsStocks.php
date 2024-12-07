@@ -7,6 +7,7 @@ use App\Http\Libs\WBStatistics;
 use App\Models\Card;
 use App\Models\Seller;
 use App\Models\Wbststock;
+use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -34,7 +35,7 @@ class StatisticsStocks implements ShouldQueue
         StatisticsStocks::dispatch($this->seller)->delay(now()->addHours(3));
         try {
             $this->updateWbStocks();
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             dd($exception->getMessage());
         }
         $this->removeByStock();
@@ -76,7 +77,6 @@ class StatisticsStocks implements ShouldQueue
         }
         Bus::chain([
             new PriceUpdate($this->seller),
-            new StockUpdate($this->seller)
         ])->dispatch();
     }
 
@@ -117,7 +117,6 @@ class StatisticsStocks implements ShouldQueue
         }
         Bus::chain([
             new PriceUpdate($this->seller),
-            new StockUpdate($this->seller),
         ])->dispatch();
     }
 

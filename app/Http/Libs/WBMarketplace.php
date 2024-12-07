@@ -18,7 +18,7 @@ class WBMarketplace
                 'stocks' => $stocks
             ]);
         if (!empty($result = $result->json())) {
-            if(!empty($result)) {
+            if (!empty($result)) {
                 print_r($result);
                 print_r($stocks);
             }
@@ -81,7 +81,7 @@ class WBMarketplace
         return $result->json();
     }
 
-    public static function getOpenSupplies(Seller $seller)
+    public static function getOpenSupplies(Seller $seller, $toJson = false)
     {
         $result = Http::withHeaders([])
             ->acceptJson()
@@ -92,13 +92,16 @@ class WBMarketplace
             ]);
         $result = $result->json();
         $openShipment = false;
-        if(!empty($result['supplies'])) {
+        if (!empty($result['supplies'])) {
             foreach ($result['supplies'] as $shipment) {
                 if (!$shipment['done']) {
                     $openShipment = $shipment;
                 }
             }
         }
-        return $openShipment;
+        if (!$toJson) {
+            return $openShipment;
+        }
+        return $result;
     }
 }

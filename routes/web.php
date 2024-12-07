@@ -28,11 +28,14 @@ Route::get('/shop/stocks/{wh}/{withoutSPrice}', [ShopController::class, 'stock']
 Route::get('/shop/saled/{date?}', [ShopController::class, 'saled'])->middleware('auth');
 Route::get('/shop/ordered/{date?}', [ShopController::class, 'ordered'])->middleware('auth');
 Route::get('/shop/orders', [ShopController::class, 'orders'])->middleware('auth');
+Route::get('/shop/delivery', [ShopController::class, 'delivery'])->middleware('auth');
+Route::post('/shop/getDeliveries', [ShopController::class, 'getDeliveries'])->middleware('auth');
 Route::get('/shop/orders/{shipmentId}', [ShopController::class, 'orders'])->middleware('auth');
 Route::post('/shop/printAll', [ShopController::class, 'printAll'])->middleware('auth');
 Route::post('/shop/print', [ShopController::class, 'printOrderBarcode'])->middleware('auth');
 Route::post('/shop/updateWhl', [ShopController::class, 'updateWhl'])->middleware('auth');
 Route::post('/shop/orderComplete', [ShopController::class, 'orderComplete'])->middleware('auth');
+Route::post('/shop/getOrders', [ShopController::class, 'getOrders'])->middleware('auth');
 Route::get('/cards/comission', [CardController::class, 'comission'])->middleware('auth');
 Route::get('/cards/getRules', [CardController::class, 'getRules'])->middleware('auth');
 Route::post('/cards/uploadCard', [CardController::class, 'uploadCard'])->middleware('auth');

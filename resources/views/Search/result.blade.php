@@ -92,24 +92,18 @@ if($order->card->dimensions->width == 10 && $order->card->dimensions->height == 
                                                             <div class="input-group-prepend">
                                                                 <span class="input-group-text">Длина</span>
                                                             </div>
-                                                            <label>
                                                                 <input type="number" class="form-control w"
-                                                                       value="{{ $order->card->dimensions->width }}">
-                                                            </label>
+                                                                       value="{{ $order->card->dimensions->width?:10 }}">
                                                             <div class="input-group-prepend">
                                                                 <span class="input-group-text">Ширина</span>
                                                             </div>
-                                                            <label>
                                                                 <input type="number" class="form-control h"
-                                                                       value="{{ $order->card->dimensions->height }}">
-                                                            </label>
+                                                                       value="{{ $order->card->dimensions->height?:10 }}">
                                                             <div class="input-group-prepend">
                                                                 <span class="input-group-text">Высота</span>
                                                             </div>
-                                                            <label>
                                                                 <input type="number" class="form-control l"
-                                                                       value="{{ $order->card->dimensions->length }}">
-                                                            </label>
+                                                                       value="{{ $order->card->dimensions->length?:10 }}">
                                                         </div>
                                                     </div>
                                             @endif

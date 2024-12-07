@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Libs\CardLib;
 use App\Models\Card;
 use App\Models\CardSizes;
 use App\Models\MarketplaceOrder;
@@ -17,22 +18,26 @@ class SearchController extends Controller
     {
         $this->requestData = $request;
         if ($request->type == 'card') {
-            $cards = $this->searchCards($request);
+            $cards = $this->searchCards();
             return view('Search/result', [
                 'cards' => $cards,
                 'searchType' => $request->type
             ]);
         }
         if ($request->type == 'order') {
-            $orders = $this->searchOrders($request);
+            $orders = $this->searchOrders();
             return view('Search/result', [
                 'orders' => $orders,
                 'searchType' => $request->type
             ]);
         }
+        return view('Search/result', [
+            'orders' => [],
+            'searchType' => $request->type
+        ]);
     }
 
-    private function searchOrders(Request $request)
+    private function searchOrders()
     {
         $orders = MarketplaceOrder::where(function ($query) {
             $query->orWhere("orderId", $this->requestData->search)
@@ -50,12 +55,20 @@ class SearchController extends Controller
                     session()->put('sellerId', $seller->id);
                     session()->put('sellerName', $seller->name);
                 }
+                CardLib::checkPhotos($order->card);
             }
+            $orders = MarketplaceOrder::where(function ($query) {
+                $query->orWhere("orderId", $this->requestData->search)
+                    ->orWhere("skus", $this->requestData->search)
+                    ->orWhere("qrcode", $this->requestData->search)
+                    ->orWhere("article", 'like', "%{$this->requestData->search}%")
+                    ->orWhere(DB::raw("CONCAT(partA,partB)"), $this->requestData->search);
+            })->get();
         }
         return $orders;
     }
 
-    private function searchCards(Request $request)
+    private function searchCards()
     {
         $result = [];
         $barcodes = CardSizes::where("seller_id", session()->get("sellerId"))
@@ -77,8 +90,4 @@ class SearchController extends Controller
         return $result;
     }
 
-    private function searchBySku()
-    {
-
-    }
 }

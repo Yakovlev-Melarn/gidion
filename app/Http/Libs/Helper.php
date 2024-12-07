@@ -87,8 +87,10 @@ class Helper
             $basket = '15';
         } elseif ($small < 2622) {
             $basket = '16';
-        } else {
+        } elseif ($small < 2838) {
             $basket = '17';
+        } else {
+            $basket = '18';
         }
         return [
             'basket' => $basket,

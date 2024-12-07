@@ -35,12 +35,11 @@ class MPOrders implements ShouldQueue
     public function handle(): void
     {
         if (empty($this->shipmentId)) {
-            MPOrders::dispatch(null)->delay(now()->addMinutes(5));
+            MPOrders::dispatch(null)->delay(now()->addHours(2));
         }
         $sellers = Seller::all();
         foreach ($sellers as $seller) {
             if (!empty($this->shipmentId)) {
-                //MarketplaceOrder::where("shipmentId", $this->shipmentId)->delete();
                 $shipment['id'] = $this->shipmentId;
                 $orders = WBMarketplace::getOrders($seller, $shipment['id']);
             } else {

@@ -33,11 +33,7 @@ class UploadImages implements ShouldQueue
 
     public function handle(): void
     {
-        if(!$this->reload) {
-            $card = Card::where('vendorCode', '=', $this->vendorCode)->first();
-            print_r(WBContent::uploadPhotos($this->seller, $this->photos, $card->nmID));
-        } else {
-            //@todo....
-        }
+        $card = Card::where('vendorCode', '=', $this->vendorCode)->first();
+        WBContent::uploadPhotos($this->seller, $this->photos, $card->nmID);
     }
 }

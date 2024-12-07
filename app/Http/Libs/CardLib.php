@@ -10,7 +10,6 @@ use App\Jobs\ContentCardDimensions;
 use App\Jobs\DiscountRemove;
 use App\Jobs\DiscountUpdate;
 use App\Jobs\ProductStockUpdate;
-use App\Jobs\StockUpdate;
 use App\Jobs\UploadImages;
 use App\Models\Card;
 use App\Models\CardCharacteristics;
@@ -99,7 +98,6 @@ class CardLib
                 $card->prices->percent = 2;
                 $card->prices->save();
                 CalcPrice::dispatch($seller, $seller->percentageOfMargin, $card->id);
-                StockUpdate::dispatch($seller);
             } else {
                 if ($uploadStocks) {
                     foreach ($card->sizes as $size) {
@@ -262,6 +260,20 @@ class CardLib
         }
         self::addSizes($card->id, $cardData['sizes'], $seller->id);
         return $card;
+    }
+
+    public static function checkPhotos(Card $card)
+    {
+        if (!$card->photos->count()) {
+            $basket = Helper::getBasketNumber($card->nmID);
+            $photos = [
+                [
+                    'big' => "https://basket-{$basket['basket']}.wbbasket.ru/vol{$basket['small']}/" .
+                        "part{$basket['mid']}/{$card->nmID}/images/big/1.webp"
+                ]
+            ];
+            CardLib::addPhotos($card->id, $photos);
+        }
     }
 
     public static function addPhotos(int $id, array $photos): void

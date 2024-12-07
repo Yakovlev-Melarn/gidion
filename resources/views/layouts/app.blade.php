@@ -87,6 +87,7 @@
                     <ul aria-expanded="false">
                         <li><a href="{{url('/shop/orders')}}">Заказы</a></li>
                         <li><a href="{{url('/shop/stocks')}}">Остатки</a></li>
+                        <li><a href="{{url('/shop/delivery')}}">Отгрузки</a></li>
                     </ul>
                 </li>
                 <li><a class="has-arrow ai-icon" href="#" aria-expanded="false">

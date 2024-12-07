@@ -8,13 +8,10 @@ use App\Http\Libs\OfficeBurg;
 use App\Http\Libs\SamsonLib;
 use App\Http\Libs\WBContent;
 use App\Http\Libs\WBSupplier;
-use App\Jobs\CalcPrice;
 use App\Jobs\CatalogJob;
 use App\Jobs\ContentCard;
 use App\Jobs\CopyCards;
 use App\Jobs\PriceInfo;
-use App\Jobs\PriceUpdate;
-use App\Jobs\StockUpdate;
 use App\Jobs\Trash;
 use App\Jobs\UploadImages;
 use App\Models\Bartender;
@@ -433,13 +430,13 @@ class CardController extends Controller
         }
         if ($request->method() == 'POST') {
             CopyCards::dispatch($seller, $request->competitor, $request->count)->onQueue('copycards');
-            Bus::chain([
+            /*Bus::chain([
                     new PriceInfo($seller),
                     new CalcPrice($seller, $seller->percentageOfMargin),
                     new PriceUpdate($seller),
                     new StockUpdate($seller)
                 ]
-            )->delay(now()->addMinutes(30))->dispatch();
+            )->delay(now()->addMinutes(30))->dispatch();*/
             $load = 1;
         }
         return view('Cards/copy', [
