@@ -31,14 +31,14 @@ class StockUpdate implements ShouldQueue
 
     public function handle(): void
     {
-        $this->prepareAmount();
-        //$detailed = $this->prepareAmount();
+        //$this->prepareAmount();
+        $detailed = $this->prepareAmount();
         $this->prepareUpload();
-        /*if (!$detailed) {
+        if (!$detailed) {
             StockUpdate::dispatch($this->seller)->onQueue('updatestock')->delay(now()->addHour());
         } else {
             StockUpdate::dispatch($this->seller)->onQueue('updatestock');
-        }*/
+        }
     }
 
     private function prepareUpload()
@@ -104,7 +104,7 @@ class StockUpdate implements ShouldQueue
             $cards = Card::where("seller_id", $this->seller->id)
                 ->where("supplier", 10)
                 ->where("removeByStock", 0)
-                ->where("detailedStockAt", '>=', date('Y-m-d'))
+                ->where("detailedStockAt", '<', date('Y-m-d'))
                 ->limit(300)
                 ->offset($offset)
                 ->get();
@@ -112,9 +112,9 @@ class StockUpdate implements ShouldQueue
             $supplierSkus = [];
             if ($cards->count()) {
                 foreach ($cards as $card) {
-                    $this->saveStock($card, 0);
-                    continue;
-                    //$supplierSkus[] = $card->supplierSku;
+                    /*$this->saveStock($card, 0);
+                    continue;*/
+                    $supplierSkus[] = $card->supplierSku;
                 }
                 if (!empty($supplierSkus)) {
                     $supplierSkus = implode(';', $supplierSkus);

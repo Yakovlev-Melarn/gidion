@@ -75,15 +75,15 @@ class CopyCards implements ShouldQueue
                 $category->save();
             }
         }
-        $settings = [
+/*        $settings = [
             'cursor' => [
                 'limit' => 100
             ],
             'filter' => [
                 "withPhoto" => -1
             ]
-        ];
-        SyncCardsJob::dispatch($this->seller, $settings);
+        ];*/
+        //SyncCardsJob::dispatch($this->seller, $settings);
     }
 
     private function getSupplierCategories()
