@@ -126,7 +126,7 @@
     @endif
 @endsection
 @section('js')
-    <script src="{{ url('/vendor/chart.js/Chart.bundle.min.js') }}"></script>
-    <script src="{{ url('/js/plugins-init/chartjs-init.js') }}"></script>
-    <script src="{{ url('/js/index/index.js') }}"></script>
+    {{--<script src="{{ url('/vendor/chart.js/Chart.bundle.min.js') }}"></script>--}}
+    {{--<script src="{{ url('/js/plugins-init/chartjs-init.js') }}"></script>--}}
+    {{--<script src="{{ url('/js/index/index.js') }}"></script>--}}
 @endsection

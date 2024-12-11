@@ -79,7 +79,7 @@
             </nav>
         </div>
     </div>--}}
-    <div class="deznav">
+    {{--<div class="deznav">
         <div style="min-height: 110px"></div>
         <div class="deznav-scroll">
             <ul class="metismenu" id="menu">
@@ -128,12 +128,12 @@
                 <p><strong>Gidion Seller Portal</strong> © 2024 All Rights Reserved</p>
             </div>
         </div>
-    </div>
-    <div class="content-body" style="min-height:895px">
+    </div>--}}
+    {{--<div class="content-body" style="min-height:895px">
         <div class="container-fluid" id="bodySection">
             @yield('content')
         </div>
-    </div>
+    </div>--}}
 </div>
 <script src="{{ url('/vendor/global/global.min.js') }}"></script>
 <script src="{{ url('/vendor/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
