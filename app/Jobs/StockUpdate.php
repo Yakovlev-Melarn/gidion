@@ -22,6 +22,7 @@ class StockUpdate implements ShouldQueue
     public int $uniqueFor = 360000;
     public int $timeout = 360000;
     private Seller $seller;
+    private const NULL_STOCK = true;
 
 
     public function __construct(Seller $seller)
@@ -31,13 +32,14 @@ class StockUpdate implements ShouldQueue
 
     public function handle(): void
     {
-        //$this->prepareAmount();
         $detailed = $this->prepareAmount();
         $this->prepareUpload();
-        if (!$detailed) {
-            StockUpdate::dispatch($this->seller)->onQueue('updatestock')->delay(now()->addHour());
-        } else {
-            StockUpdate::dispatch($this->seller)->onQueue('updatestock');
+        if (!self::NULL_STOCK) {
+            if (!$detailed) {
+                StockUpdate::dispatch($this->seller)->onQueue('updatestock')->delay(now()->addHour());
+            } else {
+                StockUpdate::dispatch($this->seller)->onQueue('updatestock');
+            }
         }
     }
 
@@ -103,17 +105,21 @@ class StockUpdate implements ShouldQueue
         do {
             $cards = Card::where("seller_id", $this->seller->id)
                 ->where("supplier", 10)
-                ->where("removeByStock", 0)
-                ->where("detailedStockAt", '<', date('Y-m-d'))
-                ->limit(300)
+                ->where("removeByStock", 0);
+            if (!self::NULL_STOCK) {
+                $cards = $cards->where("detailedStockAt", '<', date('Y-m-d'));
+            }
+            $cards = $cards->limit(300)
                 ->offset($offset)
                 ->get();
             $offset += 300;
             $supplierSkus = [];
             if ($cards->count()) {
                 foreach ($cards as $card) {
-                    /*$this->saveStock($card, 0);
-                    continue;*/
+                    if (self::NULL_STOCK) {
+                        $this->saveStock($card, 0);
+                        continue;
+                    }
                     $supplierSkus[] = $card->supplierSku;
                 }
                 if (!empty($supplierSkus)) {
