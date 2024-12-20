@@ -75,14 +75,14 @@ class CopyCards implements ShouldQueue
                 $category->save();
             }
         }
-/*        $settings = [
-            'cursor' => [
-                'limit' => 100
-            ],
-            'filter' => [
-                "withPhoto" => -1
-            ]
-        ];*/
+        /*        $settings = [
+                    'cursor' => [
+                        'limit' => 100
+                    ],
+                    'filter' => [
+                        "withPhoto" => -1
+                    ]
+                ];*/
         //SyncCardsJob::dispatch($this->seller, $settings);
     }
 
@@ -250,6 +250,8 @@ class CopyCards implements ShouldQueue
                         $values = explode("; ", $characteristic['value']);
                         if ($characteristic['id'] == 18182) {
                             $values = $characteristic['value'];
+                        } elseif ($characteristic['id'] == 19033) {
+                            $values = [$values[0]];
                         } else {
                             if ($characteristic['maxcount'] == 0 && count($values) == 1) {
                                 $values = (int)$characteristic['value'];

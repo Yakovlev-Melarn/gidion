@@ -22,7 +22,7 @@ class StockUpdate implements ShouldQueue
     public int $uniqueFor = 360000;
     public int $timeout = 360000;
     private Seller $seller;
-    private const NULL_STOCK = true;
+    private const NULL_STOCK = false;
 
 
     public function __construct(Seller $seller)
