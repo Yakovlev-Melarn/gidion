@@ -9,8 +9,8 @@ export default function Sellers(props) {
         }
     );
     return (
-        < div>
+        <>
             {sellers}
-        </div>
+        </>
     )
 }

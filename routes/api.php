@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\IndexController;
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\Api\SellersController;
 
@@ -17,3 +18,4 @@ use \App\Http\Controllers\Api\SellersController;
 Route::get('/getSellerList', [SellersController::class, 'getSellersList'])->middleware("apiauth");
 Route::get('/getSelectedSeller', [SellersController::class, 'getSelectedSeller'])->middleware("apiauth");
 Route::post('/setSelectedSeller', [SellersController::class, 'setSelectedSeller'])->middleware("apiauth");
+Route::post('/getChartData', [IndexController::class, 'getChartData'])->middleware("apiauth");
