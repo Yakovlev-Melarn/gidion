@@ -4,7 +4,7 @@ import DezNav from "./DezNav";
 import ContentBody from "./ContentBody";
 import {useState, useEffect} from "react";
 import Index from "./Index/Index";
-import {convertDate, getChartDay} from "../libs/Gidion";
+import {convertDate} from "../libs/Gidion";
 
 export function Token() {
     return document.querySelector(`meta[name="token"]`)
@@ -19,11 +19,19 @@ export function AddLibrary(urlOfTheLibrary, async = false) {
 }
 
 export default function App() {
-    console.log('Render App')
-
+    const chartData = [{
+        "name": "00:00",
+        "uv": 0,
+        "pv": 0
+    }];
     const [sellers, setSellers] = useState([])
     const [error, setError] = useState(false);
     const [selectedSeller, setSelectedSeller] = useState(sellers)
+    const [dates, setDates] = useState({selectedDay: null, nextDay: null, prevDay: null})
+    const [body, setBody] = useState(<Index data={chartData} selectedDay={dates.selectedDay} dates={dates}/>)
+    console.log('Render App')
+    console.log('Seller: ' + selectedSeller.id)
+    console.log(error)
 
     function getSellerList() {
         return fetch("/api/getSellerList", {
@@ -84,25 +92,9 @@ export default function App() {
         }
     }
 
-    const chartData = [{
-        "name": "00:00",
-        "uv": 0,
-        "pv": 0
-    }];
-    const [dates, setDates] = useState({selectedDay: null, nextDay: null, prevDay: null})
-    const [body, setBody] = useState(<Index data={chartData} selectedDay={dates.selectedDay}/>)
-
-    function updateChartData(day) {
-        let date = getChartDay(dates, day);
-        getChartData(selectedSeller.id, date);
-    }
-
     function getChartData(sellerId, date = null) {
         if (!sellerId) {
             sellerId = selectedSeller.id
-        }
-        if(!sellerId){
-            alert(selectedSeller)
         }
         fetch("/api/getChartData", {
             method: 'post',
@@ -116,12 +108,14 @@ export default function App() {
         }).then(res => res.json()).then(
             (result) => {
                 let formattedDate = convertDate(new Date(result.meta.selectedDay))
-                setDates({
+                let newDates = {
                     selectedDay: result.meta.selectedDay,
                     nextDay: result.meta.nextDay,
                     prevDay: result.meta.prevDay
-                });
-                setBody(<Index data={result.data} selectedDay={formattedDate} updateChartData={updateChartData}/>)
+                }
+                setDates(newDates);
+                setBody(<Index data={result.data} selectedDay={formattedDate} dates={newDates} chart={getChartData}
+                               seller={sellerId}/>)
             }
         );
     }

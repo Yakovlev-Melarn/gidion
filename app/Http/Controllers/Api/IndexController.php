@@ -10,19 +10,22 @@ class IndexController extends Controller
 {
     public function getChartData(Request $request): array
     {
-        $sellerId = $request->json('sellerId');
+        //$sellerId = $request->json('sellerId');
         $date = $request->json('date');
         if (empty($date)) {
             $date = Carbon::today()->toDateTimeString();
         }
+        $nextDay = Carbon::createFromFormat("Y-m-d H:i:s", $date);
+        $nextDay = $nextDay->timestamp == Carbon::today()->timestamp ? false : $nextDay->addDay()->toDateTimeString();
+        $prevDay = Carbon::createFromFormat("Y-m-d H:i:s", $date);
         $result = [
             'meta' => [
-                'nextDay' => Carbon::createFromFormat("Y-m-d H:i:s", $date)->addDay()->toDateTimeString(),
+                'nextDay' => $nextDay,
                 'selectedDay' => $date,
-                'prevDay' => Carbon::createFromFormat("Y-m-d H:i:s", $date)->addDays(-1)->toDateTimeString()
+                'prevDay' => $prevDay->addDays(-1)->toDateTimeString()
             ],
             'data' => [[
-                'name' => '00:00',
+                'name' => "00:00",
                 'uv' => 0,
                 'pv' => 0
             ]]

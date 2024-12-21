@@ -1,4 +1,5 @@
 import RenderLineChart from "./RenderLineChart";
+import GetDayLink from "./GetDayLink";
 
 
 export default function Index(props) {
@@ -12,14 +13,10 @@ export default function Index(props) {
                                 <h4 className="">Сводка на {props.selectedDay}</h4>
                             </div>
                             <div className="col-md-3">
-                                <a href="#" onClick={(e) => {
-                                    e.preventDefault()
-                                    props.updateChartData('prev')
-                                }}>&laquo; Предыдущий день</a>
-                                | <a href="#" onClick={(e) => {
-                                e.preventDefault()
-                                props.updateChartData('next')
-                            }}>Следующий день &raquo;</a>
+                                <GetDayLink chart={props.chart} seller={props.seller} day={props.dates.prevDay}
+                                            name="предыдущий день"/>
+                                <GetDayLink chart={props.chart} seller={props.seller} day={props.dates.nextDay}
+                                              name="следующий день"/>
                             </div>
                         </div>
                         <div className="card-body">

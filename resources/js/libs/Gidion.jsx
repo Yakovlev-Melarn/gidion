@@ -7,12 +7,3 @@ export function convertDate(date) {
     return day + "." + month + "." + year;
 }
 
-export function getChartDay(dates, day = '') {
-    if (day === 'next') {
-        return dates.nextDay
-    }
-    if (day === 'prev') {
-        return dates.prevDay
-    }
-    return dates.selectedDay
-}
