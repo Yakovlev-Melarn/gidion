@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Libs\CardLib;
+use App\Jobs\ContentCard;
 use App\Models\Card;
 use App\Models\CardSizes;
 use App\Models\MarketplaceOrder;
@@ -48,7 +49,19 @@ class SearchController extends Controller
         })->get();
         if ($orders->count()) {
             foreach ($orders as $order) {
-                $seller = Seller::find($order->card->seller_id);
+                $seller = Seller::find($order->seller_id);
+                if(empty($order->card)){
+                    ContentCard::dispatch($seller, [
+                        'cursor' => [
+                            'limit' => 1
+                        ],
+                        'filter' => [
+                            'textSearch' => (string)$order->nmId,
+                            "withPhoto" => -1
+                        ]
+                    ]);
+                    return [];
+                }
                 if (session()->get("sellerId") != $seller->id) {
                     session()->remove('sellerId');
                     session()->remove('sellerName');
