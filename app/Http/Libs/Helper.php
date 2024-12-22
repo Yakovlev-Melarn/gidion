@@ -78,7 +78,7 @@ class Helper
             $basket = '14';
         } elseif ($small < 2406) {
             $basket = '15';
-        } elseif ($small < 2622){
+        } elseif ($small < 2622) {
             $basket = '16';
         } else {
             $basket = '17';
