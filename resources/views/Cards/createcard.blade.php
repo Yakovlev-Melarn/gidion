@@ -26,7 +26,7 @@
                             <hr>
                             Бренд <input type="text" value="{{ $product->brand }}" class="form-control-sm form brand">
                             <hr>
-                            Себестоимость <span class="sPrice">{{ $product->obPrice }}</span><br>
+                            Себестоимость <span class="sPrice">{{ $sPrice }}</span><br>
                             Логистика <span class="deliveryCost"></span><br>
                             Комиссия <span class="comission"></span><br>
                             Цена <input type="number" value="" class="form-control-sm form sellPrice"><br>

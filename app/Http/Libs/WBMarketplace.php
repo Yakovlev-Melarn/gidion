@@ -14,14 +14,16 @@ class WBMarketplace
         $result = Http::withHeaders([])
             ->acceptJson()
             ->withToken($seller->apiKey)
-            ->put("https://suppliers-api.wildberries.ru/api/v3/stocks/{$seller->whID}", [
+            ->put("https://marketplace-api.wildberries.ru/api/v3/stocks/{$seller->whID}", [
                 'stocks' => $stocks
             ]);
-        if (!empty($result = $result->json())) {
-            if (!empty($result)) {
-                print_r($result);
+        if (!empty($res = $result->json())) {
+            if (!empty($res)) {
+                print_r($res);
                 print_r($stocks);
             }
+        } else {
+            print_r($result->status());
         }
     }
 
@@ -50,7 +52,7 @@ class WBMarketplace
         $result = Http::withHeaders([])
             ->acceptJson()
             ->withToken($seller->apiKey)
-            ->post("https://suppliers-api.wildberries.ru/api/v3/orders/stickers?type=svg&width=58&height=40", ['orders' => $orders]);
+            ->post("https://marketplace-api.wildberries.ru/api/v3/orders/stickers?type=svg&width=58&height=40", ['orders' => $orders]);
         return $result->json();
     }
 
@@ -59,7 +61,7 @@ class WBMarketplace
         $result = Http::withHeaders([])
             ->acceptJson()
             ->withToken($seller->apiKey)
-            ->patch("https://suppliers-api.wildberries.ru/api/v3/supplies/{$shipmentId}/orders/{$orderId}");
+            ->patch("https://marketplace-api.wildberries.ru/api/v3/supplies/{$shipmentId}/orders/{$orderId}");
         return $result->status();
     }
 
@@ -68,7 +70,7 @@ class WBMarketplace
         $result = Http::withHeaders([])
             ->acceptJson()
             ->withToken($seller->apiKey)
-            ->get("https://suppliers-api.wildberries.ru/api/v3/orders/new");
+            ->get("https://marketplace-api.wildberries.ru/api/v3/orders/new");
         return $result->json();
     }
 
@@ -77,7 +79,7 @@ class WBMarketplace
         $result = Http::withHeaders([])
             ->acceptJson()
             ->withToken($seller->apiKey)
-            ->get("https://suppliers-api.wildberries.ru/api/v3/supplies/{$supplyId}/orders");
+            ->get("https://marketplace-api.wildberries.ru/api/v3/supplies/{$supplyId}/orders");
         return $result->json();
     }
 

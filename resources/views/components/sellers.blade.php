@@ -1,7 +1,7 @@
 <ul class="navbar-nav header-right main-notification">
     <li class="nav-item dropdown header-profile">
         <a class="nav-link" href="#" role="button" data-toggle="dropdown">
-            <div class="header-info">
+            <div class="header-info" style="display: inline">
                 <span>
                     @if(session()->has('sellerId'))
                         {{ session()->get('sellerName') }}

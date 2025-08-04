@@ -124,7 +124,11 @@ class ShopController extends Controller
     {
         $bartender = new Bartender();
         $bartender->sku = $order->article;
-        $bartender->name = $order->card->title;
+        if(!empty($order->card)) {
+            $bartender->name = $order->card->title;
+        } else {
+            $bartender->name = $order->orderId;
+        }
         $bartender->barcode = $order->skus;
         $bartender->qrcode = $order->qrcode;
         $bartender->partA = $order->partA;

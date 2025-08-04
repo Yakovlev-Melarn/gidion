@@ -70,8 +70,7 @@
         }
 
         .flex-container .item2 {
-            background-image: url({{ url('/images/tools/calendar/flag.jpg') }});
-            background-size: cover;
+            background-color: #fff;
             flex-grow: 3;
         }
 
@@ -90,29 +89,34 @@
             padding: 0;
 
         }
-
         .cwrap-container > div {
+            background: #fff;
             border: none;
         }
 
         .cwrap-container .cwrap-item2 {
-
+            width: 187mm;
         }
 
         .cwrap-container .cwrap-item1 {
-            width: 165mm;
+            padding: 0 10px 0 0 ;
+        }
+        .cwrap-container .cwrap-item3 {
+            padding: 0 0 0 10px;
+        }
+        .cwrap-container .cwrap-item1, .cwrap-container .cwrap-item3 {
+            width: 55mm;
         }
 
         .month {
             margin-bottom: 10px;
-            padding: 10px;
         }
 
         .month-name {
             color: #282828;
             font-weight: bold;
             text-align: center;
-            font-size: 18px;
+            font-size: 14px;
         }
 
         .month-grid {
@@ -122,7 +126,7 @@
         .it {
             flex: 1;
             text-align: center;
-            margin: 1px 0;
+            margin: 0.5px 0;
         }
 
         .weekNumber {
@@ -135,8 +139,7 @@
         }
 
         .daysNumber {
-            font-size: 12px;
-            color: #050625;
+            font-size: 11px;
         }
 
         .daysNumber span {
@@ -146,21 +149,25 @@
         }
 
         .pr {
-            background: #404364;
-            color: #f8f8fa;
+            background: #a81a1a;
+            color: #fff;
             border-radius: 50%;
         }
 
         .prd {
-            background: #6d8fd9;
-            color: #050625;
+            background: #f1a7a7;
+            color: #000;
             border-radius: 50%;
         }
 
         .vh {
-            background: #353a9e;
-            color: #f8f8fa;
+            background: #df2e2e;
+            color: #fff;
             border-radius: 50%;
+        }
+
+        .tabel-head {
+            font-weight: bold
         }
 
         .tabel-head td {
@@ -168,33 +175,37 @@
             border-left: solid 1px #000;
         }
 
-        .tabl td {
-            vertical-align: top;
+        .vlr {
+            padding: 0;
+            writing-mode: vertical-rl;
+            transform: rotate(-180deg);
+            color: #000;
+            text-align: left;
+            font-size: 16pt;
+            font-family: 'Old Standard TT', serif;
         }
-        .tabl2 tr:first-child td:first-child {
-            border-left: 1px solid #3a63bf;
-            border-top: 1px solid #3a63bf;
-            border-top-left-radius: 10px;
+
+        .rowTabel {
+            padding: 0 1px;
+            font-size: 14px;
+            color: #000000;
+            border-top: 1px solid #000;
+            border-right: 1px solid #000;
         }
-        .tabl2 tr:first-child td:last-child {
-            border-right: 1px solid #3a63bf;
-            border-top: 1px solid #3a63bf;
-            border-top-right-radius: 10px;
+
+        .fs-10 {
+            font-size: 10px !important;
+            line-height: 1.4;
         }
-        .tabl2 tr:last-child td:first-child {
-            border-left: 1px solid #3a63bf;
-            border-bottom: 1px solid #3a63bf;
-            border-bottom-left-radius: 10px;
+
+        .fs-13 {
+            font-size: 13px !important;
+            line-height: 1.4;
         }
-        .tabl2 tr:last-child td:last-child {
-            border-right: 1px solid #3a63bf;
-            border-bottom: 1px solid #3a63bf;
-            border-bottom-right-radius: 10px;
-        }
-        .tbl2row td{
-            padding: 3px;
-            border-top: 1px solid #3a63bf;
-            border-right: 1px solid #3a63bf;
+
+        .fs-14 {
+            font-size: 14px !important;
+            line-height: 1.5;
         }
     </style>
 </head>
@@ -206,1088 +217,1014 @@
     <div class="item1 noprint"></div>
     <div class="item2 content" id="printableArea">
         <div class="cwrap-container">
-            <div class="cwrap-item1 tabl">
-                <h1 style="text-align: center;margin-top: 20px;">Производственный календарь 2025</h1>
-                <table style="margin: 15px 0 0 0; padding: 0; width: 100%;">
+            <div class="cwrap-item1">
+                <div class="month">
+                    <div class="month-name">
+                        Январь
+                    </div>
+                    <div class="month-grid" style="margin: 0 0 3px 0">
+                        <div class="it daysName">&nbsp;</div>
+                        <div class="it daysName">Пн</div>
+                        <div class="it daysName">Вт</div>
+                        <div class="it daysName">Ср</div>
+                        <div class="it daysName">Чт</div>
+                        <div class="it daysName">Пт</div>
+                        <div class="it daysName">Сб</div>
+                        <div class="it daysName">Вс</div>
+                    </div>
+                    <div class="month-grid">
+                        <div class="it weekNumber">1</div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span class="pr">1</span></div>
+                        <div class="it daysNumber"><span class="pr">2</span></div>
+                        <div class="it daysNumber"><span class="vh">3</span></div>
+                        <div class="it daysNumber"><span class="vh">4</span></div>
+                    </div>
+                    <div class="month-grid">
+                        <div class="it weekNumber">2</div>
+                        <div class="it daysNumber"><span class="pr">5</span></div>
+                        <div class="it daysNumber"><span class="pr">6</span></div>
+                        <div class="it daysNumber"><span class="pr">7</span></div>
+                        <div class="it daysNumber"><span class="pr">8</span></div>
+                        <div class="it daysNumber"><span class="pr">9</span></div>
+                        <div class="it daysNumber"><span class="vh">10</span></div>
+                        <div class="it daysNumber"><span class="vh">11</span></div>
+                    </div>
+                    <div class="month-grid">
+                        <div class="it weekNumber">3</div>
+                        <div class="it daysNumber"><span>12</span></div>
+                        <div class="it daysNumber"><span>13</span></div>
+                        <div class="it daysNumber"><span>14</span></div>
+                        <div class="it daysNumber"><span>15</span></div>
+                        <div class="it daysNumber"><span>16</span></div>
+                        <div class="it daysNumber"><span class="vh">17</span></div>
+                        <div class="it daysNumber"><span class="vh">18</span></div>
+                    </div>
+                    <div class="month-grid">
+                        <div class="it weekNumber">4</div>
+                        <div class="it daysNumber"><span>19</span></div>
+                        <div class="it daysNumber"><span>20</span></div>
+                        <div class="it daysNumber"><span>21</span></div>
+                        <div class="it daysNumber"><span>22</span></div>
+                        <div class="it daysNumber"><span>23</span></div>
+                        <div class="it daysNumber"><span class="vh">24</span></div>
+                        <div class="it daysNumber"><span class="vh">25</span></div>
+                    </div>
+                    <div class="month-grid">
+                        <div class="it weekNumber">5</div>
+                        <div class="it daysNumber"><span>26</span></div>
+                        <div class="it daysNumber"><span>27</span></div>
+                        <div class="it daysNumber"><span>28</span></div>
+                        <div class="it daysNumber"><span>29</span></div>
+                        <div class="it daysNumber"><span>30</span></div>
+                        <div class="it daysNumber"><span>31</span></div>
+                        <div class="it daysNumber"><span></span></div>
+                    </div>
+                </div>
+                <div class="month">
+                    <div class="month-name">
+                        Февраль
+                    </div>
+                    <div class="month-grid" style="margin: 0 0 3px 0">
+                        <div class="it daysName">&nbsp;</div>
+                        <div class="it daysName">Пн</div>
+                        <div class="it daysName">Вт</div>
+                        <div class="it daysName">Ср</div>
+                        <div class="it daysName">Чт</div>
+                        <div class="it daysName">Пт</div>
+                        <div class="it daysName">Сб</div>
+                        <div class="it daysName">Вс</div>
+                    </div>
+                    <div class="month-grid">
+                        <div class="it weekNumber">5</div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span class="vh">1</span></div>
+                    </div>
+                    <div class="month-grid">
+                        <div class="it weekNumber">6</div>
+                        <div class="it daysNumber"><span>2</span></div>
+                        <div class="it daysNumber"><span>3</span></div>
+                        <div class="it daysNumber"><span>4</span></div>
+                        <div class="it daysNumber"><span>5</span></div>
+                        <div class="it daysNumber"><span>6</span></div>
+                        <div class="it daysNumber"><span class="vh">7</span></div>
+                        <div class="it daysNumber"><span class="vh">8</span></div>
+                    </div>
+                    <div class="month-grid">
+                        <div class="it weekNumber">7</div>
+                        <div class="it daysNumber"><span>9</span></div>
+                        <div class="it daysNumber"><span>10</span></div>
+                        <div class="it daysNumber"><span>11</span></div>
+                        <div class="it daysNumber"><span>12</span></div>
+                        <div class="it daysNumber"><span>13</span></div>
+                        <div class="it daysNumber"><span class="vh">14</span></div>
+                        <div class="it daysNumber"><span class="vh">15</span></div>
+                    </div>
+                    <div class="month-grid">
+                        <div class="it weekNumber">8</div>
+                        <div class="it daysNumber"><span>16</span></div>
+                        <div class="it daysNumber"><span>17</span></div>
+                        <div class="it daysNumber"><span>18</span></div>
+                        <div class="it daysNumber"><span>19</span></div>
+                        <div class="it daysNumber"><span>20</span></div>
+                        <div class="it daysNumber"><span class="vh">21</span></div>
+                        <div class="it daysNumber"><span class="vh">22</span></div>
+                    </div>
+                    <div class="month-grid">
+                        <div class="it weekNumber">9</div>
+                        <div class="it daysNumber"><span class="pr">23</span></div>
+                        <div class="it daysNumber"><span>24</span></div>
+                        <div class="it daysNumber"><span>25</span></div>
+                        <div class="it daysNumber"><span>26</span></div>
+                        <div class="it daysNumber"><span>27</span></div>
+                        <div class="it daysNumber"><span class="vh">28</span></div>
+                        <div class="it daysNumber"><span></span></div>
+                    </div>
+                </div>
+                <div class="month">
+                    <div class="month-name">
+                        Март
+                    </div>
+                    <div class="month-grid" style="margin: 0 0 3px 0">
+                        <div class="it daysName">&nbsp;</div>
+                        <div class="it daysName">Пн</div>
+                        <div class="it daysName">Вт</div>
+                        <div class="it daysName">Ср</div>
+                        <div class="it daysName">Чт</div>
+                        <div class="it daysName">Пт</div>
+                        <div class="it daysName">Сб</div>
+                        <div class="it daysName">Вс</div>
+                    </div>
+                    <div class="month-grid">
+                        <div class="it weekNumber">9</div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span class="vh">1</span></div>
+                    </div>
+                    <div class="month-grid">
+                        <div class="it weekNumber">10</div>
+                        <div class="it daysNumber"><span>2</span></div>
+                        <div class="it daysNumber"><span>3</span></div>
+                        <div class="it daysNumber"><span>4</span></div>
+                        <div class="it daysNumber"><span>5</span></div>
+                        <div class="it daysNumber"><span>6</span></div>
+                        <div class="it daysNumber"><span class="vh">7</span></div>
+                        <div class="it daysNumber"><span class="vh">8</span></div>
+                    </div>
+                    <div class="month-grid">
+                        <div class="it weekNumber">11</div>
+                        <div class="it daysNumber"><span class="pr">9</span></div>
+                        <div class="it daysNumber"><span>10</span></div>
+                        <div class="it daysNumber"><span>11</span></div>
+                        <div class="it daysNumber"><span>12</span></div>
+                        <div class="it daysNumber"><span>13</span></div>
+                        <div class="it daysNumber"><span class="vh">14</span></div>
+                        <div class="it daysNumber"><span class="vh">15</span></div>
+                    </div>
+                    <div class="month-grid">
+                        <div class="it weekNumber">12</div>
+                        <div class="it daysNumber"><span>16</span></div>
+                        <div class="it daysNumber"><span>17</span></div>
+                        <div class="it daysNumber"><span>18</span></div>
+                        <div class="it daysNumber"><span>19</span></div>
+                        <div class="it daysNumber"><span>20</span></div>
+                        <div class="it daysNumber"><span class="vh">21</span></div>
+                        <div class="it daysNumber"><span class="vh">22</span></div>
+                    </div>
+                    <div class="month-grid">
+                        <div class="it weekNumber">13</div>
+                        <div class="it daysNumber"><span>23</span></div>
+                        <div class="it daysNumber"><span>24</span></div>
+                        <div class="it daysNumber"><span>25</span></div>
+                        <div class="it daysNumber"><span>26</span></div>
+                        <div class="it daysNumber"><span>27</span></div>
+                        <div class="it daysNumber"><span class="vh">28</span></div>
+                        <div class="it daysNumber"><span class="vh">29</span></div>
+                    </div>
+                    <div class="month-grid">
+                        <div class="it weekNumber">14</div>
+                        <div class="it daysNumber"><span>30</span></div>
+                        <div class="it daysNumber"><span>31</span></div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span></span></div>
+                    </div>
+                </div>
+                <div class="month">
+                    <div class="month-name">
+                        Апрель
+                    </div>
+                    <div class="month-grid" style="margin: 0 0 3px 0">
+                        <div class="it daysName">&nbsp;</div>
+                        <div class="it daysName">Пн</div>
+                        <div class="it daysName">Вт</div>
+                        <div class="it daysName">Ср</div>
+                        <div class="it daysName">Чт</div>
+                        <div class="it daysName">Пт</div>
+                        <div class="it daysName">Сб</div>
+                        <div class="it daysName">Вс</div>
+                    </div>
+                    <div class="month-grid">
+                        <div class="it weekNumber">14</div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span>1</span></div>
+                        <div class="it daysNumber"><span>2</span></div>
+                        <div class="it daysNumber"><span>3</span></div>
+                        <div class="it daysNumber"><span class="vh">4</span></div>
+                        <div class="it daysNumber"><span class="vh">5</span></div>
+                    </div>
+                    <div class="month-grid">
+                        <div class="it weekNumber">15</div>
+                        <div class="it daysNumber"><span>6</span></div>
+                        <div class="it daysNumber"><span>7</span></div>
+                        <div class="it daysNumber"><span>8</span></div>
+                        <div class="it daysNumber"><span>9</span></div>
+                        <div class="it daysNumber"><span>10</span></div>
+                        <div class="it daysNumber"><span class="vh">11</span></div>
+                        <div class="it daysNumber"><span class="vh">12</span></div>
+                    </div>
+                    <div class="month-grid">
+                        <div class="it weekNumber">16</div>
+                        <div class="it daysNumber"><span>13</span></div>
+                        <div class="it daysNumber"><span>14</span></div>
+                        <div class="it daysNumber"><span>15</span></div>
+                        <div class="it daysNumber"><span>16</span></div>
+                        <div class="it daysNumber"><span>17</span></div>
+                        <div class="it daysNumber"><span class="vh">18</span></div>
+                        <div class="it daysNumber"><span class="vh">19</span></div>
+                    </div>
+                    <div class="month-grid">
+                        <div class="it weekNumber">17</div>
+                        <div class="it daysNumber"><span>20</span></div>
+                        <div class="it daysNumber"><span>21</span></div>
+                        <div class="it daysNumber"><span>22</span></div>
+                        <div class="it daysNumber"><span>23</span></div>
+                        <div class="it daysNumber"><span>24</span></div>
+                        <div class="it daysNumber"><span class="vh">25</span></div>
+                        <div class="it daysNumber"><span class="vh">26</span></div>
+                    </div>
+                    <div class="month-grid">
+                        <div class="it weekNumber">18</div>
+                        <div class="it daysNumber"><span>27</span></div>
+                        <div class="it daysNumber"><span>28</span></div>
+                        <div class="it daysNumber"><span>29</span></div>
+                        <div class="it daysNumber"><span class="prd">30</span></div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span></span></div>
+                    </div>
+                </div>
+                <div class="month">
+                    <div class="month-name">
+                        Май
+                    </div>
+                    <div class="month-grid" style="margin: 0 0 3px 0">
+                        <div class="it daysName">&nbsp;</div>
+                        <div class="it daysName">Пн</div>
+                        <div class="it daysName">Вт</div>
+                        <div class="it daysName">Ср</div>
+                        <div class="it daysName">Чт</div>
+                        <div class="it daysName">Пт</div>
+                        <div class="it daysName">Сб</div>
+                        <div class="it daysName">Вс</div>
+                    </div>
+                    <div class="month-grid">
+                        <div class="it weekNumber">18</div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span class="pr">1</span></div>
+                        <div class="it daysNumber"><span class="vh">2</span></div>
+                        <div class="it daysNumber"><span class="vh">3</span></div>
+                    </div>
+                    <div class="month-grid">
+                        <div class="it weekNumber">19</div>
+                        <div class="it daysNumber"><span>4</span></div>
+                        <div class="it daysNumber"><span>5</span></div>
+                        <div class="it daysNumber"><span>6</span></div>
+                        <div class="it daysNumber"><span>7</span></div>
+                        <div class="it daysNumber"><span class="prd">8</span></div>
+                        <div class="it daysNumber"><span class="vh">9</span></div>
+                        <div class="it daysNumber"><span class="vh">10</span></div>
+                    </div>
+                    <div class="month-grid">
+                        <div class="it weekNumber">20</div>
+                        <div class="it daysNumber"><span class="pr">11</span></div>
+                        <div class="it daysNumber"><span>12</span></div>
+                        <div class="it daysNumber"><span>13</span></div>
+                        <div class="it daysNumber"><span>14</span></div>
+                        <div class="it daysNumber"><span>15</span></div>
+                        <div class="it daysNumber"><span class="vh">16</span></div>
+                        <div class="it daysNumber"><span class="vh">17</span></div>
+                    </div>
+                    <div class="month-grid">
+                        <div class="it weekNumber">21</div>
+                        <div class="it daysNumber"><span>18</span></div>
+                        <div class="it daysNumber"><span>19</span></div>
+                        <div class="it daysNumber"><span>20</span></div>
+                        <div class="it daysNumber"><span>21</span></div>
+                        <div class="it daysNumber"><span>22</span></div>
+                        <div class="it daysNumber"><span class="vh">23</span></div>
+                        <div class="it daysNumber"><span class="vh">24</span></div>
+                    </div>
+                    <div class="month-grid">
+                        <div class="it weekNumber">22</div>
+                        <div class="it daysNumber"><span>25</span></div>
+                        <div class="it daysNumber"><span>26</span></div>
+                        <div class="it daysNumber"><span>27</span></div>
+                        <div class="it daysNumber"><span>28</span></div>
+                        <div class="it daysNumber"><span>29</span></div>
+                        <div class="it daysNumber"><span class="vh">30</span></div>
+                        <div class="it daysNumber"><span class="vh">31</span></div>
+                    </div>
+                </div>
+                <div class="month">
+                    <div class="month-name">
+                        Июнь
+                    </div>
+                    <div class="month-grid" style="margin: 0 0 3px 0">
+                        <div class="it daysName">&nbsp;</div>
+                        <div class="it daysName">Пн</div>
+                        <div class="it daysName">Вт</div>
+                        <div class="it daysName">Ср</div>
+                        <div class="it daysName">Чт</div>
+                        <div class="it daysName">Пт</div>
+                        <div class="it daysName">Сб</div>
+                        <div class="it daysName">Вс</div>
+                    </div>
+                    <div class="month-grid">
+                        <div class="it weekNumber">23</div>
+                        <div class="it daysNumber"><span>1</span></div>
+                        <div class="it daysNumber"><span>2</span></div>
+                        <div class="it daysNumber"><span>3</span></div>
+                        <div class="it daysNumber"><span>4</span></div>
+                        <div class="it daysNumber"><span>5</span></div>
+                        <div class="it daysNumber"><span class="vh">6</span></div>
+                        <div class="it daysNumber"><span class="vh">7</span></div>
+                    </div>
+                    <div class="month-grid">
+                        <div class="it weekNumber">24</div>
+                        <div class="it daysNumber"><span>8</span></div>
+                        <div class="it daysNumber"><span>9</span></div>
+                        <div class="it daysNumber"><span>10</span></div>
+                        <div class="it daysNumber"><span class="prd">11</span></div>
+                        <div class="it daysNumber"><span class="pr">12</span></div>
+                        <div class="it daysNumber"><span class="vh">13</span></div>
+                        <div class="it daysNumber"><span class="vh">14</span></div>
+                    </div>
+                    <div class="month-grid">
+                        <div class="it weekNumber">25</div>
+                        <div class="it daysNumber"><span>15</span></div>
+                        <div class="it daysNumber"><span>16</span></div>
+                        <div class="it daysNumber"><span>17</span></div>
+                        <div class="it daysNumber"><span>18</span></div>
+                        <div class="it daysNumber"><span>19</span></div>
+                        <div class="it daysNumber"><span class="vh">20</span></div>
+                        <div class="it daysNumber"><span class="vh">21</span></div>
+                    </div>
+                    <div class="month-grid">
+                        <div class="it weekNumber">26</div>
+                        <div class="it daysNumber"><span>22</span></div>
+                        <div class="it daysNumber"><span>23</span></div>
+                        <div class="it daysNumber"><span>24</span></div>
+                        <div class="it daysNumber"><span>25</span></div>
+                        <div class="it daysNumber"><span>26</span></div>
+                        <div class="it daysNumber"><span class="vh">27</span></div>
+                        <div class="it daysNumber"><span class="vh">28</span></div>
+                    </div>
+                    <div class="month-grid">
+                        <div class="it weekNumber">27</div>
+                        <div class="it daysNumber"><span>29</span></div>
+                        <div class="it daysNumber"><span>30</span></div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span></span></div>
+                    </div>
+                </div>
+            </div>
+            <div class="cwrap-item2" style="text-align: center">
+                <img alt="" style="width: 195mm" src="{{ url('/images/tools/calendar/horsered.jpg') }}">
+                <table style="width: 100%; border: solid 1px #000; border-collapse: collapse;">
+                    <tr class="tabel-head">
+                        <td>
+                            <h1 style="text-align:left;font-family: 'Old Standard TT', serif;">
+                                <span style="font-size: 23pt;color: #b11c1c">ТАБЕЛЬ-</span><br>
+                                <span style="font-size: 23pt;color: #b11c1c">календарь</span><br>
+                                <span style="font-size: 35pt;color: #df2e2e">2026</span>
+                            </h1>
+                        </td>
+                        <td class="vlr">январь</td>
+                        <td class="vlr">февраль</td>
+                        <td class="vlr">март</td>
+                        <td class="vlr" style="background: #f8d2d2;">I квартал</td>
+                        <td class="vlr">апрель</td>
+                        <td class="vlr">май</td>
+                        <td class="vlr">июнь</td>
+                        <td class="vlr" style="background: #f8d2d2;">II квартал</td>
+                        <td class="vlr" style="background: #ee9292;">I полугодие</td>
+                        <td class="vlr">июль</td>
+                        <td class="vlr">август</td>
+                        <td class="vlr">сентябрь</td>
+                        <td class="vlr" style="background: #f8d2d2;">III квартал</td>
+                        <td class="vlr">октябрь</td>
+                        <td class="vlr">ноябрь</td>
+                        <td class="vlr">декабрь</td>
+                        <td class="vlr" style="background: #f8d2d2;">IV квартал</td>
+                        <td class="vlr" style="background: #ee9292;">II полугодие</td>
+                        <td class="vlr" style="background: #e97171;">год</td>
+                    </tr>
                     <tr>
-                        <td>
-                            <div class="month">
-                                <div class="month-name">
-                                    Январь
-                                </div>
-                                <div class="month-grid" style="margin: 0 0 3px 0">
-                                    <div class="it daysName">&nbsp;</div>
-                                    <div class="it daysName">Пн</div>
-                                    <div class="it daysName">Вт</div>
-                                    <div class="it daysName">Ср</div>
-                                    <div class="it daysName">Чт</div>
-                                    <div class="it daysName">Пт</div>
-                                    <div class="it daysName">Сб</div>
-                                    <div class="it daysName">Вс</div>
-                                </div>
-                                <div class="month-grid">
-                                    <div class="it weekNumber">1</div>
-                                    <div class="it daysNumber"><span></span></div>
-                                    <div class="it daysNumber"><span></span></div>
-                                    <div class="it daysNumber"><span class="pr">1</span></div>
-                                    <div class="it daysNumber"><span class="pr">2</span></div>
-                                    <div class="it daysNumber"><span class="pr">3</span></div>
-                                    <div class="it daysNumber"><span class="vh">4</span></div>
-                                    <div class="it daysNumber"><span class="vh">5</span></div>
-                                </div>
-                                <div class="month-grid">
-                                    <div class="it weekNumber">2</div>
-                                    <div class="it daysNumber"><span class="pr">6</span></div>
-                                    <div class="it daysNumber"><span class="pr">7</span></div>
-                                    <div class="it daysNumber"><span class="pr">8</span></div>
-                                    <div class="it daysNumber"><span>9</span></div>
-                                    <div class="it daysNumber"><span>10</span></div>
-                                    <div class="it daysNumber"><span class="vh">11</span></div>
-                                    <div class="it daysNumber"><span class="vh">12</span></div>
-                                </div>
-                                <div class="month-grid">
-                                    <div class="it weekNumber">3</div>
-                                    <div class="it daysNumber"><span>13</span></div>
-                                    <div class="it daysNumber"><span>14</span></div>
-                                    <div class="it daysNumber"><span>15</span></div>
-                                    <div class="it daysNumber"><span>16</span></div>
-                                    <div class="it daysNumber"><span>17</span></div>
-                                    <div class="it daysNumber"><span class="vh">18</span></div>
-                                    <div class="it daysNumber"><span class="vh">19</span></div>
-                                </div>
-                                <div class="month-grid">
-                                    <div class="it weekNumber">4</div>
-                                    <div class="it daysNumber"><span>20</span></div>
-                                    <div class="it daysNumber"><span>21</span></div>
-                                    <div class="it daysNumber"><span>22</span></div>
-                                    <div class="it daysNumber"><span>23</span></div>
-                                    <div class="it daysNumber"><span>24</span></div>
-                                    <div class="it daysNumber"><span class="vh">25</span></div>
-                                    <div class="it daysNumber"><span class="vh">26</span></div>
-                                </div>
-                                <div class="month-grid">
-                                    <div class="it weekNumber">5</div>
-                                    <div class="it daysNumber"><span>27</span></div>
-                                    <div class="it daysNumber"><span>28</span></div>
-                                    <div class="it daysNumber"><span>29</span></div>
-                                    <div class="it daysNumber"><span>30</span></div>
-                                    <div class="it daysNumber"><span>31</span></div>
-                                    <div class="it daysNumber"><span></span></div>
-                                    <div class="it daysNumber"><span></span></div>
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="month">
-                                <div class="month-name">
-                                    Февраль
-                                </div>
-                                <div class="month-grid" style="margin: 0 0 3px 0">
-                                    <div class="it daysName">&nbsp;</div>
-                                    <div class="it daysName">Пн</div>
-                                    <div class="it daysName">Вт</div>
-                                    <div class="it daysName">Ср</div>
-                                    <div class="it daysName">Чт</div>
-                                    <div class="it daysName">Пт</div>
-                                    <div class="it daysName">Сб</div>
-                                    <div class="it daysName">Вс</div>
-                                </div>
-                                <div class="month-grid">
-                                    <div class="it weekNumber">5</div>
-                                    <div class="it daysNumber"><span></span></div>
-                                    <div class="it daysNumber"><span></span></div>
-                                    <div class="it daysNumber"><span></span></div>
-                                    <div class="it daysNumber"><span></span></div>
-                                    <div class="it daysNumber"><span></span></div>
-                                    <div class="it daysNumber"><span class="vh">1</span></div>
-                                    <div class="it daysNumber"><span class="vh">2</span></div>
-                                </div>
-                                <div class="month-grid">
-                                    <div class="it weekNumber">6</div>
-                                    <div class="it daysNumber"><span>3</span></div>
-                                    <div class="it daysNumber"><span>4</span></div>
-                                    <div class="it daysNumber"><span>5</span></div>
-                                    <div class="it daysNumber"><span>6</span></div>
-                                    <div class="it daysNumber"><span>7</span></div>
-                                    <div class="it daysNumber"><span class="vh">8</span></div>
-                                    <div class="it daysNumber"><span class="vh">9</span></div>
-                                </div>
-                                <div class="month-grid">
-                                    <div class="it weekNumber">7</div>
-                                    <div class="it daysNumber"><span>10</span></div>
-                                    <div class="it daysNumber"><span>11</span></div>
-                                    <div class="it daysNumber"><span>12</span></div>
-                                    <div class="it daysNumber"><span>13</span></div>
-                                    <div class="it daysNumber"><span>14</span></div>
-                                    <div class="it daysNumber"><span class="vh">15</span></div>
-                                    <div class="it daysNumber"><span class="vh">16</span></div>
-                                </div>
-                                <div class="month-grid">
-                                    <div class="it weekNumber">8</div>
-                                    <div class="it daysNumber"><span>17</span></div>
-                                    <div class="it daysNumber"><span>18</span></div>
-                                    <div class="it daysNumber"><span>19</span></div>
-                                    <div class="it daysNumber"><span>20</span></div>
-                                    <div class="it daysNumber"><span>21</span></div>
-                                    <div class="it daysNumber"><span class="vh">22</span></div>
-                                    <div class="it daysNumber"><span class="vh">23</span></div>
-                                </div>
-                                <div class="month-grid">
-                                    <div class="it weekNumber">9</div>
-                                    <div class="it daysNumber"><span>24</span></div>
-                                    <div class="it daysNumber"><span>25</span></div>
-                                    <div class="it daysNumber"><span>26</span></div>
-                                    <div class="it daysNumber"><span>27</span></div>
-                                    <div class="it daysNumber"><span>28</span></div>
-                                    <div class="it daysNumber"><span></span></div>
-                                    <div class="it daysNumber"><span></span></div>
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="month">
-                                <div class="month-name">
-                                    Март
-                                </div>
-                                <div class="month-grid" style="margin: 0 0 3px 0">
-                                    <div class="it daysName">&nbsp;</div>
-                                    <div class="it daysName">Пн</div>
-                                    <div class="it daysName">Вт</div>
-                                    <div class="it daysName">Ср</div>
-                                    <div class="it daysName">Чт</div>
-                                    <div class="it daysName">Пт</div>
-                                    <div class="it daysName">Сб</div>
-                                    <div class="it daysName">Вс</div>
-                                </div>
-                                <div class="month-grid">
-                                    <div class="it weekNumber">9</div>
-                                    <div class="it daysNumber"><span></span></div>
-                                    <div class="it daysNumber"><span></span></div>
-                                    <div class="it daysNumber"><span></span></div>
-                                    <div class="it daysNumber"><span></span></div>
-                                    <div class="it daysNumber"><span></span></div>
-                                    <div class="it daysNumber"><span class="vh">1</span></div>
-                                    <div class="it daysNumber"><span class="vh">2</span></div>
-                                </div>
-                                <div class="month-grid">
-                                    <div class="it weekNumber">10</div>
-                                    <div class="it daysNumber"><span>3</span></div>
-                                    <div class="it daysNumber"><span>4</span></div>
-                                    <div class="it daysNumber"><span>5</span></div>
-                                    <div class="it daysNumber"><span>6</span></div>
-                                    <div class="it daysNumber"><span class="prd">7</span></div>
-                                    <div class="it daysNumber"><span class="vh">8</span></div>
-                                    <div class="it daysNumber"><span class="vh">9</span></div>
-                                </div>
-                                <div class="month-grid">
-                                    <div class="it weekNumber">11</div>
-                                    <div class="it daysNumber"><span>10</span></div>
-                                    <div class="it daysNumber"><span>11</span></div>
-                                    <div class="it daysNumber"><span>12</span></div>
-                                    <div class="it daysNumber"><span>13</span></div>
-                                    <div class="it daysNumber"><span>14</span></div>
-                                    <div class="it daysNumber"><span class="vh">15</span></div>
-                                    <div class="it daysNumber"><span class="vh">16</span></div>
-                                </div>
-                                <div class="month-grid">
-                                    <div class="it weekNumber">12</div>
-                                    <div class="it daysNumber"><span>17</span></div>
-                                    <div class="it daysNumber"><span>18</span></div>
-                                    <div class="it daysNumber"><span>19</span></div>
-                                    <div class="it daysNumber"><span>20</span></div>
-                                    <div class="it daysNumber"><span>21</span></div>
-                                    <div class="it daysNumber"><span class="vh">22</span></div>
-                                    <div class="it daysNumber"><span class="vh">23</span></div>
-                                </div>
-                                <div class="month-grid">
-                                    <div class="it weekNumber">13</div>
-                                    <div class="it daysNumber"><span>24</span></div>
-                                    <div class="it daysNumber"><span>25</span></div>
-                                    <div class="it daysNumber"><span>26</span></div>
-                                    <div class="it daysNumber"><span>27</span></div>
-                                    <div class="it daysNumber"><span>28</span></div>
-                                    <div class="it daysNumber"><span class="vh">29</span></div>
-                                    <div class="it daysNumber"><span class="vh">30</span></div>
-                                </div>
-                                <div class="month-grid">
-                                    <div class="it weekNumber">14</div>
-                                    <div class="it daysNumber"><span>31</span></div>
-                                    <div class="it daysNumber"><span></span></div>
-                                    <div class="it daysNumber"><span></span></div>
-                                    <div class="it daysNumber"><span></span></div>
-                                    <div class="it daysNumber"><span></span></div>
-                                    <div class="it daysNumber"><span></span></div>
-                                    <div class="it daysNumber"><span></span></div>
-                                </div>
-                            </div>
-                        </td>
+                        <td class="rowTabel">всего дней</td>
+                        <td class="rowTabel">31</td>
+                        <td class="rowTabel">28</td>
+                        <td class="rowTabel">31</td>
+                        <td class="rowTabel" style="background: #f8d2d2;">90</td>
+                        <td class="rowTabel">30</td>
+                        <td class="rowTabel">31</td>
+                        <td class="rowTabel">30</td>
+                        <td class="rowTabel" style="background: #f8d2d2;">91</td>
+                        <td class="rowTabel" style="background: #ee9292;">181</td>
+                        <td class="rowTabel">31</td>
+                        <td class="rowTabel">31</td>
+                        <td class="rowTabel">30</td>
+                        <td class="rowTabel" style="background: #f8d2d2;">92</td>
+                        <td class="rowTabel">31</td>
+                        <td class="rowTabel">30</td>
+                        <td class="rowTabel">31</td>
+                        <td class="rowTabel" style="background: #f8d2d2;">92</td>
+                        <td class="rowTabel" style="background: #ee9292;">184</td>
+                        <td class="rowTabel" style="background: #e97171;">365</td>
+                    </tr>
+                    <tr>
+                        <td class="rowTabel">рабочие дни</td>
+                        <td class="rowTabel">15</td>
+                        <td class="rowTabel">19</td>
+                        <td class="rowTabel">21</td>
+                        <td class="rowTabel" style="background: #f8d2d2;">55</td>
+                        <td class="rowTabel">22</td>
+                        <td class="rowTabel">19</td>
+                        <td class="rowTabel">21</td>
+                        <td class="rowTabel" style="background: #f8d2d2;">62</td>
+                        <td class="rowTabel" style="background: #ee9292;">117</td>
+                        <td class="rowTabel">23</td>
+                        <td class="rowTabel">21</td>
+                        <td class="rowTabel">22</td>
+                        <td class="rowTabel" style="background: #f8d2d2;">66</td>
+                        <td class="rowTabel">22</td>
+                        <td class="rowTabel">20</td>
+                        <td class="rowTabel">22</td>
+                        <td class="rowTabel" style="background: #f8d2d2;">64</td>
+                        <td class="rowTabel" style="background: #ee9292;">130</td>
+                        <td class="rowTabel" style="background: #e97171;">247</td>
+                    </tr>
+                    <tr>
+                        <td class="rowTabel">выходные дни</td>
+                        <td class="rowTabel">16</td>
+                        <td class="rowTabel">9</td>
+                        <td class="rowTabel">10</td>
+                        <td class="rowTabel" style="background: #f8d2d2;">35</td>
+                        <td class="rowTabel">8</td>
+                        <td class="rowTabel">12</td>
+                        <td class="rowTabel">9</td>
+                        <td class="rowTabel" style="background: #f8d2d2;">29</td>
+                        <td class="rowTabel" style="background: #ee9292;">64</td>
+                        <td class="rowTabel">8</td>
+                        <td class="rowTabel">10</td>
+                        <td class="rowTabel">8</td>
+                        <td class="rowTabel" style="background: #f8d2d2;">26</td>
+                        <td class="rowTabel">9</td>
+                        <td class="rowTabel">10</td>
+                        <td class="rowTabel">9</td>
+                        <td class="rowTabel" style="background: #f8d2d2;">28</td>
+                        <td class="rowTabel" style="background: #ee9292;">54</td>
+                        <td class="rowTabel" style="background: #e97171;">118</td>
+                    </tr>
+                    <tr>
+                        <td class="rowTabel" style="font-size: 10px">Рабочее время при 40-ч р.н.</td>
+                        <td class="rowTabel">120</td>
+                        <td class="rowTabel">152</td>
+                        <td class="rowTabel">168</td>
+                        <td class="rowTabel" style="background: #f8d2d2;">440</td>
+                        <td class="rowTabel">175</td>
+                        <td class="rowTabel">151</td>
+                        <td class="rowTabel">167</td>
+                        <td class="rowTabel" style="background: #f8d2d2;">493</td>
+                        <td class="rowTabel" style="background: #ee9292;">933</td>
+                        <td class="rowTabel">184</td>
+                        <td class="rowTabel">168</td>
+                        <td class="rowTabel">176</td>
+                        <td class="rowTabel" style="background: #f8d2d2;">528</td>
+                        <td class="rowTabel">176</td>
+                        <td class="rowTabel">159</td>
+                        <td class="rowTabel">176</td>
+                        <td class="rowTabel" style="background: #f8d2d2;">511</td>
+                        <td class="rowTabel fs-14" style="background: #ee9292;">1039</td>
+                        <td class="rowTabel fs-14" style="background: #e97171;">1972</td>
+                    </tr>
+                    <tr>
+                        <td class="rowTabel" style="font-size: 10px">Рабочее время при 36-ч р.н.</td>
+                        <td class="rowTabel fs-10">108</td>
+                        <td class="rowTabel fs-10">136.8</td>
+                        <td class="rowTabel fs-10">151.2</td>
+                        <td class="rowTabel fs-10" style="background: #f8d2d2;">396</td>
+                        <td class="rowTabel fs-10">157.4</td>
+                        <td class="rowTabel fs-10">135.8</td>
+                        <td class="rowTabel fs-10">150.2</td>
+                        <td class="rowTabel fs-10" style="background: #f8d2d2;">443.4</td>
+                        <td class="rowTabel fs-10" style="background: #ee9292;">839.4</td>
+                        <td class="rowTabel fs-10">165.6</td>
+                        <td class="rowTabel fs-10">151.2</td>
+                        <td class="rowTabel fs-10">158.4</td>
+                        <td class="rowTabel fs-10" style="background: #f8d2d2;">475.2</td>
+                        <td class="rowTabel fs-10">158.4</td>
+                        <td class="rowTabel fs-10">143</td>
+                        <td class="rowTabel fs-10">158.4</td>
+                        <td class="rowTabel fs-10" style="background: #f8d2d2;">459.8</td>
+                        <td class="rowTabel fs-10" style="background: #ee9292;">935</td>
+                        <td class="rowTabel fs-10" style="background: #e97171;">1774.4</td>
+                    </tr>
+                    <tr>
+                        <td class="rowTabel" style="font-size: 10px">Рабочее время при 24-ч р.н.</td>
+                        <td class="rowTabel fs-10">72</td>
+                        <td class="rowTabel fs-10">91.2</td>
+                        <td class="rowTabel fs-10">100.8</td>
+                        <td class="rowTabel fs-10" style="background: #f8d2d2;">264</td>
+                        <td class="rowTabel fs-10">104.6</td>
+                        <td class="rowTabel fs-10">90.2</td>
+                        <td class="rowTabel fs-10">99.8</td>
+                        <td class="rowTabel fs-10" style="background: #f8d2d2;">294.6</td>
+                        <td class="rowTabel fs-10" style="background: #ee9292;">558.6</td>
+                        <td class="rowTabel fs-10">110.4</td>
+                        <td class="rowTabel fs-10">100.8</td>
+                        <td class="rowTabel fs-10">105.6</td>
+                        <td class="rowTabel fs-10" style="background: #f8d2d2;">316.8</td>
+                        <td class="rowTabel fs-10">105.6</td>
+                        <td class="rowTabel fs-10">95</td>
+                        <td class="rowTabel fs-10">105.6</td>
+                        <td class="rowTabel fs-10" style="background: #f8d2d2;">306.2</td>
+                        <td class="rowTabel fs-10" style="background: #ee9292;">623</td>
+                        <td class="rowTabel fs-10" style="background: #e97171;">1181.6</td>
+                    </tr>
+                </table>
+                <table class="fs-13" style="text-align:left; width: 100%; border: none; border-collapse: collapse;">
+                    <tr>
+                        <td>Нерабочие праздничные дни в Российской Федерации:</td>
+                        <td>Перенос праздничных дней:</td>
                     </tr>
                     <tr>
                         <td>
-                            <div class="month">
-                                <div class="month-name">
-                                    Апрель
-                                </div>
-                                <div class="month-grid" style="margin: 0 0 3px 0">
-                                    <div class="it daysName">&nbsp;</div>
-                                    <div class="it daysName">Пн</div>
-                                    <div class="it daysName">Вт</div>
-                                    <div class="it daysName">Ср</div>
-                                    <div class="it daysName">Чт</div>
-                                    <div class="it daysName">Пт</div>
-                                    <div class="it daysName">Сб</div>
-                                    <div class="it daysName">Вс</div>
-                                </div>
-                                <div class="month-grid">
-                                    <div class="it weekNumber">14</div>
-                                    <div class="it daysNumber"><span></span></div>
-                                    <div class="it daysNumber"><span>1</span></div>
-                                    <div class="it daysNumber"><span>2</span></div>
-                                    <div class="it daysNumber"><span>3</span></div>
-                                    <div class="it daysNumber"><span>4</span></div>
-                                    <div class="it daysNumber"><span class="vh">5</span></div>
-                                    <div class="it daysNumber"><span class="vh">6</span></div>
-                                </div>
-                                <div class="month-grid">
-                                    <div class="it weekNumber">15</div>
-                                    <div class="it daysNumber"><span>7</span></div>
-                                    <div class="it daysNumber"><span>8</span></div>
-                                    <div class="it daysNumber"><span>9</span></div>
-                                    <div class="it daysNumber"><span>10</span></div>
-                                    <div class="it daysNumber"><span>11</span></div>
-                                    <div class="it daysNumber"><span class="vh">12</span></div>
-                                    <div class="it daysNumber"><span class="vh">13</span></div>
-                                </div>
-                                <div class="month-grid">
-                                    <div class="it weekNumber">16</div>
-                                    <div class="it daysNumber"><span>14</span></div>
-                                    <div class="it daysNumber"><span>15</span></div>
-                                    <div class="it daysNumber"><span>16</span></div>
-                                    <div class="it daysNumber"><span>17</span></div>
-                                    <div class="it daysNumber"><span>18</span></div>
-                                    <div class="it daysNumber"><span class="vh">19</span></div>
-                                    <div class="it daysNumber"><span class="vh">20</span></div>
-                                </div>
-                                <div class="month-grid">
-                                    <div class="it weekNumber">17</div>
-                                    <div class="it daysNumber"><span>21</span></div>
-                                    <div class="it daysNumber"><span>22</span></div>
-                                    <div class="it daysNumber"><span>23</span></div>
-                                    <div class="it daysNumber"><span>24</span></div>
-                                    <div class="it daysNumber"><span>25</span></div>
-                                    <div class="it daysNumber"><span class="vh">26</span></div>
-                                    <div class="it daysNumber"><span class="vh">27</span></div>
-                                </div>
-                                <div class="month-grid">
-                                    <div class="it weekNumber">18</div>
-                                    <div class="it daysNumber"><span>28</span></div>
-                                    <div class="it daysNumber"><span>29</span></div>
-                                    <div class="it daysNumber"><span class="prd">30</span></div>
-                                    <div class="it daysNumber"><span></span></div>
-                                    <div class="it daysNumber"><span></span></div>
-                                    <div class="it daysNumber"><span></span></div>
-                                    <div class="it daysNumber"><span></span></div>
-                                </div>
-                            </div>
+                            <table style="text-align:left; width: 100%; border: none; border-collapse: collapse;">
+                                <tr>
+                                    <td>
+                                        1,2,3,4,5,6 и 8 января - Новый год<br>
+                                        7 января - Рождество Христово<br>
+                                        23 февраля - День защитника Отечества<br>
+                                        8 марта - Международный женский день
+                                    </td>
+                                    <td>
+                                        1 мая - Праздник Весны и Труда<br>
+                                        9 мая - День Победы<br>
+                                        12 июня - День России<br>
+                                        4 ноября - День народного единства
+                                    </td>
+                                </tr>
+                            </table>
                         </td>
-                        <td>
-                            <div class="month">
-                                <div class="month-name">
-                                    Май
-                                </div>
-                                <div class="month-grid" style="margin: 0 0 3px 0">
-                                    <div class="it daysName">&nbsp;</div>
-                                    <div class="it daysName">Пн</div>
-                                    <div class="it daysName">Вт</div>
-                                    <div class="it daysName">Ср</div>
-                                    <div class="it daysName">Чт</div>
-                                    <div class="it daysName">Пт</div>
-                                    <div class="it daysName">Сб</div>
-                                    <div class="it daysName">Вс</div>
-                                </div>
-                                <div class="month-grid">
-                                    <div class="it weekNumber">18</div>
-                                    <div class="it daysNumber"><span></span></div>
-                                    <div class="it daysNumber"><span></span></div>
-                                    <div class="it daysNumber"><span></span></div>
-                                    <div class="it daysNumber"><span class="pr">1</span></div>
-                                    <div class="it daysNumber"><span class="pr">2</span></div>
-                                    <div class="it daysNumber"><span class="vh">3</span></div>
-                                    <div class="it daysNumber"><span class="vh">4</span></div>
-                                </div>
-                                <div class="month-grid">
-                                    <div class="it weekNumber">19</div>
-                                    <div class="it daysNumber"><span>5</span></div>
-                                    <div class="it daysNumber"><span>6</span></div>
-                                    <div class="it daysNumber"><span>7</span></div>
-                                    <div class="it daysNumber"><span class="pr">8</span></div>
-                                    <div class="it daysNumber"><span class="pr">9</span></div>
-                                    <div class="it daysNumber"><span class="vh">10</span></div>
-                                    <div class="it daysNumber"><span class="vh">11</span></div>
-                                </div>
-                                <div class="month-grid">
-                                    <div class="it weekNumber">20</div>
-                                    <div class="it daysNumber"><span>12</span></div>
-                                    <div class="it daysNumber"><span>13</span></div>
-                                    <div class="it daysNumber"><span>14</span></div>
-                                    <div class="it daysNumber"><span>15</span></div>
-                                    <div class="it daysNumber"><span>16</span></div>
-                                    <div class="it daysNumber"><span class="vh">17</span></div>
-                                    <div class="it daysNumber"><span class="vh">18</span></div>
-                                </div>
-                                <div class="month-grid">
-                                    <div class="it weekNumber">21</div>
-                                    <div class="it daysNumber"><span>19</span></div>
-                                    <div class="it daysNumber"><span>20</span></div>
-                                    <div class="it daysNumber"><span>21</span></div>
-                                    <div class="it daysNumber"><span>22</span></div>
-                                    <div class="it daysNumber"><span>23</span></div>
-                                    <div class="it daysNumber"><span class="vh">24</span></div>
-                                    <div class="it daysNumber"><span class="vh">25</span></div>
-                                </div>
-                                <div class="month-grid">
-                                    <div class="it weekNumber">22</div>
-                                    <div class="it daysNumber"><span>26</span></div>
-                                    <div class="it daysNumber"><span>27</span></div>
-                                    <div class="it daysNumber"><span>28</span></div>
-                                    <div class="it daysNumber"><span>29</span></div>
-                                    <div class="it daysNumber"><span>30</span></div>
-                                    <div class="it daysNumber"><span class="vh">31</span></div>
-                                    <div class="it daysNumber"><span></span></div>
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="month">
-                                <div class="month-name">
-                                    Июнь
-                                </div>
-                                <div class="month-grid" style="margin: 0 0 3px 0">
-                                    <div class="it daysName">&nbsp;</div>
-                                    <div class="it daysName">Пн</div>
-                                    <div class="it daysName">Вт</div>
-                                    <div class="it daysName">Ср</div>
-                                    <div class="it daysName">Чт</div>
-                                    <div class="it daysName">Пт</div>
-                                    <div class="it daysName">Сб</div>
-                                    <div class="it daysName">Вс</div>
-                                </div>
-                                <div class="month-grid">
-                                    <div class="it weekNumber">22</div>
-                                    <div class="it daysNumber"><span></span></div>
-                                    <div class="it daysNumber"><span></span></div>
-                                    <div class="it daysNumber"><span></span></div>
-                                    <div class="it daysNumber"><span></span></div>
-                                    <div class="it daysNumber"><span></span></div>
-                                    <div class="it daysNumber"><span></span></div>
-                                    <div class="it daysNumber"><span class="vh">1</span></div>
-                                </div>
-                                <div class="month-grid">
-                                    <div class="it weekNumber">23</div>
-                                    <div class="it daysNumber"><span>2</span></div>
-                                    <div class="it daysNumber"><span>3</span></div>
-                                    <div class="it daysNumber"><span>4</span></div>
-                                    <div class="it daysNumber"><span>5</span></div>
-                                    <div class="it daysNumber"><span>6</span></div>
-                                    <div class="it daysNumber"><span class="vh">7</span></div>
-                                    <div class="it daysNumber"><span class="vh">8</span></div>
-                                </div>
-                                <div class="month-grid">
-                                    <div class="it weekNumber">24</div>
-                                    <div class="it daysNumber"><span>9</span></div>
-                                    <div class="it daysNumber"><span>10</span></div>
-                                    <div class="it daysNumber"><span class="prd">11</span></div>
-                                    <div class="it daysNumber"><span class="pr">12</span></div>
-                                    <div class="it daysNumber"><span class="pr">13</span></div>
-                                    <div class="it daysNumber"><span class="vh">14</span></div>
-                                    <div class="it daysNumber"><span class="vh">15</span></div>
-                                </div>
-                                <div class="month-grid">
-                                    <div class="it weekNumber">25</div>
-                                    <div class="it daysNumber"><span>16</span></div>
-                                    <div class="it daysNumber"><span>17</span></div>
-                                    <div class="it daysNumber"><span>18</span></div>
-                                    <div class="it daysNumber"><span>19</span></div>
-                                    <div class="it daysNumber"><span>20</span></div>
-                                    <div class="it daysNumber"><span class="vh">21</span></div>
-                                    <div class="it daysNumber"><span class="vh">22</span></div>
-                                </div>
-                                <div class="month-grid">
-                                    <div class="it weekNumber">26</div>
-                                    <div class="it daysNumber"><span>23</span></div>
-                                    <div class="it daysNumber"><span>24</span></div>
-                                    <div class="it daysNumber"><span>25</span></div>
-                                    <div class="it daysNumber"><span>26</span></div>
-                                    <div class="it daysNumber"><span>27</span></div>
-                                    <div class="it daysNumber"><span class="vh">28</span></div>
-                                    <div class="it daysNumber"><span class="vh">29</span></div>
-                                </div>
-                                <div class="month-grid">
-                                    <div class="it weekNumber">27</div>
-                                    <div class="it daysNumber"><span>30</span></div>
-                                    <div class="it daysNumber"><span></span></div>
-                                    <div class="it daysNumber"><span></span></div>
-                                    <div class="it daysNumber"><span></span></div>
-                                    <div class="it daysNumber"><span></span></div>
-                                    <div class="it daysNumber"><span></span></div>
-                                    <div class="it daysNumber"><span></span></div>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="month">
-                                <div class="month-name">
-                                    Июль
-                                </div>
-                                <div class="month-grid" style="margin: 0 0 3px 0">
-                                    <div class="it daysName">&nbsp;</div>
-                                    <div class="it daysName">Пн</div>
-                                    <div class="it daysName">Вт</div>
-                                    <div class="it daysName">Ср</div>
-                                    <div class="it daysName">Чт</div>
-                                    <div class="it daysName">Пт</div>
-                                    <div class="it daysName">Сб</div>
-                                    <div class="it daysName">Вс</div>
-                                </div>
-                                <div class="month-grid">
-                                    <div class="it weekNumber">27</div>
-                                    <div class="it daysNumber"><span></span></div>
-                                    <div class="it daysNumber"><span>1</span></div>
-                                    <div class="it daysNumber"><span>2</span></div>
-                                    <div class="it daysNumber"><span>3</span></div>
-                                    <div class="it daysNumber"><span>4</span></div>
-                                    <div class="it daysNumber"><span class="vh">5</span></div>
-                                    <div class="it daysNumber"><span class="vh">6</span></div>
-                                </div>
-                                <div class="month-grid">
-                                    <div class="it weekNumber">28</div>
-                                    <div class="it daysNumber"><span>7</span></div>
-                                    <div class="it daysNumber"><span>8</span></div>
-                                    <div class="it daysNumber"><span>9</span></div>
-                                    <div class="it daysNumber"><span>10</span></div>
-                                    <div class="it daysNumber"><span>11</span></div>
-                                    <div class="it daysNumber"><span class="vh">12</span></div>
-                                    <div class="it daysNumber"><span class="vh">13</span></div>
-                                </div>
-                                <div class="month-grid">
-                                    <div class="it weekNumber">29</div>
-                                    <div class="it daysNumber"><span>14</span></div>
-                                    <div class="it daysNumber"><span>15</span></div>
-                                    <div class="it daysNumber"><span>16</span></div>
-                                    <div class="it daysNumber"><span>17</span></div>
-                                    <div class="it daysNumber"><span>18</span></div>
-                                    <div class="it daysNumber"><span class="vh">19</span></div>
-                                    <div class="it daysNumber"><span class="vh">20</span></div>
-                                </div>
-                                <div class="month-grid">
-                                    <div class="it weekNumber">30</div>
-                                    <div class="it daysNumber"><span>21</span></div>
-                                    <div class="it daysNumber"><span>22</span></div>
-                                    <div class="it daysNumber"><span>23</span></div>
-                                    <div class="it daysNumber"><span>24</span></div>
-                                    <div class="it daysNumber"><span>25</span></div>
-                                    <div class="it daysNumber"><span class="vh">26</span></div>
-                                    <div class="it daysNumber"><span class="vh">27</span></div>
-                                </div>
-                                <div class="month-grid">
-                                    <div class="it weekNumber">31</div>
-                                    <div class="it daysNumber"><span>28</span></div>
-                                    <div class="it daysNumber"><span>29</span></div>
-                                    <div class="it daysNumber"><span>30</span></div>
-                                    <div class="it daysNumber"><span>31</span></div>
-                                    <div class="it daysNumber"><span></span></div>
-                                    <div class="it daysNumber"><span></span></div>
-                                    <div class="it daysNumber"><span></span></div>
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="month">
-                                <div class="month-name">
-                                    Август
-                                </div>
-                                <div class="month-grid" style="margin: 0 0 3px 0">
-                                    <div class="it daysName">&nbsp;</div>
-                                    <div class="it daysName">Пн</div>
-                                    <div class="it daysName">Вт</div>
-                                    <div class="it daysName">Ср</div>
-                                    <div class="it daysName">Чт</div>
-                                    <div class="it daysName">Пт</div>
-                                    <div class="it daysName">Сб</div>
-                                    <div class="it daysName">Вс</div>
-                                </div>
-                                <div class="month-grid">
-                                    <div class="it weekNumber">31</div>
-                                    <div class="it daysNumber"><span></span></div>
-                                    <div class="it daysNumber"><span></span></div>
-                                    <div class="it daysNumber"><span></span></div>
-                                    <div class="it daysNumber"><span></span></div>
-                                    <div class="it daysNumber"><span>1</span></div>
-                                    <div class="it daysNumber"><span class="vh">2</span></div>
-                                    <div class="it daysNumber"><span class="vh">3</span></div>
-                                </div>
-                                <div class="month-grid">
-                                    <div class="it weekNumber">32</div>
-                                    <div class="it daysNumber"><span>4</span></div>
-                                    <div class="it daysNumber"><span>5</span></div>
-                                    <div class="it daysNumber"><span>6</span></div>
-                                    <div class="it daysNumber"><span>7</span></div>
-                                    <div class="it daysNumber"><span>8</span></div>
-                                    <div class="it daysNumber"><span class="vh">9</span></div>
-                                    <div class="it daysNumber"><span class="vh">10</span></div>
-                                </div>
-                                <div class="month-grid">
-                                    <div class="it weekNumber">33</div>
-                                    <div class="it daysNumber"><span>11</span></div>
-                                    <div class="it daysNumber"><span>12</span></div>
-                                    <div class="it daysNumber"><span>13</span></div>
-                                    <div class="it daysNumber"><span>14</span></div>
-                                    <div class="it daysNumber"><span>15</span></div>
-                                    <div class="it daysNumber"><span class="vh">16</span></div>
-                                    <div class="it daysNumber"><span class="vh">17</span></div>
-                                </div>
-                                <div class="month-grid">
-                                    <div class="it weekNumber">34</div>
-                                    <div class="it daysNumber"><span>18</span></div>
-                                    <div class="it daysNumber"><span>19</span></div>
-                                    <div class="it daysNumber"><span>20</span></div>
-                                    <div class="it daysNumber"><span>21</span></div>
-                                    <div class="it daysNumber"><span>22</span></div>
-                                    <div class="it daysNumber"><span class="vh">23</span></div>
-                                    <div class="it daysNumber"><span class="vh">24</span></div>
-                                </div>
-                                <div class="month-grid">
-                                    <div class="it weekNumber">35</div>
-                                    <div class="it daysNumber"><span>25</span></div>
-                                    <div class="it daysNumber"><span>26</span></div>
-                                    <div class="it daysNumber"><span>27</span></div>
-                                    <div class="it daysNumber"><span>28</span></div>
-                                    <div class="it daysNumber"><span>29</span></div>
-                                    <div class="it daysNumber"><span class="vh">30</span></div>
-                                    <div class="it daysNumber"><span class="vh">31</span></div>
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="month">
-                                <div class="month-name">
-                                    Сентябрь
-                                </div>
-                                <div class="month-grid" style="margin: 0 0 3px 0">
-                                    <div class="it daysName">&nbsp;</div>
-                                    <div class="it daysName">Пн</div>
-                                    <div class="it daysName">Вт</div>
-                                    <div class="it daysName">Ср</div>
-                                    <div class="it daysName">Чт</div>
-                                    <div class="it daysName">Пт</div>
-                                    <div class="it daysName">Сб</div>
-                                    <div class="it daysName">Вс</div>
-                                </div>
-                                <div class="month-grid">
-                                    <div class="it weekNumber">36</div>
-                                    <div class="it daysNumber"><span>1</span></div>
-                                    <div class="it daysNumber"><span>2</span></div>
-                                    <div class="it daysNumber"><span>3</span></div>
-                                    <div class="it daysNumber"><span>4</span></div>
-                                    <div class="it daysNumber"><span>5</span></div>
-                                    <div class="it daysNumber"><span class="vh">6</span></div>
-                                    <div class="it daysNumber"><span class="vh">7</span></div>
-                                </div>
-                                <div class="month-grid">
-                                    <div class="it weekNumber">37</div>
-                                    <div class="it daysNumber"><span>8</span></div>
-                                    <div class="it daysNumber"><span>9</span></div>
-                                    <div class="it daysNumber"><span>10</span></div>
-                                    <div class="it daysNumber"><span>11</span></div>
-                                    <div class="it daysNumber"><span>12</span></div>
-                                    <div class="it daysNumber"><span class="vh">13</span></div>
-                                    <div class="it daysNumber"><span class="vh">14</span></div>
-                                </div>
-                                <div class="month-grid">
-                                    <div class="it weekNumber">38</div>
-                                    <div class="it daysNumber"><span>15</span></div>
-                                    <div class="it daysNumber"><span>16</span></div>
-                                    <div class="it daysNumber"><span>17</span></div>
-                                    <div class="it daysNumber"><span>18</span></div>
-                                    <div class="it daysNumber"><span>19</span></div>
-                                    <div class="it daysNumber"><span class="vh">20</span></div>
-                                    <div class="it daysNumber"><span class="vh">21</span></div>
-                                </div>
-                                <div class="month-grid">
-                                    <div class="it weekNumber">39</div>
-                                    <div class="it daysNumber"><span>22</span></div>
-                                    <div class="it daysNumber"><span>23</span></div>
-                                    <div class="it daysNumber"><span>24</span></div>
-                                    <div class="it daysNumber"><span>25</span></div>
-                                    <div class="it daysNumber"><span>26</span></div>
-                                    <div class="it daysNumber"><span class="vh">27</span></div>
-                                    <div class="it daysNumber"><span class="vh">28</span></div>
-                                </div>
-                                <div class="month-grid">
-                                    <div class="it weekNumber">40</div>
-                                    <div class="it daysNumber"><span>29</span></div>
-                                    <div class="it daysNumber"><span>30</span></div>
-                                    <div class="it daysNumber"><span></span></div>
-                                    <div class="it daysNumber"><span></span></div>
-                                    <div class="it daysNumber"><span></span></div>
-                                    <div class="it daysNumber"><span></span></div>
-                                    <div class="it daysNumber"><span></span></div>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="month">
-                                <div class="month-name">
-                                    Октябрь
-                                </div>
-                                <div class="month-grid" style="margin: 0 0 3px 0">
-                                    <div class="it daysName">&nbsp;</div>
-                                    <div class="it daysName">Пн</div>
-                                    <div class="it daysName">Вт</div>
-                                    <div class="it daysName">Ср</div>
-                                    <div class="it daysName">Чт</div>
-                                    <div class="it daysName">Пт</div>
-                                    <div class="it daysName">Сб</div>
-                                    <div class="it daysName">Вс</div>
-                                </div>
-                                <div class="month-grid">
-                                    <div class="it weekNumber">40</div>
-                                    <div class="it daysNumber"><span></span></div>
-                                    <div class="it daysNumber"><span></span></div>
-                                    <div class="it daysNumber"><span>1</span></div>
-                                    <div class="it daysNumber"><span>2</span></div>
-                                    <div class="it daysNumber"><span>3</span></div>
-                                    <div class="it daysNumber"><span class="vh">4</span></div>
-                                    <div class="it daysNumber"><span class="vh">5</span></div>
-                                </div>
-                                <div class="month-grid">
-                                    <div class="it weekNumber">41</div>
-                                    <div class="it daysNumber"><span>6</span></div>
-                                    <div class="it daysNumber"><span>7</span></div>
-                                    <div class="it daysNumber"><span>8</span></div>
-                                    <div class="it daysNumber"><span>9</span></div>
-                                    <div class="it daysNumber"><span>10</span></div>
-                                    <div class="it daysNumber"><span class="vh">11</span></div>
-                                    <div class="it daysNumber"><span class="vh">12</span></div>
-                                </div>
-                                <div class="month-grid">
-                                    <div class="it weekNumber">42</div>
-                                    <div class="it daysNumber"><span>13</span></div>
-                                    <div class="it daysNumber"><span>14</span></div>
-                                    <div class="it daysNumber"><span>15</span></div>
-                                    <div class="it daysNumber"><span>16</span></div>
-                                    <div class="it daysNumber"><span>17</span></div>
-                                    <div class="it daysNumber"><span class="vh">18</span></div>
-                                    <div class="it daysNumber"><span class="vh">19</span></div>
-                                </div>
-                                <div class="month-grid">
-                                    <div class="it weekNumber">43</div>
-                                    <div class="it daysNumber"><span>20</span></div>
-                                    <div class="it daysNumber"><span>21</span></div>
-                                    <div class="it daysNumber"><span>22</span></div>
-                                    <div class="it daysNumber"><span>23</span></div>
-                                    <div class="it daysNumber"><span>24</span></div>
-                                    <div class="it daysNumber"><span class="vh">25</span></div>
-                                    <div class="it daysNumber"><span class="vh">26</span></div>
-                                </div>
-                                <div class="month-grid">
-                                    <div class="it weekNumber">44</div>
-                                    <div class="it daysNumber"><span>27</span></div>
-                                    <div class="it daysNumber"><span>28</span></div>
-                                    <div class="it daysNumber"><span>29</span></div>
-                                    <div class="it daysNumber"><span>30</span></div>
-                                    <div class="it daysNumber"><span>31</span></div>
-                                    <div class="it daysNumber"><span></span></div>
-                                    <div class="it daysNumber"><span></span></div>
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="month">
-                                <div class="month-name">
-                                    Ноябрь
-                                </div>
-                                <div class="month-grid" style="margin: 0 0 3px 0">
-                                    <div class="it daysName">&nbsp;</div>
-                                    <div class="it daysName">Пн</div>
-                                    <div class="it daysName">Вт</div>
-                                    <div class="it daysName">Ср</div>
-                                    <div class="it daysName">Чт</div>
-                                    <div class="it daysName">Пт</div>
-                                    <div class="it daysName">Сб</div>
-                                    <div class="it daysName">Вс</div>
-                                </div>
-                                <div class="month-grid">
-                                    <div class="it weekNumber">44</div>
-                                    <div class="it daysNumber"><span></span></div>
-                                    <div class="it daysNumber"><span></span></div>
-                                    <div class="it daysNumber"><span></span></div>
-                                    <div class="it daysNumber"><span></span></div>
-                                    <div class="it daysNumber"><span></span></div>
-                                    <div class="it daysNumber"><span class="prd">1</span></div>
-                                    <div class="it daysNumber"><span class="vh">2</span></div>
-                                </div>
-                                <div class="month-grid">
-                                    <div class="it weekNumber">45</div>
-                                    <div class="it daysNumber"><span class="pr">3</span></div>
-                                    <div class="it daysNumber"><span class="pr">4</span></div>
-                                    <div class="it daysNumber"><span>5</span></div>
-                                    <div class="it daysNumber"><span>6</span></div>
-                                    <div class="it daysNumber"><span>7</span></div>
-                                    <div class="it daysNumber"><span class="vh">8</span></div>
-                                    <div class="it daysNumber"><span class="vh">9</span></div>
-                                </div>
-                                <div class="month-grid">
-                                    <div class="it weekNumber">46</div>
-                                    <div class="it daysNumber"><span>10</span></div>
-                                    <div class="it daysNumber"><span>11</span></div>
-                                    <div class="it daysNumber"><span>12</span></div>
-                                    <div class="it daysNumber"><span>13</span></div>
-                                    <div class="it daysNumber"><span>14</span></div>
-                                    <div class="it daysNumber"><span class="vh">15</span></div>
-                                    <div class="it daysNumber"><span class="vh">16</span></div>
-                                </div>
-                                <div class="month-grid">
-                                    <div class="it weekNumber">47</div>
-                                    <div class="it daysNumber"><span>17</span></div>
-                                    <div class="it daysNumber"><span>18</span></div>
-                                    <div class="it daysNumber"><span>19</span></div>
-                                    <div class="it daysNumber"><span>20</span></div>
-                                    <div class="it daysNumber"><span>21</span></div>
-                                    <div class="it daysNumber"><span class="vh">22</span></div>
-                                    <div class="it daysNumber"><span class="vh">23</span></div>
-                                </div>
-                                <div class="month-grid">
-                                    <div class="it weekNumber">48</div>
-                                    <div class="it daysNumber"><span>24</span></div>
-                                    <div class="it daysNumber"><span>25</span></div>
-                                    <div class="it daysNumber"><span>26</span></div>
-                                    <div class="it daysNumber"><span>27</span></div>
-                                    <div class="it daysNumber"><span>28</span></div>
-                                    <div class="it daysNumber"><span class="vh">29</span></div>
-                                    <div class="it daysNumber"><span class="vh">30</span></div>
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="month">
-                                <div class="month-name">
-                                    Декабрь
-                                </div>
-                                <div class="month-grid" style="margin: 0 0 3px 0">
-                                    <div class="it daysName">&nbsp;</div>
-                                    <div class="it daysName">Пн</div>
-                                    <div class="it daysName">Вт</div>
-                                    <div class="it daysName">Ср</div>
-                                    <div class="it daysName">Чт</div>
-                                    <div class="it daysName">Пт</div>
-                                    <div class="it daysName">Сб</div>
-                                    <div class="it daysName">Вс</div>
-                                </div>
-                                <div class="month-grid">
-                                    <div class="it weekNumber">49</div>
-                                    <div class="it daysNumber"><span>1</span></div>
-                                    <div class="it daysNumber"><span>2</span></div>
-                                    <div class="it daysNumber"><span>3</span></div>
-                                    <div class="it daysNumber"><span>4</span></div>
-                                    <div class="it daysNumber"><span>5</span></div>
-                                    <div class="it daysNumber"><span class="vh">6</span></div>
-                                    <div class="it daysNumber"><span class="vh">7</span></div>
-                                </div>
-                                <div class="month-grid">
-                                    <div class="it weekNumber">50</div>
-                                    <div class="it daysNumber"><span>8</span></div>
-                                    <div class="it daysNumber"><span>9</span></div>
-                                    <div class="it daysNumber"><span>10</span></div>
-                                    <div class="it daysNumber"><span>11</span></div>
-                                    <div class="it daysNumber"><span>12</span></div>
-                                    <div class="it daysNumber"><span class="vh">13</span></div>
-                                    <div class="it daysNumber"><span class="vh">14</span></div>
-                                </div>
-                                <div class="month-grid">
-                                    <div class="it weekNumber">51</div>
-                                    <div class="it daysNumber"><span>15</span></div>
-                                    <div class="it daysNumber"><span>16</span></div>
-                                    <div class="it daysNumber"><span>17</span></div>
-                                    <div class="it daysNumber"><span>18</span></div>
-                                    <div class="it daysNumber"><span>19</span></div>
-                                    <div class="it daysNumber"><span class="vh">20</span></div>
-                                    <div class="it daysNumber"><span class="vh">21</span></div>
-                                </div>
-                                <div class="month-grid">
-                                    <div class="it weekNumber">52</div>
-                                    <div class="it daysNumber"><span>22</span></div>
-                                    <div class="it daysNumber"><span>23</span></div>
-                                    <div class="it daysNumber"><span>24</span></div>
-                                    <div class="it daysNumber"><span>25</span></div>
-                                    <div class="it daysNumber"><span>26</span></div>
-                                    <div class="it daysNumber"><span class="vh">27</span></div>
-                                    <div class="it daysNumber"><span class="vh">28</span></div>
-                                </div>
-                                <div class="month-grid">
-                                    <div class="it weekNumber">53</div>
-                                    <div class="it daysNumber"><span>29</span></div>
-                                    <div class="it daysNumber"><span>30</span></div>
-                                    <div class="it daysNumber"><span class="pr">31</span></div>
-                                    <div class="it daysNumber"><span></span></div>
-                                    <div class="it daysNumber"><span></span></div>
-                                    <div class="it daysNumber"><span></span></div>
-                                    <div class="it daysNumber"><span></span></div>
-                                </div>
-                            </div>
+                        <td class="fs-10">
+                            3 января (суббота) - 9 января (пятница)<br>
+                            4 января (воскресенье) - 31 декабря (четверг)
                         </td>
                     </tr>
                 </table>
             </div>
-            <div class="cwrap-item2" style="text-align: center">
-                <h2 style="padding-top: 10px;">Нормы рабочего времени на 2025 год</h2>
-                <table class="tabl2" style="margin-top: 15px; padding:0;  width: 100%; font-size: 12px; border-spacing: 0; border-collapse: separate;">
-                    <tr >
-                        <td rowspan="2" style="padding-top: 5px;background: #adc8e5;border-right: 1px solid #3a63bf;">Период</td>
-                        <td colspan="3" style="padding-top: 5px;background: #adc8e5;border-top: 1px solid #3a63bf;border-right: 1px solid #3a63bf;">Количество дней</td>
-                        <td colspan="3" style="padding-top: 5px;background: #adc8e5;">Рабочих часов при неделе</td>
-                    </tr>
-                    <tr>
-                        <td style="font-size: 11px;padding: 3px;background: #adc8e5;">Календарных</td>
-                        <td style="font-size: 11px;padding: 3px;background: #adc8e5;">Рабочих</td>
-                        <td style="font-size: 11px;padding: 3px;background: #adc8e5;border-right: 1px solid #3a63bf;">Выходных</td>
-                        <td style="font-size: 11px;padding: 3px;background: #adc8e5;">40 часов</td>
-                        <td style="font-size: 11px;padding: 3px;background: #adc8e5;">36 часов</td>
-                        <td style="font-size: 11px;padding: 3px;background: #adc8e5;border-right: 1px solid #3a63bf;">24 часа</td>
-                    </tr>
-                    <tr class="tbl2row" style="background: transparent;">
-                        <td style="border-left: 1px solid #3a63bf;">Январь</td>
-                        <td>31</td>
-                        <td>17</td>
-                        <td>14</td>
-                        <td>136</td>
-                        <td>122.4</td>
-                        <td>81.6</td>
-                    </tr>
-                    <tr class="tbl2row" style="background: transparent;">
-                        <td style="border-left: 1px solid #3a63bf;">Февраль</td>
-                        <td>28</td>
-                        <td>20</td>
-                        <td>8</td>
-                        <td>160</td>
-                        <td>144</td>
-                        <td>96</td>
-                    </tr>
-                    <tr class="tbl2row" style="background: transparent;">
-                        <td style="border-left: 1px solid #3a63bf;">Март</td>
-                        <td>31</td>
-                        <td>21</td>
-                        <td>10</td>
-                        <td>167</td>
-                        <td>150.2</td>
-                        <td>99.8</td>
-                    </tr>
-                    <tr class="tbl2row" style="background: #89a6d2; color: #fff">
-                        <td style="border-left: 1px solid #3a63bf;">1 квартал</td>
-                        <td>90</td>
-                        <td>58</td>
-                        <td>32</td>
-                        <td>463</td>
-                        <td>416.6</td>
-                        <td>277.4</td>
-                    </tr>
-                    <tr class="tbl2row" style="background: transparent;">
-                        <td style="border-left: 1px solid #3a63bf;">Апрель</td>
-                        <td>30</td>
-                        <td>22</td>
-                        <td>8</td>
-                        <td>175</td>
-                        <td>157.4</td>
-                        <td>104.6</td>
-                    </tr>
-                    <tr class="tbl2row" style="background: transparent;">
-                        <td style="border-left: 1px solid #3a63bf;">Май</td>
-                        <td>31</td>
-                        <td>18</td>
-                        <td>13</td>
-                        <td>144</td>
-                        <td>129.6</td>
-                        <td>86.4</td>
-                    </tr>
-                    <tr class="tbl2row" style="background: transparent;">
-                        <td style="border-left: 1px solid #3a63bf;">Июнь</td>
-                        <td>30</td>
-                        <td>19</td>
-                        <td>11</td>
-                        <td>151</td>
-                        <td>135.7</td>
-                        <td>90.2</td>
-                    </tr>
-                    <tr class="tbl2row" style="background: #89a6d2; color: #fff">
-                        <td style="border-left: 1px solid #3a63bf;">2 квартал</td>
-                        <td>91</td>
-                        <td>59</td>
-                        <td>32</td>
-                        <td>470</td>
-                        <td>422.8</td>
-                        <td>281.2</td>
-                    </tr>
-                    <tr class="tbl2row" style="background: #595ea2; color: #fff">
-                        <td style="border-left: 1px solid #3a63bf;">1 полугодие</td>
-                        <td>181</td>
-                        <td>117</td>
-                        <td>64</td>
-                        <td>933</td>
-                        <td>839.4</td>
-                        <td>558.6</td>
-                    </tr>
-                    <tr class="tbl2row" style="background: transparent;">
-                        <td style="border-left: 1px solid #3a63bf;">Июль</td>
-                        <td>31</td>
-                        <td>23</td>
-                        <td>8</td>
-                        <td>184</td>
-                        <td>165.6</td>
-                        <td>110.4</td>
-                    </tr>
-                    <tr class="tbl2row" style="background: transparent;">
-                        <td style="border-left: 1px solid #3a63bf;">Август</td>
-                        <td>31</td>
-                        <td>21</td>
-                        <td>10</td>
-                        <td>168</td>
-                        <td>151.2</td>
-                        <td>100.8</td>
-                    </tr>
-                    <tr class="tbl2row" style="background: transparent;">
-                        <td style="border-left: 1px solid #3a63bf;">Сентябрь</td>
-                        <td>30</td>
-                        <td>22</td>
-                        <td>8</td>
-                        <td>176</td>
-                        <td>158.4</td>
-                        <td>105.6</td>
-                    </tr>
-                    <tr class="tbl2row" style="background: #89a6d2; color: #fff">
-                        <td style="border-left: 1px solid #3a63bf;">3 квартал</td>
-                        <td>92</td>
-                        <td>66</td>
-                        <td>26</td>
-                        <td>528</td>
-                        <td>475.2</td>
-                        <td>316.8</td>
-                    </tr>
-                    <tr class="tbl2row" style="background: transparent;">
-                        <td style="border-left: 1px solid #3a63bf;">Октябрь</td>
-                        <td>31</td>
-                        <td>23</td>
-                        <td>8</td>
-                        <td>184</td>
-                        <td>165.6</td>
-                        <td>110.4</td>
-                    </tr>
-                    <tr class="tbl2row" style="background: transparent;">
-                        <td style="border-left: 1px solid #3a63bf;">Ноябрь</td>
-                        <td>30</td>
-                        <td>19</td>
-                        <td>11</td>
-                        <td>151</td>
-                        <td>135.8</td>
-                        <td>90.2</td>
-                    </tr>
-                    <tr class="tbl2row" style="background: transparent;">
-                        <td style="border-left: 1px solid #3a63bf;">Декабрь</td>
-                        <td>31</td>
-                        <td>22</td>
-                        <td>9</td>
-                        <td>176</td>
-                        <td>158.4</td>
-                        <td>105.6</td>
-                    </tr>
-                    <tr class="tbl2row" style="background: #89a6d2; color: #fff">
-                        <td style="border-left: 1px solid #3a63bf;">4 квартал</td>
-                        <td>92</td>
-                        <td>64</td>
-                        <td>28</td>
-                        <td>511</td>
-                        <td>459.8</td>
-                        <td>306.2</td>
-                    </tr>
-                    <tr class="tbl2row" style="background: #595ea2; color: #fff">
-                        <td style="border-left: 1px solid #3a63bf;">2 полугодие</td>
-                        <td>184</td>
-                        <td>130</td>
-                        <td>54</td>
-                        <td>1039</td>
-                        <td>935</td>
-                        <td>623</td>
-                    </tr>
-                    <tr class="tbl2row" style="background: #1e205d; color: #fff">
-                        <td style="border-left: 1px solid #3a63bf;">2025 год</td>
-                        <td style="border-bottom: 1px solid #3a63bf;">365</td>
-                        <td style="border-bottom: 1px solid #3a63bf;">247</td>
-                        <td style="border-bottom: 1px solid #3a63bf;">118</td>
-                        <td style="border-bottom: 1px solid #3a63bf;">1972</td>
-                        <td style="border-bottom: 1px solid #3a63bf;">1774.4</td>
-                        <td>1181.6</td>
-                    </tr>
-                </table>
-                <h2 style="padding-top: 10px;">Праздничные и сокращенные дни</h2>
-                <table class="tabl2" style="margin-top: 15px; padding:0;  width: 100%; font-size: 12px; border-spacing: 0; border-collapse: separate;">
-                    <tr>
-                        <td style="padding: 5px;background: #adc8e5;border-right: 1px solid #3a63bf;">Праздничные дни</td>
-                        <td style="padding: 5px;background: #adc8e5;border-right: 1px solid #3a63bf;border-top: 1px solid #3a63bf;">Праздник</td>
-                        <td style="padding: 5px;background: #adc8e5;border-right: 1px solid #3a63bf;border-top: 1px solid #3a63bf;">Переносы выходных дней</td>
-                        <td style="padding: 5px;background: #adc8e5;border-right: 1px solid #3a63bf;">Сокращенные дни</td>
-                    </tr>
-                    <tr class="tbl2row" style="background: transparent;">
-                        <td style="border-left: 1px solid #3a63bf;">1-6, 8 января</td>
-                        <td>Новогодние каникулы</td>
-                        <td>с 4 января на 4 мая</td>
-                        <td></td>
-                    </tr>
-                    <tr class="tbl2row" style="background: transparent;">
-                        <td style="border-left: 1px solid #3a63bf;">7 января</td>
-                        <td>Рождество Христово</td>
-                        <td>с 5 января на 31 декабря</td>
-                        <td></td>
-                    </tr>
-                    <tr class="tbl2row" style="background: transparent;">
-                        <td style="border-left: 1px solid #3a63bf;">23 февраля</td>
-                        <td>День защитника Отечества</td>
-                        <td>с 23 февраля на 8 мая</td>
-                        <td></td>
-                    </tr>
-                    <tr class="tbl2row" style="background: transparent;">
-                        <td style="border-left: 1px solid #3a63bf;">8 марта</td>
-                        <td>Международный женский день</td>
-                        <td>с 8 марта на 13 июня</td>
-                        <td>7 марта</td>
-                    </tr>
-                    <tr class="tbl2row" style="background: transparent;">
-                        <td style="border-left: 1px solid #3a63bf;">1 мая</td>
-                        <td>Праздник весны и труда</td>
-                        <td>с 1 ноября на 3 ноября</td>
-                        <td>30 апреля</td>
-                    </tr>
-                    <tr class="tbl2row" style="background: transparent;">
-                        <td style="border-left: 1px solid #3a63bf;">9 мая</td>
-                        <td>День Победы</td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr class="tbl2row" style="background: transparent;">
-                        <td style="border-left: 1px solid #3a63bf;">12 июня</td>
-                        <td>День России</td>
-                        <td></td>
-                        <td>11 июня</td>
-                    </tr>
-                    <tr class="tbl2row" style="background: transparent;">
-                        <td style="border-left: 1px solid #3a63bf;">4 ноября</td>
-                        <td style="border-bottom: 1px solid #3a63bf;">День народного единства</td>
-                        <td style="border-bottom: 1px solid #3a63bf;"></td>
-                        <td>1 ноября</td>
-                    </tr>
-                </table>
+            <div class="cwrap-item3">
+                <div class="month">
+                    <div class="month-name">
+                        Июль
+                    </div>
+                    <div class="month-grid" style="margin: 0 0 3px 0">
+                        <div class="it daysName">&nbsp;</div>
+                        <div class="it daysName">Пн</div>
+                        <div class="it daysName">Вт</div>
+                        <div class="it daysName">Ср</div>
+                        <div class="it daysName">Чт</div>
+                        <div class="it daysName">Пт</div>
+                        <div class="it daysName">Сб</div>
+                        <div class="it daysName">Вс</div>
+                    </div>
+                    <div class="month-grid">
+                        <div class="it weekNumber">27</div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span>1</span></div>
+                        <div class="it daysNumber"><span>2</span></div>
+                        <div class="it daysNumber"><span>3</span></div>
+                        <div class="it daysNumber"><span class="vh">4</span></div>
+                        <div class="it daysNumber"><span class="vh">5</span></div>
+                    </div>
+                    <div class="month-grid">
+                        <div class="it weekNumber">28</div>
+                        <div class="it daysNumber"><span>6</span></div>
+                        <div class="it daysNumber"><span>7</span></div>
+                        <div class="it daysNumber"><span>8</span></div>
+                        <div class="it daysNumber"><span>9</span></div>
+                        <div class="it daysNumber"><span>10</span></div>
+                        <div class="it daysNumber"><span class="vh">11</span></div>
+                        <div class="it daysNumber"><span class="vh">12</span></div>
+                    </div>
+                    <div class="month-grid">
+                        <div class="it weekNumber">29</div>
+                        <div class="it daysNumber"><span>13</span></div>
+                        <div class="it daysNumber"><span>14</span></div>
+                        <div class="it daysNumber"><span>15</span></div>
+                        <div class="it daysNumber"><span>16</span></div>
+                        <div class="it daysNumber"><span>17</span></div>
+                        <div class="it daysNumber"><span class="vh">18</span></div>
+                        <div class="it daysNumber"><span class="vh">19</span></div>
+                    </div>
+                    <div class="month-grid">
+                        <div class="it weekNumber">30</div>
+                        <div class="it daysNumber"><span>20</span></div>
+                        <div class="it daysNumber"><span>21</span></div>
+                        <div class="it daysNumber"><span>22</span></div>
+                        <div class="it daysNumber"><span>23</span></div>
+                        <div class="it daysNumber"><span>24</span></div>
+                        <div class="it daysNumber"><span class="vh">25</span></div>
+                        <div class="it daysNumber"><span class="vh">26</span></div>
+                    </div>
+                    <div class="month-grid">
+                        <div class="it weekNumber">31</div>
+                        <div class="it daysNumber"><span>27</span></div>
+                        <div class="it daysNumber"><span>28</span></div>
+                        <div class="it daysNumber"><span>29</span></div>
+                        <div class="it daysNumber"><span>30</span></div>
+                        <div class="it daysNumber"><span>31</span></div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span></span></div>
+                    </div>
+                </div>
+                <div class="month">
+                    <div class="month-name">
+                        Август
+                    </div>
+                    <div class="month-grid" style="margin: 0 0 3px 0">
+                        <div class="it daysName">&nbsp;</div>
+                        <div class="it daysName">Пн</div>
+                        <div class="it daysName">Вт</div>
+                        <div class="it daysName">Ср</div>
+                        <div class="it daysName">Чт</div>
+                        <div class="it daysName">Пт</div>
+                        <div class="it daysName">Сб</div>
+                        <div class="it daysName">Вс</div>
+                    </div>
+                    <div class="month-grid">
+                        <div class="it weekNumber">31</div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span class="vh">1</span></div>
+                        <div class="it daysNumber"><span class="vh">2</span></div>
+                    </div>
+                    <div class="month-grid">
+                        <div class="it weekNumber">32</div>
+                        <div class="it daysNumber"><span>3</span></div>
+                        <div class="it daysNumber"><span>4</span></div>
+                        <div class="it daysNumber"><span>5</span></div>
+                        <div class="it daysNumber"><span>6</span></div>
+                        <div class="it daysNumber"><span>7</span></div>
+                        <div class="it daysNumber"><span class="vh">8</span></div>
+                        <div class="it daysNumber"><span class="vh">9</span></div>
+                    </div>
+                    <div class="month-grid">
+                        <div class="it weekNumber">33</div>
+                        <div class="it daysNumber"><span>10</span></div>
+                        <div class="it daysNumber"><span>11</span></div>
+                        <div class="it daysNumber"><span>12</span></div>
+                        <div class="it daysNumber"><span>13</span></div>
+                        <div class="it daysNumber"><span>14</span></div>
+                        <div class="it daysNumber"><span class="vh">15</span></div>
+                        <div class="it daysNumber"><span class="vh">16</span></div>
+                    </div>
+                    <div class="month-grid">
+                        <div class="it weekNumber">34</div>
+                        <div class="it daysNumber"><span>17</span></div>
+                        <div class="it daysNumber"><span>18</span></div>
+                        <div class="it daysNumber"><span>19</span></div>
+                        <div class="it daysNumber"><span>20</span></div>
+                        <div class="it daysNumber"><span>21</span></div>
+                        <div class="it daysNumber"><span class="vh">22</span></div>
+                        <div class="it daysNumber"><span class="vh">23</span></div>
+                    </div>
+                    <div class="month-grid">
+                        <div class="it weekNumber">35</div>
+                        <div class="it daysNumber"><span>24</span></div>
+                        <div class="it daysNumber"><span>25</span></div>
+                        <div class="it daysNumber"><span>26</span></div>
+                        <div class="it daysNumber"><span>27</span></div>
+                        <div class="it daysNumber"><span>28</span></div>
+                        <div class="it daysNumber"><span class="vh">29</span></div>
+                        <div class="it daysNumber"><span class="vh">30</span></div>
+                    </div>
+                    <div class="month-grid">
+                        <div class="it weekNumber">36</div>
+                        <div class="it daysNumber"><span>31</span></div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span></span></div>
+                    </div>
+                </div>
+                <div class="month">
+                    <div class="month-name">
+                        Сентябрь
+                    </div>
+                    <div class="month-grid" style="margin: 0 0 3px 0">
+                        <div class="it daysName">&nbsp;</div>
+                        <div class="it daysName">Пн</div>
+                        <div class="it daysName">Вт</div>
+                        <div class="it daysName">Ср</div>
+                        <div class="it daysName">Чт</div>
+                        <div class="it daysName">Пт</div>
+                        <div class="it daysName">Сб</div>
+                        <div class="it daysName">Вс</div>
+                    </div>
+                    <div class="month-grid">
+                        <div class="it weekNumber">36</div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span>1</span></div>
+                        <div class="it daysNumber"><span>2</span></div>
+                        <div class="it daysNumber"><span>3</span></div>
+                        <div class="it daysNumber"><span>4</span></div>
+                        <div class="it daysNumber"><span class="vh">5</span></div>
+                        <div class="it daysNumber"><span class="vh">6</span></div>
+                    </div>
+                    <div class="month-grid">
+                        <div class="it weekNumber">37</div>
+                        <div class="it daysNumber"><span>7</span></div>
+                        <div class="it daysNumber"><span>8</span></div>
+                        <div class="it daysNumber"><span>9</span></div>
+                        <div class="it daysNumber"><span>10</span></div>
+                        <div class="it daysNumber"><span>11</span></div>
+                        <div class="it daysNumber"><span class="vh">12</span></div>
+                        <div class="it daysNumber"><span class="vh">13</span></div>
+                    </div>
+                    <div class="month-grid">
+                        <div class="it weekNumber">38</div>
+                        <div class="it daysNumber"><span>14</span></div>
+                        <div class="it daysNumber"><span>15</span></div>
+                        <div class="it daysNumber"><span>16</span></div>
+                        <div class="it daysNumber"><span>17</span></div>
+                        <div class="it daysNumber"><span>18</span></div>
+                        <div class="it daysNumber"><span class="vh">19</span></div>
+                        <div class="it daysNumber"><span class="vh">20</span></div>
+                    </div>
+                    <div class="month-grid">
+                        <div class="it weekNumber">39</div>
+                        <div class="it daysNumber"><span>21</span></div>
+                        <div class="it daysNumber"><span>22</span></div>
+                        <div class="it daysNumber"><span>23</span></div>
+                        <div class="it daysNumber"><span>24</span></div>
+                        <div class="it daysNumber"><span>25</span></div>
+                        <div class="it daysNumber"><span class="vh">26</span></div>
+                        <div class="it daysNumber"><span class="vh">27</span></div>
+                    </div>
+                    <div class="month-grid">
+                        <div class="it weekNumber">40</div>
+                        <div class="it daysNumber"><span>28</span></div>
+                        <div class="it daysNumber"><span>29</span></div>
+                        <div class="it daysNumber"><span>30</span></div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span></span></div>
+                    </div>
+                </div>
+                <div class="month">
+                    <div class="month-name">
+                        Октябрь
+                    </div>
+                    <div class="month-grid" style="margin: 0 0 3px 0">
+                        <div class="it daysName">&nbsp;</div>
+                        <div class="it daysName">Пн</div>
+                        <div class="it daysName">Вт</div>
+                        <div class="it daysName">Ср</div>
+                        <div class="it daysName">Чт</div>
+                        <div class="it daysName">Пт</div>
+                        <div class="it daysName">Сб</div>
+                        <div class="it daysName">Вс</div>
+                    </div>
+                    <div class="month-grid">
+                        <div class="it weekNumber">40</div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span>1</span></div>
+                        <div class="it daysNumber"><span>2</span></div>
+                        <div class="it daysNumber"><span class="vh">3</span></div>
+                        <div class="it daysNumber"><span class="vh">4</span></div>
+                    </div>
+                    <div class="month-grid">
+                        <div class="it weekNumber">41</div>
+                        <div class="it daysNumber"><span>5</span></div>
+                        <div class="it daysNumber"><span>6</span></div>
+                        <div class="it daysNumber"><span>7</span></div>
+                        <div class="it daysNumber"><span>8</span></div>
+                        <div class="it daysNumber"><span>9</span></div>
+                        <div class="it daysNumber"><span class="vh">10</span></div>
+                        <div class="it daysNumber"><span class="vh">11</span></div>
+                    </div>
+                    <div class="month-grid">
+                        <div class="it weekNumber">42</div>
+                        <div class="it daysNumber"><span>12</span></div>
+                        <div class="it daysNumber"><span>13</span></div>
+                        <div class="it daysNumber"><span>14</span></div>
+                        <div class="it daysNumber"><span>15</span></div>
+                        <div class="it daysNumber"><span>16</span></div>
+                        <div class="it daysNumber"><span class="vh">17</span></div>
+                        <div class="it daysNumber"><span class="vh">18</span></div>
+                    </div>
+                    <div class="month-grid">
+                        <div class="it weekNumber">43</div>
+                        <div class="it daysNumber"><span>19</span></div>
+                        <div class="it daysNumber"><span>20</span></div>
+                        <div class="it daysNumber"><span>21</span></div>
+                        <div class="it daysNumber"><span>22</span></div>
+                        <div class="it daysNumber"><span>23</span></div>
+                        <div class="it daysNumber"><span class="vh">24</span></div>
+                        <div class="it daysNumber"><span class="vh">25</span></div>
+                    </div>
+                    <div class="month-grid">
+                        <div class="it weekNumber">44</div>
+                        <div class="it daysNumber"><span>26</span></div>
+                        <div class="it daysNumber"><span>27</span></div>
+                        <div class="it daysNumber"><span>28</span></div>
+                        <div class="it daysNumber"><span>29</span></div>
+                        <div class="it daysNumber"><span>30</span></div>
+                        <div class="it daysNumber"><span class="vh">31</span></div>
+                        <div class="it daysNumber"><span></span></div>
+                    </div>
+                </div>
+                <div class="month">
+                    <div class="month-name">
+                        Ноябрь
+                    </div>
+                    <div class="month-grid" style="margin: 0 0 3px 0">
+                        <div class="it daysName">&nbsp;</div>
+                        <div class="it daysName">Пн</div>
+                        <div class="it daysName">Вт</div>
+                        <div class="it daysName">Ср</div>
+                        <div class="it daysName">Чт</div>
+                        <div class="it daysName">Пт</div>
+                        <div class="it daysName">Сб</div>
+                        <div class="it daysName">Вс</div>
+                    </div>
+                    <div class="month-grid">
+                        <div class="it weekNumber">44</div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span class="vh">1</span></div>
+                    </div>
+                    <div class="month-grid">
+                        <div class="it weekNumber">45</div>
+                        <div class="it daysNumber"><span>2</span></div>
+                        <div class="it daysNumber"><span class="prd">3</span></div>
+                        <div class="it daysNumber"><span class="pr">4</span></div>
+                        <div class="it daysNumber"><span>5</span></div>
+                        <div class="it daysNumber"><span>6</span></div>
+                        <div class="it daysNumber"><span class="vh">7</span></div>
+                        <div class="it daysNumber"><span class="vh">8</span></div>
+                    </div>
+                    <div class="month-grid">
+                        <div class="it weekNumber">46</div>
+                        <div class="it daysNumber"><span>9</span></div>
+                        <div class="it daysNumber"><span>10</span></div>
+                        <div class="it daysNumber"><span>11</span></div>
+                        <div class="it daysNumber"><span>12</span></div>
+                        <div class="it daysNumber"><span>13</span></div>
+                        <div class="it daysNumber"><span class="vh">14</span></div>
+                        <div class="it daysNumber"><span class="vh">15</span></div>
+                    </div>
+                    <div class="month-grid">
+                        <div class="it weekNumber">47</div>
+                        <div class="it daysNumber"><span>16</span></div>
+                        <div class="it daysNumber"><span>17</span></div>
+                        <div class="it daysNumber"><span>18</span></div>
+                        <div class="it daysNumber"><span>19</span></div>
+                        <div class="it daysNumber"><span>20</span></div>
+                        <div class="it daysNumber"><span class="vh">21</span></div>
+                        <div class="it daysNumber"><span class="vh">22</span></div>
+                    </div>
+                    <div class="month-grid">
+                        <div class="it weekNumber">48</div>
+                        <div class="it daysNumber"><span>23</span></div>
+                        <div class="it daysNumber"><span>24</span></div>
+                        <div class="it daysNumber"><span>25</span></div>
+                        <div class="it daysNumber"><span>26</span></div>
+                        <div class="it daysNumber"><span>27</span></div>
+                        <div class="it daysNumber"><span class="vh">28</span></div>
+                        <div class="it daysNumber"><span class="vh">29</span></div>
+                    </div>
+                    <div class="month-grid">
+                        <div class="it weekNumber">49</div>
+                        <div class="it daysNumber"><span>30</span></div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span></span></div>
+                    </div>
+                </div>
+                <div class="month">
+                    <div class="month-name">
+                        Декабрь
+                    </div>
+                    <div class="month-grid" style="margin: 0 0 3px 0">
+                        <div class="it daysName">&nbsp;</div>
+                        <div class="it daysName">Пн</div>
+                        <div class="it daysName">Вт</div>
+                        <div class="it daysName">Ср</div>
+                        <div class="it daysName">Чт</div>
+                        <div class="it daysName">Пт</div>
+                        <div class="it daysName">Сб</div>
+                        <div class="it daysName">Вс</div>
+                    </div>
+                    <div class="month-grid">
+                        <div class="it weekNumber">49</div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span>1</span></div>
+                        <div class="it daysNumber"><span>2</span></div>
+                        <div class="it daysNumber"><span>3</span></div>
+                        <div class="it daysNumber"><span>4</span></div>
+                        <div class="it daysNumber"><span class="vh">5</span></div>
+                        <div class="it daysNumber"><span class="vh">6</span></div>
+                    </div>
+                    <div class="month-grid">
+                        <div class="it weekNumber">50</div>
+                        <div class="it daysNumber"><span>7</span></div>
+                        <div class="it daysNumber"><span>8</span></div>
+                        <div class="it daysNumber"><span>9</span></div>
+                        <div class="it daysNumber"><span>10</span></div>
+                        <div class="it daysNumber"><span>11</span></div>
+                        <div class="it daysNumber"><span class="vh">12</span></div>
+                        <div class="it daysNumber"><span class="vh">13</span></div>
+                    </div>
+                    <div class="month-grid">
+                        <div class="it weekNumber">51</div>
+                        <div class="it daysNumber"><span>14</span></div>
+                        <div class="it daysNumber"><span>15</span></div>
+                        <div class="it daysNumber"><span>16</span></div>
+                        <div class="it daysNumber"><span>17</span></div>
+                        <div class="it daysNumber"><span>18</span></div>
+                        <div class="it daysNumber"><span class="vh">19</span></div>
+                        <div class="it daysNumber"><span class="vh">20</span></div>
+                    </div>
+                    <div class="month-grid">
+                        <div class="it weekNumber">52</div>
+                        <div class="it daysNumber"><span>21</span></div>
+                        <div class="it daysNumber"><span>22</span></div>
+                        <div class="it daysNumber"><span>23</span></div>
+                        <div class="it daysNumber"><span>24</span></div>
+                        <div class="it daysNumber"><span>25</span></div>
+                        <div class="it daysNumber"><span class="vh">26</span></div>
+                        <div class="it daysNumber"><span class="vh">27</span></div>
+                    </div>
+                    <div class="month-grid">
+                        <div class="it weekNumber">53</div>
+                        <div class="it daysNumber"><span>28</span></div>
+                        <div class="it daysNumber"><span>29</span></div>
+                        <div class="it daysNumber"><span>30</span></div>
+                        <div class="it daysNumber"><span class="pr">31</span></div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span></span></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

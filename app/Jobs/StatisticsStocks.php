@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Http\Libs\CardLib;
+use App\Http\Libs\Telegramm;
 use App\Http\Libs\WBStatistics;
 use App\Models\Card;
 use App\Models\Seller;
@@ -61,9 +62,13 @@ class StatisticsStocks implements ShouldQueue
                 $card->dimensions->length = 10;
                 $card->dimensions->save();
                 ContentCardDimensions::dispatch($this->seller, $card);
+                Telegramm::send("Возвращаю в продажу товар {$card->title}, nmId = {$card->nmID}, магазин  {$card->seller->name}", $card->seller->user->id);
                 echo "Возвращаю в продажу товар {$card->title}, nmId = {$card->nmID}\r\n";
-                $card->removeByStock = 0;
-                $card->save();
+                if ($card->prices->s_price > 0) {
+                    $card->removeByStock = 0;
+                    $card->daysOfStock = 0;
+                    $card->save();
+                }
                 if (!$card->slstock) {
                     CardLib::createEmptyStock($card->id, $this->seller->id);
                     $card = Card::find($card->id);
@@ -86,34 +91,52 @@ class StatisticsStocks implements ShouldQueue
         $stocks = Wbststock::where("seller_id", $this->seller->id)
             ->where('quantity', '>', '0')->get();
         foreach ($stocks as $stock) {
-            if (!$stock->card) {
-                echo "Нет карточки nmID {$stock->nmId}\r\n";
-                continue;
+            if ($card = $stock->card) {
+                $request->cardDimensionsWidth = $card->dimensions->width;
+                $request->cardDimensionsHeight = $card->dimensions->height;
+                $request->cardDimensionsLength = $card->dimensions->length;
+                if (!$stock->card) {
+                    Telegramm::send("Нет карточки nmID {$stock->nmId} продавец {$this->seller->name}\r\n", $this->seller->user->id);
+                    continue;
+                }
+                if ($stock->card->supplier != 10) {
+                    continue;
+                }
+                $ssp = CardLib::getSellStockPrice($card->id);
+                if (empty($ssp['price'])) {
+                    Telegramm::send("Нет закупочной цены {$card->nmID} продавец {$this->seller->name}\r\n", $this->seller->user->id);
+                    PriceInfo::dispatch($this->seller, 0, $card->nmID);
+                    continue;
+                }
+                if ($card->removeByStock == 1) {
+                    if (strtotime($card->updated_at) < strtotime(date("Y-m-d"))) {
+                        $card->daysOfStock += 1;
+                        $card->removeByStock = 0;
+                        $card->save();
+                        //$request->sellPrice = $ssp['price'] - (10 * $card->daysOfStock);
+                        $request->sellPrice = ($ssp['s_price'] * 5) - (10 * $card->daysOfStock);
+                        echo "Устанавливаю цену в {$request->sellPrice}\r\n";
+                        $request->removeStock = 1;
+                        $request->discount = $ssp['discount'];
+                        $request->supplierPrice = $card->prices->s_price;
+                        if (!$card->slstock->is_local) {
+                            ProductStockUpdate::dispatch($this->seller, 0, $stock->barcode);
+                        }
+                        CardLib::update($card, $request, $this->seller, false);
+                    }
+                    continue;
+                }
+                $card->removeByStock = 0;
+                $card->save();
+                //$request->sellPrice = $ssp['price'];
+                $request->sellPrice = ($ssp['s_price']*5);
+                echo "Устанавливаю цену в {$request->sellPrice}\r\n";
+                $request->removeStock = 1;
+                $request->discount = $ssp['discount'];
+                $request->supplierPrice = $card->prices->s_price;
+                ProductStockUpdate::dispatch($this->seller, 0, $stock->barcode);
+                CardLib::update($card, $request, $this->seller, false);
             }
-            if ($stock->card->supplier != 10) {
-                continue;
-            }
-            if ($stock->card->removeByStock == 1) {
-                continue;
-            }
-            $card = $stock->card;
-            $ssp = CardLib::getSellStockPrice($card->id);
-            if(empty($ssp['price'])){
-                PriceInfo::dispatch($this->seller);
-                continue;
-            }
-            $card->removeByStock = 0;
-            $card->save();
-            $request->cardDimensionsWidth = $card->dimensions->width;
-            $request->cardDimensionsHeight = $card->dimensions->height;
-            $request->cardDimensionsLength = $card->dimensions->length;
-            $request->sellPrice = $ssp['price'];
-            $request->removeStock = 1;
-            $request->discount = $ssp['discount'];
-            $request->supplierPrice = $card->prices->s_price;
-            ProductStockUpdate::dispatch($this->seller, 0, $stock->barcode);
-            CardLib::update($card, $request, $this->seller, false);
-            CalcPrice::dispatch($this->seller, $this->seller->percentageOfMargin, $card->id);
         }
         Bus::chain([
             new PriceUpdate($this->seller),

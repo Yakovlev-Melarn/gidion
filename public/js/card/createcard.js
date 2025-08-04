@@ -1,4 +1,4 @@
-let seller = 13;
+let seller = 16;
 let name = $('.productName').html();
 let $cardContent = $('.cardContent');
 let $objectName = $(".objectName");
@@ -85,16 +85,30 @@ $('.sendCard').click(function () {
     let charList = [];
     $cardContent.find('select').each(function () {
         if ($(this).val().length > 0) {
-            charList.push({
-                id: $(this).data('id'),
-                value: $(this).val()
-            });
+            if (
+                $(this).data('id') == 63260 || // Объем (л)
+                $(this).data('id') == 14975 || // Количество отделений
+                $(this).data('id') == 90658 || // Количество листов
+                $(this).data('id') == 90632 || // Количество предметов в наборе
+                $(this).data('id') == 15679 || // Количество в упаковке
+                $(this).data('id') == 90703 || // Плотность бумаги
+                $(this).data('id') == 90602) { // Диаметр предмета
+                charList.push({
+                    id: $(this).data('id'),
+                    value: parseInt($(this).val())
+                });
+            } else {
+                charList.push({
+                    id: $(this).data('id'),
+                    value: $(this).val()
+                });
+            }
         }
     });
     let card = {
         subjectID: Number($('.subjectId').val()),
         variants: [{
-            vendorCode: 'OB-' + sku + '-' + $('.packInfo').html(),
+            vendorCode: 'DZ-N-' + sku + '-' + $('.packInfo').html(),
             title: $('.title').val(),
             description: $('.description').val(),
             brand: $('.brand').val(),
@@ -115,7 +129,7 @@ $('.sendCard').click(function () {
     });
     $.post('/cards/uploadCard', {
         sku: sku,
-        vendorCode: 'OB-' + sku + '-' + $('.packInfo').html(),
+        vendorCode: 'DZ-N-' + sku + '-' + $('.packInfo').html(),
         seller: seller,
         cardData: {
             card: JSON.stringify(card),
@@ -147,7 +161,7 @@ $('.getRules').click(function () {
 });
 
 function calcPrice() {
-    let basePriceDelivery = 55;
+    let basePriceDelivery = 63;
     let costPerLiter = 7;
     let h = $('.height').val();
     let l = $('.length').val();
@@ -159,10 +173,13 @@ function calcPrice() {
     }
     $('.deliveryCost').html(deliveryCost);
     $.get('/cards/comission?subject=' + $objectName.val()).done(function (data) {
-        let comssion = Number(data) + 4.5;
+        let comssion = Number(data) + 6;
         $('.comission').html(comssion);
-        let sPrice = Number($('.sPrice').html());
-        let price = Math.ceil(((deliveryCost + sPrice * $('.pack').val() * 2) / (100 - comssion) * 100));
+        let sPrice = Number($('.sPrice').html())* $('.pack').val();
+        if (sPrice < 50) {
+            sPrice = 50;
+        }
+        let price = Math.ceil(((deliveryCost + (sPrice * 2)) / (100 - comssion) * 100));
         $('.sellPrice').val(price);
     });
 }

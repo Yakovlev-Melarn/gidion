@@ -14,14 +14,14 @@ class WBPrice
         $result = Http::withHeaders([])
             ->acceptJson()
             ->withToken($seller->apiKey)
-            ->post("https://discounts-prices-api.wb.ru/api/v2/upload/task", $prices);
+            ->post("https://discounts-prices-api.wildberries.ru/api/v2/upload/task", $prices);
         print_r($result->json());
         return $result->json();
     }
 
     public static function priceList(Seller $seller, $offset, $nmId)
     {
-        $url = "https://discounts-prices-api.wb.ru/api/v2/list/goods/filter?limit=1000&offset={$offset}";
+        $url = "https://discounts-prices-api.wildberries.ru/api/v2/list/goods/filter?limit=1000&offset={$offset}";
         if (!empty($nmId)) {
             $url .= "&filterNmID={$nmId}";
         }
@@ -31,6 +31,5 @@ class WBPrice
             ->get($url);
         $response = $response->json();
         return $response['data']['listGoods'];
-
     }
 }

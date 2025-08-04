@@ -2,6 +2,7 @@
 /**
  * php artisan queue:work --queue=default,synccards,updateprice,updatestock,copycards,uploadphotos
  */
+
 namespace App\Http\Controllers;
 
 use App\Http\Libs\CardLib;
@@ -9,6 +10,7 @@ use App\Http\Libs\Helper;
 use App\Http\Libs\WBContent;
 use App\Http\Libs\WBSupplier;
 use App\Jobs\CalcPrice;
+use App\Jobs\ContentCard;
 use App\Jobs\DiscountRemove;
 use App\Jobs\StockUpdate;
 use App\Jobs\UploadImages;
@@ -128,6 +130,9 @@ class SettingsController extends Controller
                         continue;
                     }
                     $nmIds[] = $emptyStock->nmID;
+                }
+                foreach ($nmIds as $nmId) {
+                    Card::where('nmID', $nmId)->delete();
                 }
                 WBContent::trash($seller, $nmIds);
             }

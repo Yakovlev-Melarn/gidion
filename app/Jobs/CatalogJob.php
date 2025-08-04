@@ -14,14 +14,18 @@ class CatalogJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public $tries = 1;
-    public $uniqueFor = 3600;
-    public $timeout = 3600;
+    public $tries = 5;
+    public $uniqueFor = 360000;
+    public $timeout = 360000;
     public $url;
 
-    public function __construct($url)
+    public function __construct($url = null)
     {
-        $this->url = $url;
+        if (empty($url)) {
+            $this->url = 'https://api.samsonopt.ru/v1/sku?api_key=c63363e9e46de524234f80de15711aee&photo_size=xl&pagination_count=1000';
+        } else {
+            $this->url = $url;
+        }
     }
 
     public function handle(): void
@@ -52,7 +56,7 @@ class CatalogJob implements ShouldQueue
         }
         if (!empty($result['meta']['pagination']['next'])) {
             echo "\r\n\r\n{$result['meta']['pagination']['next']}\r\n\r\n";
-            CatalogJob::dispatch($result['meta']['pagination']['next']);
+            CatalogJob::dispatch($result['meta']['pagination']['next'])->onQueue('samson');
         }
     }
 }

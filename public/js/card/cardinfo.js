@@ -5,17 +5,17 @@ let $volumetricWeight = $(".volumetricWeight");
 let $costOfLogistics = $(".costOfLogistics");
 let $print = $(".print");
 let $cardDimensionsFields = $(".cardDimensionsLength,.cardDimensionsHeight,.cardDimensionsWidth");
-let costOfLogistics = 55;
+let costOfLogistics = 63;
 let volumetricWeight = ($cardDimensionsWidth.val() * $cardDimensionsHeight.val() * $cardDimensionsLength.val()) / 1000;
 if (volumetricWeight > 1) {
-    costOfLogistics = 55 + ((volumetricWeight - 1) * 7);
+    costOfLogistics = 63 + ((volumetricWeight - 1) * 12);
 }
 $costOfLogistics.html(Math.ceil(costOfLogistics));
 $cardDimensionsFields.on('keyup change', function () {
     volumetricWeight = ($cardDimensionsWidth.val() * $cardDimensionsHeight.val() * $cardDimensionsLength.val()) / 1000;
-    let costOfLogistics = 55;
+    let costOfLogistics = 63;
     if (volumetricWeight > 1) {
-        costOfLogistics = 55 + ((volumetricWeight - 1) * 7);
+        costOfLogistics = 63 + ((volumetricWeight - 1) * 12);
     }
     $volumetricWeight.html(Math.ceil(volumetricWeight));
     $costOfLogistics.html(Math.ceil(costOfLogistics));

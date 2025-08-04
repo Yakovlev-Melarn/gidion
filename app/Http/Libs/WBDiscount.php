@@ -16,11 +16,11 @@ class WBDiscount
             ->timeout(3600)
             ->acceptJson()
             ->withToken($seller->apiKey)
-            ->post("https://suppliers-api.wildberries.ru/public/api/v1/updateDiscounts", [
-                [
-                    'nm' => (int)$card->nmID,
+            ->post("https://discounts-prices-api.wildberries.ru/api/v2/upload/task", [
+                'data' => [[
+                    'nmID' => (int)$card->nmID,
                     'discount' => (int)$card->prices->discount
-                ]
+                ]]
             ]);
         print_r($response->json());
     }
@@ -31,7 +31,7 @@ class WBDiscount
             ->timeout(3600)
             ->acceptJson()
             ->withToken($seller->apiKey)
-            ->post("https://discounts-prices-api.wb.ru/api/v2/upload/task", ['data' => [['nmID' => (int)$card->nmID, 'discount' => 0]]]);
+            ->post("https://discounts-prices-api.wildberries.ru/api/v2/upload/task", ['data' => [['nmID' => (int)$card->nmID, 'discount' => 0]]]);
         echo $response->status() . "\r\n";
     }
 }

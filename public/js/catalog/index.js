@@ -1,0 +1,3 @@
+$('.blockcatalogitem').click(function () {
+    $.post();
+});

@@ -4,17 +4,19 @@
 namespace App\Http\Libs;
 
 
+use App\Http\Libs\Telegramm;
+use App\Models\Card;
 use Illuminate\Support\Facades\Http;
 
 class WBSupplier
 {
-    public static function getDetail($nmId): array
+    public static function getDetail($nmId): array | null
     {
         $result = Http::withHeaders([])
             ->timeout(180)
             ->connectTimeout(180)
             ->acceptJson()
-            ->get("https://card.wb.ru/cards/v1/detail?appType=1&curr=rub&dest=123585811&spp=27&nm={$nmId}");
+            ->get("https://card.wb.ru/cards/v4/detail?appType=1&curr=rub&dest=-4438503&spp=30&hide_dtype=14&ab_testing=false&lang=ru&nm={$nmId}");
         return $result->json();
     }
 
@@ -22,8 +24,8 @@ class WBSupplier
     {
         $result = false;
         $response = self::getDetail($nmIds);
-        if (isset($response['data']['products'])) {
-            foreach ($response['data']['products'] as $productDetail) {
+        if (isset($response['products'])) {
+            foreach ($response['products'] as $productDetail) {
                 $result[$productDetail['id']] = self::calcAmount($productDetail) > 6 ? 5 : 0;
             }
         }
@@ -54,12 +56,25 @@ class WBSupplier
         return 0;
     }
 
-    public static function getPrices(string $nmId): array|false
+    public static function getPrices(string $nmId, $seller): array|false
     {
         $response = self::getDetail($nmId);
         $result = false;
         if (!empty($response['data']['products'])) {
             foreach ($response['data']['products'] as $product) {
+                if (!isset($product['salePriceU'])) {
+                    if ($card = Card::where('supplierSku', $nmId)->first()) {
+                        if ($card->prices) {
+                            if (!empty($card->prices->s_price)) {
+                                $product['salePriceU'] = $card->prices->s_price * 100;
+                            }
+                        }
+                    }
+                    if (!isset($product['salePriceU'])) {
+                        Telegramm::send("Нет цены закупки для товара {$nmId}. Продавец {$seller->name}\r\n", $seller->user->id);
+                        continue;
+                    }
+                }
                 $result[$product['id']] = $product['salePriceU'] / 100;
             }
             return $result;
@@ -70,8 +85,10 @@ class WBSupplier
     public static function getPrice(int $nmId): int|bool
     {
         $response = self::getDetail($nmId);
-        if (!empty($response['data']['products'][0]['salePriceU'])) {
-            return (int)$response['data']['products'][0]['salePriceU'] / 100;
+        if(isset($response['products'][0]['sizes'][0]['price'])) {
+            if (!empty($price = $response['products'][0]['sizes'][0]['price']['product'])) {
+                return (int)$price / 100;
+            }
         }
         return false;
     }
@@ -82,7 +99,7 @@ class WBSupplier
             ->timeout(180)
             ->connectTimeout(180)
             ->acceptJson()
-            ->get("https://catalog.wb.ru/sellers/v6/filters?ab_testing=false&appType=1&curr=rub&dest=-1412209&filters=xsubject&spp=30&supplier={$supplierId}&uclusters=8");
+            ->get("https://catalog.wb.ru/sellers/v8/filters?ab_testing=false&appType=1&curr=rub&dest=-1412209&filters=xsubject&spp=30&supplier={$supplierId}&uclusters=8");
         return $response->json();
     }
 
@@ -94,7 +111,7 @@ class WBSupplier
             ->timeout(180)
             ->connectTimeout(180)
             ->acceptJson()
-            ->get("https://catalog.wb.ru/sellers/catalog?TestGroup=score_group_21&TestID=388&appType=1&curr=rub&dest=123585811&spp=27&uclusters=6&supplier={$url}");
+            ->get("https://catalog.wb.ru/sellers/v2/catalog?TestGroup=score_group_21&TestID=388&appType=1&curr=rub&dest=123585811&spp=27&uclusters=6&supplier={$url}");
         return $response->json();
     }
 

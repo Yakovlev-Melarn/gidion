@@ -177,9 +177,10 @@
 
         .vlr {
             padding: 0;
-            writing-mode: vertical-lr;
+            writing-mode: vertical-rl;
+            transform: rotate(-180deg);
             color: #1e205e;
-            text-align: right;
+            text-align: left;
             font-size: 16pt;
             font-family: 'Old Standard TT', serif;
         }
@@ -235,50 +236,50 @@
                         <div class="it weekNumber">1</div>
                         <div class="it daysNumber"><span></span></div>
                         <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span></span></div>
                         <div class="it daysNumber"><span class="pr">1</span></div>
                         <div class="it daysNumber"><span class="pr">2</span></div>
-                        <div class="it daysNumber"><span class="pr">3</span></div>
+                        <div class="it daysNumber"><span class="vh">3</span></div>
                         <div class="it daysNumber"><span class="vh">4</span></div>
-                        <div class="it daysNumber"><span class="vh">5</span></div>
                     </div>
                     <div class="month-grid">
                         <div class="it weekNumber">2</div>
+                        <div class="it daysNumber"><span class="pr">5</span></div>
                         <div class="it daysNumber"><span class="pr">6</span></div>
                         <div class="it daysNumber"><span class="pr">7</span></div>
                         <div class="it daysNumber"><span class="pr">8</span></div>
-                        <div class="it daysNumber"><span>9</span></div>
-                        <div class="it daysNumber"><span>10</span></div>
+                        <div class="it daysNumber"><span class="pr">9</span></div>
+                        <div class="it daysNumber"><span class="vh">10</span></div>
                         <div class="it daysNumber"><span class="vh">11</span></div>
-                        <div class="it daysNumber"><span class="vh">12</span></div>
                     </div>
                     <div class="month-grid">
                         <div class="it weekNumber">3</div>
+                        <div class="it daysNumber"><span>12</span></div>
                         <div class="it daysNumber"><span>13</span></div>
                         <div class="it daysNumber"><span>14</span></div>
                         <div class="it daysNumber"><span>15</span></div>
                         <div class="it daysNumber"><span>16</span></div>
-                        <div class="it daysNumber"><span>17</span></div>
+                        <div class="it daysNumber"><span class="vh">17</span></div>
                         <div class="it daysNumber"><span class="vh">18</span></div>
-                        <div class="it daysNumber"><span class="vh">19</span></div>
                     </div>
                     <div class="month-grid">
                         <div class="it weekNumber">4</div>
+                        <div class="it daysNumber"><span>19</span></div>
                         <div class="it daysNumber"><span>20</span></div>
                         <div class="it daysNumber"><span>21</span></div>
                         <div class="it daysNumber"><span>22</span></div>
                         <div class="it daysNumber"><span>23</span></div>
-                        <div class="it daysNumber"><span>24</span></div>
+                        <div class="it daysNumber"><span class="vh">24</span></div>
                         <div class="it daysNumber"><span class="vh">25</span></div>
-                        <div class="it daysNumber"><span class="vh">26</span></div>
                     </div>
                     <div class="month-grid">
                         <div class="it weekNumber">5</div>
+                        <div class="it daysNumber"><span>26</span></div>
                         <div class="it daysNumber"><span>27</span></div>
                         <div class="it daysNumber"><span>28</span></div>
                         <div class="it daysNumber"><span>29</span></div>
                         <div class="it daysNumber"><span>30</span></div>
                         <div class="it daysNumber"><span>31</span></div>
-                        <div class="it daysNumber"><span></span></div>
                         <div class="it daysNumber"><span></span></div>
                     </div>
                 </div>
@@ -303,47 +304,47 @@
                         <div class="it daysNumber"><span></span></div>
                         <div class="it daysNumber"><span></span></div>
                         <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span></span></div>
                         <div class="it daysNumber"><span class="vh">1</span></div>
-                        <div class="it daysNumber"><span class="vh">2</span></div>
                     </div>
                     <div class="month-grid">
                         <div class="it weekNumber">6</div>
+                        <div class="it daysNumber"><span>2</span></div>
                         <div class="it daysNumber"><span>3</span></div>
                         <div class="it daysNumber"><span>4</span></div>
                         <div class="it daysNumber"><span>5</span></div>
                         <div class="it daysNumber"><span>6</span></div>
-                        <div class="it daysNumber"><span>7</span></div>
+                        <div class="it daysNumber"><span class="vh">7</span></div>
                         <div class="it daysNumber"><span class="vh">8</span></div>
-                        <div class="it daysNumber"><span class="vh">9</span></div>
                     </div>
                     <div class="month-grid">
                         <div class="it weekNumber">7</div>
+                        <div class="it daysNumber"><span>9</span></div>
                         <div class="it daysNumber"><span>10</span></div>
                         <div class="it daysNumber"><span>11</span></div>
                         <div class="it daysNumber"><span>12</span></div>
                         <div class="it daysNumber"><span>13</span></div>
-                        <div class="it daysNumber"><span>14</span></div>
+                        <div class="it daysNumber"><span class="vh">14</span></div>
                         <div class="it daysNumber"><span class="vh">15</span></div>
-                        <div class="it daysNumber"><span class="vh">16</span></div>
                     </div>
                     <div class="month-grid">
                         <div class="it weekNumber">8</div>
+                        <div class="it daysNumber"><span>16</span></div>
                         <div class="it daysNumber"><span>17</span></div>
                         <div class="it daysNumber"><span>18</span></div>
                         <div class="it daysNumber"><span>19</span></div>
                         <div class="it daysNumber"><span>20</span></div>
-                        <div class="it daysNumber"><span>21</span></div>
+                        <div class="it daysNumber"><span class="vh">21</span></div>
                         <div class="it daysNumber"><span class="vh">22</span></div>
-                        <div class="it daysNumber"><span class="vh">23</span></div>
                     </div>
                     <div class="month-grid">
                         <div class="it weekNumber">9</div>
+                        <div class="it daysNumber"><span class="pr">23</span></div>
                         <div class="it daysNumber"><span>24</span></div>
                         <div class="it daysNumber"><span>25</span></div>
                         <div class="it daysNumber"><span>26</span></div>
                         <div class="it daysNumber"><span>27</span></div>
-                        <div class="it daysNumber"><span>28</span></div>
-                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span class="vh">28</span></div>
                         <div class="it daysNumber"><span></span></div>
                     </div>
                 </div>
@@ -368,53 +369,53 @@
                         <div class="it daysNumber"><span></span></div>
                         <div class="it daysNumber"><span></span></div>
                         <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span></span></div>
                         <div class="it daysNumber"><span class="vh">1</span></div>
-                        <div class="it daysNumber"><span class="vh">2</span></div>
                     </div>
                     <div class="month-grid">
                         <div class="it weekNumber">10</div>
+                        <div class="it daysNumber"><span>2</span></div>
                         <div class="it daysNumber"><span>3</span></div>
                         <div class="it daysNumber"><span>4</span></div>
                         <div class="it daysNumber"><span>5</span></div>
                         <div class="it daysNumber"><span>6</span></div>
-                        <div class="it daysNumber"><span class="prd">7</span></div>
+                        <div class="it daysNumber"><span class="vh">7</span></div>
                         <div class="it daysNumber"><span class="vh">8</span></div>
-                        <div class="it daysNumber"><span class="vh">9</span></div>
                     </div>
                     <div class="month-grid">
                         <div class="it weekNumber">11</div>
+                        <div class="it daysNumber"><span class="pr">9</span></div>
                         <div class="it daysNumber"><span>10</span></div>
                         <div class="it daysNumber"><span>11</span></div>
                         <div class="it daysNumber"><span>12</span></div>
                         <div class="it daysNumber"><span>13</span></div>
-                        <div class="it daysNumber"><span>14</span></div>
+                        <div class="it daysNumber"><span class="vh">14</span></div>
                         <div class="it daysNumber"><span class="vh">15</span></div>
-                        <div class="it daysNumber"><span class="vh">16</span></div>
                     </div>
                     <div class="month-grid">
                         <div class="it weekNumber">12</div>
+                        <div class="it daysNumber"><span>16</span></div>
                         <div class="it daysNumber"><span>17</span></div>
                         <div class="it daysNumber"><span>18</span></div>
                         <div class="it daysNumber"><span>19</span></div>
                         <div class="it daysNumber"><span>20</span></div>
-                        <div class="it daysNumber"><span>21</span></div>
+                        <div class="it daysNumber"><span class="vh">21</span></div>
                         <div class="it daysNumber"><span class="vh">22</span></div>
-                        <div class="it daysNumber"><span class="vh">23</span></div>
                     </div>
                     <div class="month-grid">
                         <div class="it weekNumber">13</div>
+                        <div class="it daysNumber"><span>23</span></div>
                         <div class="it daysNumber"><span>24</span></div>
                         <div class="it daysNumber"><span>25</span></div>
                         <div class="it daysNumber"><span>26</span></div>
                         <div class="it daysNumber"><span>27</span></div>
-                        <div class="it daysNumber"><span>28</span></div>
+                        <div class="it daysNumber"><span class="vh">28</span></div>
                         <div class="it daysNumber"><span class="vh">29</span></div>
-                        <div class="it daysNumber"><span class="vh">30</span></div>
                     </div>
                     <div class="month-grid">
                         <div class="it weekNumber">14</div>
+                        <div class="it daysNumber"><span>30</span></div>
                         <div class="it daysNumber"><span>31</span></div>
-                        <div class="it daysNumber"><span></span></div>
                         <div class="it daysNumber"><span></span></div>
                         <div class="it daysNumber"><span></span></div>
                         <div class="it daysNumber"><span></span></div>
@@ -439,49 +440,49 @@
                     <div class="month-grid">
                         <div class="it weekNumber">14</div>
                         <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span></span></div>
                         <div class="it daysNumber"><span>1</span></div>
                         <div class="it daysNumber"><span>2</span></div>
                         <div class="it daysNumber"><span>3</span></div>
-                        <div class="it daysNumber"><span>4</span></div>
+                        <div class="it daysNumber"><span class="vh">4</span></div>
                         <div class="it daysNumber"><span class="vh">5</span></div>
-                        <div class="it daysNumber"><span class="vh">6</span></div>
                     </div>
                     <div class="month-grid">
                         <div class="it weekNumber">15</div>
+                        <div class="it daysNumber"><span>6</span></div>
                         <div class="it daysNumber"><span>7</span></div>
                         <div class="it daysNumber"><span>8</span></div>
                         <div class="it daysNumber"><span>9</span></div>
                         <div class="it daysNumber"><span>10</span></div>
-                        <div class="it daysNumber"><span>11</span></div>
+                        <div class="it daysNumber"><span class="vh">11</span></div>
                         <div class="it daysNumber"><span class="vh">12</span></div>
-                        <div class="it daysNumber"><span class="vh">13</span></div>
                     </div>
                     <div class="month-grid">
                         <div class="it weekNumber">16</div>
+                        <div class="it daysNumber"><span>13</span></div>
                         <div class="it daysNumber"><span>14</span></div>
                         <div class="it daysNumber"><span>15</span></div>
                         <div class="it daysNumber"><span>16</span></div>
                         <div class="it daysNumber"><span>17</span></div>
-                        <div class="it daysNumber"><span>18</span></div>
+                        <div class="it daysNumber"><span class="vh">18</span></div>
                         <div class="it daysNumber"><span class="vh">19</span></div>
-                        <div class="it daysNumber"><span class="vh">20</span></div>
                     </div>
                     <div class="month-grid">
                         <div class="it weekNumber">17</div>
+                        <div class="it daysNumber"><span>20</span></div>
                         <div class="it daysNumber"><span>21</span></div>
                         <div class="it daysNumber"><span>22</span></div>
                         <div class="it daysNumber"><span>23</span></div>
                         <div class="it daysNumber"><span>24</span></div>
-                        <div class="it daysNumber"><span>25</span></div>
+                        <div class="it daysNumber"><span class="vh">25</span></div>
                         <div class="it daysNumber"><span class="vh">26</span></div>
-                        <div class="it daysNumber"><span class="vh">27</span></div>
                     </div>
                     <div class="month-grid">
                         <div class="it weekNumber">18</div>
+                        <div class="it daysNumber"><span>27</span></div>
                         <div class="it daysNumber"><span>28</span></div>
                         <div class="it daysNumber"><span>29</span></div>
                         <div class="it daysNumber"><span class="prd">30</span></div>
-                        <div class="it daysNumber"><span></span></div>
                         <div class="it daysNumber"><span></span></div>
                         <div class="it daysNumber"><span></span></div>
                         <div class="it daysNumber"><span></span></div>
@@ -506,50 +507,50 @@
                         <div class="it daysNumber"><span></span></div>
                         <div class="it daysNumber"><span></span></div>
                         <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span></span></div>
                         <div class="it daysNumber"><span class="pr">1</span></div>
-                        <div class="it daysNumber"><span class="pr">2</span></div>
+                        <div class="it daysNumber"><span class="vh">2</span></div>
                         <div class="it daysNumber"><span class="vh">3</span></div>
-                        <div class="it daysNumber"><span class="vh">4</span></div>
                     </div>
                     <div class="month-grid">
                         <div class="it weekNumber">19</div>
+                        <div class="it daysNumber"><span>4</span></div>
                         <div class="it daysNumber"><span>5</span></div>
                         <div class="it daysNumber"><span>6</span></div>
                         <div class="it daysNumber"><span>7</span></div>
-                        <div class="it daysNumber"><span class="pr">8</span></div>
-                        <div class="it daysNumber"><span class="pr">9</span></div>
+                        <div class="it daysNumber"><span class="prd">8</span></div>
+                        <div class="it daysNumber"><span class="vh">9</span></div>
                         <div class="it daysNumber"><span class="vh">10</span></div>
-                        <div class="it daysNumber"><span class="vh">11</span></div>
                     </div>
                     <div class="month-grid">
                         <div class="it weekNumber">20</div>
+                        <div class="it daysNumber"><span class="pr">11</span></div>
                         <div class="it daysNumber"><span>12</span></div>
                         <div class="it daysNumber"><span>13</span></div>
                         <div class="it daysNumber"><span>14</span></div>
                         <div class="it daysNumber"><span>15</span></div>
-                        <div class="it daysNumber"><span>16</span></div>
+                        <div class="it daysNumber"><span class="vh">16</span></div>
                         <div class="it daysNumber"><span class="vh">17</span></div>
-                        <div class="it daysNumber"><span class="vh">18</span></div>
                     </div>
                     <div class="month-grid">
                         <div class="it weekNumber">21</div>
+                        <div class="it daysNumber"><span>18</span></div>
                         <div class="it daysNumber"><span>19</span></div>
                         <div class="it daysNumber"><span>20</span></div>
                         <div class="it daysNumber"><span>21</span></div>
                         <div class="it daysNumber"><span>22</span></div>
-                        <div class="it daysNumber"><span>23</span></div>
+                        <div class="it daysNumber"><span class="vh">23</span></div>
                         <div class="it daysNumber"><span class="vh">24</span></div>
-                        <div class="it daysNumber"><span class="vh">25</span></div>
                     </div>
                     <div class="month-grid">
                         <div class="it weekNumber">22</div>
+                        <div class="it daysNumber"><span>25</span></div>
                         <div class="it daysNumber"><span>26</span></div>
                         <div class="it daysNumber"><span>27</span></div>
                         <div class="it daysNumber"><span>28</span></div>
                         <div class="it daysNumber"><span>29</span></div>
-                        <div class="it daysNumber"><span>30</span></div>
+                        <div class="it daysNumber"><span class="vh">30</span></div>
                         <div class="it daysNumber"><span class="vh">31</span></div>
-                        <div class="it daysNumber"><span></span></div>
                     </div>
                 </div>
                 <div class="month">
@@ -567,59 +568,49 @@
                         <div class="it daysName">Вс</div>
                     </div>
                     <div class="month-grid">
-                        <div class="it weekNumber">22</div>
-                        <div class="it daysNumber"><span></span></div>
-                        <div class="it daysNumber"><span></span></div>
-                        <div class="it daysNumber"><span></span></div>
-                        <div class="it daysNumber"><span></span></div>
-                        <div class="it daysNumber"><span></span></div>
-                        <div class="it daysNumber"><span></span></div>
-                        <div class="it daysNumber"><span class="vh">1</span></div>
-                    </div>
-                    <div class="month-grid">
                         <div class="it weekNumber">23</div>
+                        <div class="it daysNumber"><span>1</span></div>
                         <div class="it daysNumber"><span>2</span></div>
                         <div class="it daysNumber"><span>3</span></div>
                         <div class="it daysNumber"><span>4</span></div>
                         <div class="it daysNumber"><span>5</span></div>
-                        <div class="it daysNumber"><span>6</span></div>
+                        <div class="it daysNumber"><span class="vh">6</span></div>
                         <div class="it daysNumber"><span class="vh">7</span></div>
-                        <div class="it daysNumber"><span class="vh">8</span></div>
                     </div>
                     <div class="month-grid">
                         <div class="it weekNumber">24</div>
+                        <div class="it daysNumber"><span>8</span></div>
                         <div class="it daysNumber"><span>9</span></div>
                         <div class="it daysNumber"><span>10</span></div>
                         <div class="it daysNumber"><span class="prd">11</span></div>
                         <div class="it daysNumber"><span class="pr">12</span></div>
-                        <div class="it daysNumber"><span class="pr">13</span></div>
+                        <div class="it daysNumber"><span class="vh">13</span></div>
                         <div class="it daysNumber"><span class="vh">14</span></div>
-                        <div class="it daysNumber"><span class="vh">15</span></div>
                     </div>
                     <div class="month-grid">
                         <div class="it weekNumber">25</div>
+                        <div class="it daysNumber"><span>15</span></div>
                         <div class="it daysNumber"><span>16</span></div>
                         <div class="it daysNumber"><span>17</span></div>
                         <div class="it daysNumber"><span>18</span></div>
                         <div class="it daysNumber"><span>19</span></div>
-                        <div class="it daysNumber"><span>20</span></div>
+                        <div class="it daysNumber"><span class="vh">20</span></div>
                         <div class="it daysNumber"><span class="vh">21</span></div>
-                        <div class="it daysNumber"><span class="vh">22</span></div>
                     </div>
                     <div class="month-grid">
                         <div class="it weekNumber">26</div>
+                        <div class="it daysNumber"><span>22</span></div>
                         <div class="it daysNumber"><span>23</span></div>
                         <div class="it daysNumber"><span>24</span></div>
                         <div class="it daysNumber"><span>25</span></div>
                         <div class="it daysNumber"><span>26</span></div>
-                        <div class="it daysNumber"><span>27</span></div>
+                        <div class="it daysNumber"><span class="vh">27</span></div>
                         <div class="it daysNumber"><span class="vh">28</span></div>
-                        <div class="it daysNumber"><span class="vh">29</span></div>
                     </div>
                     <div class="month-grid">
                         <div class="it weekNumber">27</div>
+                        <div class="it daysNumber"><span>29</span></div>
                         <div class="it daysNumber"><span>30</span></div>
-                        <div class="it daysNumber"><span></span></div>
                         <div class="it daysNumber"><span></span></div>
                         <div class="it daysNumber"><span></span></div>
                         <div class="it daysNumber"><span></span></div>
@@ -629,14 +620,14 @@
                 </div>
             </div>
             <div class="cwrap-item2" style="text-align: center">
-                <img alt="" style="width: 177mm" src="{{ url('/images/tools/calendar/herb.jpg') }}">
+                <img alt="" style="width: 177mm" src="{{ url('/images/tools/calendar/horse.jpg') }}">
                 <table style="width: 100%; border: solid 1px #000; border-collapse: collapse;">
                     <tr class="tabel-head">
                         <td>
                             <h1 style="text-align:left;font-family: 'Old Standard TT', serif;">
                                 <span style="font-size: 23pt;color: #1e205e">ТАБЕЛЬ-</span><br>
                                 <span style="font-size: 23pt;color: #1e205e">календарь</span><br>
-                                <span style="font-size: 35pt;color: #3a4092">2025</span>
+                                <span style="font-size: 35pt;color: #3a4092">2026</span>
                             </h1>
                         </td>
                         <td class="vlr">январь</td>
@@ -683,21 +674,21 @@
                     </tr>
                     <tr>
                         <td class="rowTabel">рабочие дни</td>
-                        <td class="rowTabel">17</td>
-                        <td class="rowTabel">20</td>
-                        <td class="rowTabel">21</td>
-                        <td class="rowTabel" style="background: #f7fac3;">58</td>
-                        <td class="rowTabel">22</td>
-                        <td class="rowTabel">18</td>
+                        <td class="rowTabel">15</td>
                         <td class="rowTabel">19</td>
-                        <td class="rowTabel" style="background: #f7fac3;">59</td>
+                        <td class="rowTabel">21</td>
+                        <td class="rowTabel" style="background: #f7fac3;">55</td>
+                        <td class="rowTabel">22</td>
+                        <td class="rowTabel">19</td>
+                        <td class="rowTabel">21</td>
+                        <td class="rowTabel" style="background: #f7fac3;">62</td>
                         <td class="rowTabel" style="background: #5f8fff;">117</td>
                         <td class="rowTabel">23</td>
                         <td class="rowTabel">21</td>
                         <td class="rowTabel">22</td>
                         <td class="rowTabel" style="background: #f7fac3;">66</td>
-                        <td class="rowTabel">23</td>
-                        <td class="rowTabel">19</td>
+                        <td class="rowTabel">22</td>
+                        <td class="rowTabel">20</td>
                         <td class="rowTabel">22</td>
                         <td class="rowTabel" style="background: #f7fac3;">64</td>
                         <td class="rowTabel" style="background: #5f8fff;">130</td>
@@ -705,21 +696,21 @@
                     </tr>
                     <tr>
                         <td class="rowTabel">выходные дни</td>
-                        <td class="rowTabel">14</td>
-                        <td class="rowTabel">8</td>
+                        <td class="rowTabel">16</td>
+                        <td class="rowTabel">9</td>
                         <td class="rowTabel">10</td>
-                        <td class="rowTabel" style="background: #f7fac3;">32</td>
+                        <td class="rowTabel" style="background: #f7fac3;">35</td>
                         <td class="rowTabel">8</td>
-                        <td class="rowTabel">13</td>
-                        <td class="rowTabel">11</td>
-                        <td class="rowTabel" style="background: #f7fac3;">32</td>
+                        <td class="rowTabel">12</td>
+                        <td class="rowTabel">9</td>
+                        <td class="rowTabel" style="background: #f7fac3;">29</td>
                         <td class="rowTabel" style="background: #5f8fff;">64</td>
                         <td class="rowTabel">8</td>
                         <td class="rowTabel">10</td>
                         <td class="rowTabel">8</td>
                         <td class="rowTabel" style="background: #f7fac3;">26</td>
-                        <td class="rowTabel">8</td>
-                        <td class="rowTabel">11</td>
+                        <td class="rowTabel">9</td>
+                        <td class="rowTabel">10</td>
                         <td class="rowTabel">9</td>
                         <td class="rowTabel" style="background: #f7fac3;">28</td>
                         <td class="rowTabel" style="background: #5f8fff;">54</td>
@@ -727,21 +718,21 @@
                     </tr>
                     <tr>
                         <td class="rowTabel" style="font-size: 10px">Рабочее время при 40-ч р.н.</td>
-                        <td class="rowTabel">136</td>
-                        <td class="rowTabel">160</td>
-                        <td class="rowTabel">167</td>
-                        <td class="rowTabel" style="background: #f7fac3;">463</td>
+                        <td class="rowTabel">120</td>
+                        <td class="rowTabel">152</td>
+                        <td class="rowTabel">168</td>
+                        <td class="rowTabel" style="background: #f7fac3;">440</td>
                         <td class="rowTabel">175</td>
-                        <td class="rowTabel">144</td>
                         <td class="rowTabel">151</td>
-                        <td class="rowTabel" style="background: #f7fac3;">470</td>
+                        <td class="rowTabel">167</td>
+                        <td class="rowTabel" style="background: #f7fac3;">493</td>
                         <td class="rowTabel" style="background: #5f8fff;">933</td>
                         <td class="rowTabel">184</td>
                         <td class="rowTabel">168</td>
                         <td class="rowTabel">176</td>
                         <td class="rowTabel" style="background: #f7fac3;">528</td>
-                        <td class="rowTabel">184</td>
-                        <td class="rowTabel">151</td>
+                        <td class="rowTabel">176</td>
+                        <td class="rowTabel">159</td>
                         <td class="rowTabel">176</td>
                         <td class="rowTabel" style="background: #f7fac3;">511</td>
                         <td class="rowTabel fs-14" style="background: #5f8fff;">1039</td>
@@ -749,21 +740,21 @@
                     </tr>
                     <tr>
                         <td class="rowTabel" style="font-size: 10px">Рабочее время при 36-ч р.н.</td>
-                        <td class="rowTabel fs-10">122.4</td>
-                        <td class="rowTabel fs-10">144</td>
-                        <td class="rowTabel fs-10">150.2</td>
-                        <td class="rowTabel fs-10" style="background: #f7fac3;">416.6</td>
+                        <td class="rowTabel fs-10">108</td>
+                        <td class="rowTabel fs-10">136.8</td>
+                        <td class="rowTabel fs-10">151.2</td>
+                        <td class="rowTabel fs-10" style="background: #f7fac3;">396</td>
                         <td class="rowTabel fs-10">157.4</td>
-                        <td class="rowTabel fs-10">129.6</td>
                         <td class="rowTabel fs-10">135.8</td>
-                        <td class="rowTabel fs-10" style="background: #f7fac3;">422.8</td>
+                        <td class="rowTabel fs-10">150.2</td>
+                        <td class="rowTabel fs-10" style="background: #f7fac3;">443.4</td>
                         <td class="rowTabel fs-10" style="background: #5f8fff;">839.4</td>
                         <td class="rowTabel fs-10">165.6</td>
                         <td class="rowTabel fs-10">151.2</td>
                         <td class="rowTabel fs-10">158.4</td>
                         <td class="rowTabel fs-10" style="background: #f7fac3;">475.2</td>
-                        <td class="rowTabel fs-10">165.6</td>
-                        <td class="rowTabel fs-10">135.8</td>
+                        <td class="rowTabel fs-10">158.4</td>
+                        <td class="rowTabel fs-10">143</td>
                         <td class="rowTabel fs-10">158.4</td>
                         <td class="rowTabel fs-10" style="background: #f7fac3;">459.8</td>
                         <td class="rowTabel fs-10" style="background: #5f8fff;">935</td>
@@ -771,21 +762,21 @@
                     </tr>
                     <tr>
                         <td class="rowTabel" style="font-size: 10px">Рабочее время при 24-ч р.н.</td>
-                        <td class="rowTabel fs-10">81.6</td>
-                        <td class="rowTabel fs-10">96</td>
-                        <td class="rowTabel fs-10">99.8</td>
-                        <td class="rowTabel fs-10" style="background: #f7fac3;">277.4</td>
+                        <td class="rowTabel fs-10">72</td>
+                        <td class="rowTabel fs-10">91.2</td>
+                        <td class="rowTabel fs-10">100.8</td>
+                        <td class="rowTabel fs-10" style="background: #f7fac3;">264</td>
                         <td class="rowTabel fs-10">104.6</td>
-                        <td class="rowTabel fs-10">86.4</td>
                         <td class="rowTabel fs-10">90.2</td>
-                        <td class="rowTabel fs-10" style="background: #f7fac3;">281.2</td>
+                        <td class="rowTabel fs-10">99.8</td>
+                        <td class="rowTabel fs-10" style="background: #f7fac3;">294.6</td>
                         <td class="rowTabel fs-10" style="background: #5f8fff;">558.6</td>
                         <td class="rowTabel fs-10">110.4</td>
                         <td class="rowTabel fs-10">100.8</td>
                         <td class="rowTabel fs-10">105.6</td>
                         <td class="rowTabel fs-10" style="background: #f7fac3;">316.8</td>
-                        <td class="rowTabel fs-10">110.4</td>
-                        <td class="rowTabel fs-10">90.2</td>
+                        <td class="rowTabel fs-10">105.6</td>
+                        <td class="rowTabel fs-10">95</td>
                         <td class="rowTabel fs-10">105.6</td>
                         <td class="rowTabel fs-10" style="background: #f7fac3;">306.2</td>
                         <td class="rowTabel fs-10" style="background: #5f8fff;">623</td>
@@ -808,7 +799,7 @@
                                         8 марта - Международный женский день
                                     </td>
                                     <td>
-                                        1 мая - Праздник весны и труда<br>
+                                        1 мая - Праздник Весны и Труда<br>
                                         9 мая - День Победы<br>
                                         12 июня - День России<br>
                                         4 ноября - День народного единства
@@ -817,11 +808,8 @@
                             </table>
                         </td>
                         <td class="fs-10">
-                            4 января (суббота) - 2 мая (пятница)<br>
-                            5 января (воскресенье) - 31 декабря (среда)<br>
-                            23 февраля (воскресенье) - 8 мая (четверг)<br>
-                            8 марта (суббота) - 13 июня (пятница)<br>
-                            1 ноября (суббота) - 3 ноября (понедельник)
+                            3 января (суббота) - 9 января (пятница)<br>
+                            4 января (воскресенье) - 31 декабря (четверг)
                         </td>
                     </tr>
                 </table>
@@ -844,50 +832,50 @@
                     <div class="month-grid">
                         <div class="it weekNumber">27</div>
                         <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span></span></div>
                         <div class="it daysNumber"><span>1</span></div>
                         <div class="it daysNumber"><span>2</span></div>
                         <div class="it daysNumber"><span>3</span></div>
-                        <div class="it daysNumber"><span>4</span></div>
+                        <div class="it daysNumber"><span class="vh">4</span></div>
                         <div class="it daysNumber"><span class="vh">5</span></div>
-                        <div class="it daysNumber"><span class="vh">6</span></div>
                     </div>
                     <div class="month-grid">
                         <div class="it weekNumber">28</div>
+                        <div class="it daysNumber"><span>6</span></div>
                         <div class="it daysNumber"><span>7</span></div>
                         <div class="it daysNumber"><span>8</span></div>
                         <div class="it daysNumber"><span>9</span></div>
                         <div class="it daysNumber"><span>10</span></div>
-                        <div class="it daysNumber"><span>11</span></div>
+                        <div class="it daysNumber"><span class="vh">11</span></div>
                         <div class="it daysNumber"><span class="vh">12</span></div>
-                        <div class="it daysNumber"><span class="vh">13</span></div>
                     </div>
                     <div class="month-grid">
                         <div class="it weekNumber">29</div>
+                        <div class="it daysNumber"><span>13</span></div>
                         <div class="it daysNumber"><span>14</span></div>
                         <div class="it daysNumber"><span>15</span></div>
                         <div class="it daysNumber"><span>16</span></div>
                         <div class="it daysNumber"><span>17</span></div>
-                        <div class="it daysNumber"><span>18</span></div>
+                        <div class="it daysNumber"><span class="vh">18</span></div>
                         <div class="it daysNumber"><span class="vh">19</span></div>
-                        <div class="it daysNumber"><span class="vh">20</span></div>
                     </div>
                     <div class="month-grid">
                         <div class="it weekNumber">30</div>
+                        <div class="it daysNumber"><span>20</span></div>
                         <div class="it daysNumber"><span>21</span></div>
                         <div class="it daysNumber"><span>22</span></div>
                         <div class="it daysNumber"><span>23</span></div>
                         <div class="it daysNumber"><span>24</span></div>
-                        <div class="it daysNumber"><span>25</span></div>
+                        <div class="it daysNumber"><span class="vh">25</span></div>
                         <div class="it daysNumber"><span class="vh">26</span></div>
-                        <div class="it daysNumber"><span class="vh">27</span></div>
                     </div>
                     <div class="month-grid">
                         <div class="it weekNumber">31</div>
+                        <div class="it daysNumber"><span>27</span></div>
                         <div class="it daysNumber"><span>28</span></div>
                         <div class="it daysNumber"><span>29</span></div>
                         <div class="it daysNumber"><span>30</span></div>
                         <div class="it daysNumber"><span>31</span></div>
-                        <div class="it daysNumber"><span></span></div>
                         <div class="it daysNumber"><span></span></div>
                         <div class="it daysNumber"><span></span></div>
                     </div>
@@ -912,49 +900,59 @@
                         <div class="it daysNumber"><span></span></div>
                         <div class="it daysNumber"><span></span></div>
                         <div class="it daysNumber"><span></span></div>
-                        <div class="it daysNumber"><span>1</span></div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span class="vh">1</span></div>
                         <div class="it daysNumber"><span class="vh">2</span></div>
-                        <div class="it daysNumber"><span class="vh">3</span></div>
                     </div>
                     <div class="month-grid">
                         <div class="it weekNumber">32</div>
+                        <div class="it daysNumber"><span>3</span></div>
                         <div class="it daysNumber"><span>4</span></div>
                         <div class="it daysNumber"><span>5</span></div>
                         <div class="it daysNumber"><span>6</span></div>
                         <div class="it daysNumber"><span>7</span></div>
-                        <div class="it daysNumber"><span>8</span></div>
+                        <div class="it daysNumber"><span class="vh">8</span></div>
                         <div class="it daysNumber"><span class="vh">9</span></div>
-                        <div class="it daysNumber"><span class="vh">10</span></div>
                     </div>
                     <div class="month-grid">
                         <div class="it weekNumber">33</div>
+                        <div class="it daysNumber"><span>10</span></div>
                         <div class="it daysNumber"><span>11</span></div>
                         <div class="it daysNumber"><span>12</span></div>
                         <div class="it daysNumber"><span>13</span></div>
                         <div class="it daysNumber"><span>14</span></div>
-                        <div class="it daysNumber"><span>15</span></div>
+                        <div class="it daysNumber"><span class="vh">15</span></div>
                         <div class="it daysNumber"><span class="vh">16</span></div>
-                        <div class="it daysNumber"><span class="vh">17</span></div>
                     </div>
                     <div class="month-grid">
                         <div class="it weekNumber">34</div>
+                        <div class="it daysNumber"><span>17</span></div>
                         <div class="it daysNumber"><span>18</span></div>
                         <div class="it daysNumber"><span>19</span></div>
                         <div class="it daysNumber"><span>20</span></div>
                         <div class="it daysNumber"><span>21</span></div>
-                        <div class="it daysNumber"><span>22</span></div>
+                        <div class="it daysNumber"><span class="vh">22</span></div>
                         <div class="it daysNumber"><span class="vh">23</span></div>
-                        <div class="it daysNumber"><span class="vh">24</span></div>
                     </div>
                     <div class="month-grid">
                         <div class="it weekNumber">35</div>
+                        <div class="it daysNumber"><span>24</span></div>
                         <div class="it daysNumber"><span>25</span></div>
                         <div class="it daysNumber"><span>26</span></div>
                         <div class="it daysNumber"><span>27</span></div>
                         <div class="it daysNumber"><span>28</span></div>
-                        <div class="it daysNumber"><span>29</span></div>
+                        <div class="it daysNumber"><span class="vh">29</span></div>
                         <div class="it daysNumber"><span class="vh">30</span></div>
-                        <div class="it daysNumber"><span class="vh">31</span></div>
+                    </div>
+                    <div class="month-grid">
+                        <div class="it weekNumber">36</div>
+                        <div class="it daysNumber"><span>31</span></div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span></span></div>
                     </div>
                 </div>
                 <div class="month">
@@ -973,49 +971,49 @@
                     </div>
                     <div class="month-grid">
                         <div class="it weekNumber">36</div>
+                        <div class="it daysNumber"><span></span></div>
                         <div class="it daysNumber"><span>1</span></div>
                         <div class="it daysNumber"><span>2</span></div>
                         <div class="it daysNumber"><span>3</span></div>
                         <div class="it daysNumber"><span>4</span></div>
-                        <div class="it daysNumber"><span>5</span></div>
+                        <div class="it daysNumber"><span class="vh">5</span></div>
                         <div class="it daysNumber"><span class="vh">6</span></div>
-                        <div class="it daysNumber"><span class="vh">7</span></div>
                     </div>
                     <div class="month-grid">
                         <div class="it weekNumber">37</div>
+                        <div class="it daysNumber"><span>7</span></div>
                         <div class="it daysNumber"><span>8</span></div>
                         <div class="it daysNumber"><span>9</span></div>
                         <div class="it daysNumber"><span>10</span></div>
                         <div class="it daysNumber"><span>11</span></div>
-                        <div class="it daysNumber"><span>12</span></div>
+                        <div class="it daysNumber"><span class="vh">12</span></div>
                         <div class="it daysNumber"><span class="vh">13</span></div>
-                        <div class="it daysNumber"><span class="vh">14</span></div>
                     </div>
                     <div class="month-grid">
                         <div class="it weekNumber">38</div>
+                        <div class="it daysNumber"><span>14</span></div>
                         <div class="it daysNumber"><span>15</span></div>
                         <div class="it daysNumber"><span>16</span></div>
                         <div class="it daysNumber"><span>17</span></div>
                         <div class="it daysNumber"><span>18</span></div>
-                        <div class="it daysNumber"><span>19</span></div>
+                        <div class="it daysNumber"><span class="vh">19</span></div>
                         <div class="it daysNumber"><span class="vh">20</span></div>
-                        <div class="it daysNumber"><span class="vh">21</span></div>
                     </div>
                     <div class="month-grid">
                         <div class="it weekNumber">39</div>
+                        <div class="it daysNumber"><span>21</span></div>
                         <div class="it daysNumber"><span>22</span></div>
                         <div class="it daysNumber"><span>23</span></div>
                         <div class="it daysNumber"><span>24</span></div>
                         <div class="it daysNumber"><span>25</span></div>
-                        <div class="it daysNumber"><span>26</span></div>
+                        <div class="it daysNumber"><span class="vh">26</span></div>
                         <div class="it daysNumber"><span class="vh">27</span></div>
-                        <div class="it daysNumber"><span class="vh">28</span></div>
                     </div>
                     <div class="month-grid">
                         <div class="it weekNumber">40</div>
+                        <div class="it daysNumber"><span>28</span></div>
                         <div class="it daysNumber"><span>29</span></div>
                         <div class="it daysNumber"><span>30</span></div>
-                        <div class="it daysNumber"><span></span></div>
                         <div class="it daysNumber"><span></span></div>
                         <div class="it daysNumber"><span></span></div>
                         <div class="it daysNumber"><span></span></div>
@@ -1040,50 +1038,50 @@
                         <div class="it weekNumber">40</div>
                         <div class="it daysNumber"><span></span></div>
                         <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span></span></div>
                         <div class="it daysNumber"><span>1</span></div>
                         <div class="it daysNumber"><span>2</span></div>
-                        <div class="it daysNumber"><span>3</span></div>
+                        <div class="it daysNumber"><span class="vh">3</span></div>
                         <div class="it daysNumber"><span class="vh">4</span></div>
-                        <div class="it daysNumber"><span class="vh">5</span></div>
                     </div>
                     <div class="month-grid">
                         <div class="it weekNumber">41</div>
+                        <div class="it daysNumber"><span>5</span></div>
                         <div class="it daysNumber"><span>6</span></div>
                         <div class="it daysNumber"><span>7</span></div>
                         <div class="it daysNumber"><span>8</span></div>
                         <div class="it daysNumber"><span>9</span></div>
-                        <div class="it daysNumber"><span>10</span></div>
+                        <div class="it daysNumber"><span class="vh">10</span></div>
                         <div class="it daysNumber"><span class="vh">11</span></div>
-                        <div class="it daysNumber"><span class="vh">12</span></div>
                     </div>
                     <div class="month-grid">
                         <div class="it weekNumber">42</div>
+                        <div class="it daysNumber"><span>12</span></div>
                         <div class="it daysNumber"><span>13</span></div>
                         <div class="it daysNumber"><span>14</span></div>
                         <div class="it daysNumber"><span>15</span></div>
                         <div class="it daysNumber"><span>16</span></div>
-                        <div class="it daysNumber"><span>17</span></div>
+                        <div class="it daysNumber"><span class="vh">17</span></div>
                         <div class="it daysNumber"><span class="vh">18</span></div>
-                        <div class="it daysNumber"><span class="vh">19</span></div>
                     </div>
                     <div class="month-grid">
                         <div class="it weekNumber">43</div>
+                        <div class="it daysNumber"><span>19</span></div>
                         <div class="it daysNumber"><span>20</span></div>
                         <div class="it daysNumber"><span>21</span></div>
                         <div class="it daysNumber"><span>22</span></div>
                         <div class="it daysNumber"><span>23</span></div>
-                        <div class="it daysNumber"><span>24</span></div>
+                        <div class="it daysNumber"><span class="vh">24</span></div>
                         <div class="it daysNumber"><span class="vh">25</span></div>
-                        <div class="it daysNumber"><span class="vh">26</span></div>
                     </div>
                     <div class="month-grid">
                         <div class="it weekNumber">44</div>
+                        <div class="it daysNumber"><span>26</span></div>
                         <div class="it daysNumber"><span>27</span></div>
                         <div class="it daysNumber"><span>28</span></div>
                         <div class="it daysNumber"><span>29</span></div>
                         <div class="it daysNumber"><span>30</span></div>
-                        <div class="it daysNumber"><span>31</span></div>
-                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span class="vh">31</span></div>
                         <div class="it daysNumber"><span></span></div>
                     </div>
                 </div>
@@ -1108,48 +1106,58 @@
                         <div class="it daysNumber"><span></span></div>
                         <div class="it daysNumber"><span></span></div>
                         <div class="it daysNumber"><span></span></div>
-                        <div class="it daysNumber"><span class="prd">1</span></div>
-                        <div class="it daysNumber"><span class="vh">2</span></div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span class="vh">1</span></div>
                     </div>
                     <div class="month-grid">
                         <div class="it weekNumber">45</div>
-                        <div class="it daysNumber"><span class="pr">3</span></div>
+                        <div class="it daysNumber"><span>2</span></div>
+                        <div class="it daysNumber"><span class="prd">3</span></div>
                         <div class="it daysNumber"><span class="pr">4</span></div>
                         <div class="it daysNumber"><span>5</span></div>
                         <div class="it daysNumber"><span>6</span></div>
-                        <div class="it daysNumber"><span>7</span></div>
+                        <div class="it daysNumber"><span class="vh">7</span></div>
                         <div class="it daysNumber"><span class="vh">8</span></div>
-                        <div class="it daysNumber"><span class="vh">9</span></div>
                     </div>
                     <div class="month-grid">
                         <div class="it weekNumber">46</div>
+                        <div class="it daysNumber"><span>9</span></div>
                         <div class="it daysNumber"><span>10</span></div>
                         <div class="it daysNumber"><span>11</span></div>
                         <div class="it daysNumber"><span>12</span></div>
                         <div class="it daysNumber"><span>13</span></div>
-                        <div class="it daysNumber"><span>14</span></div>
+                        <div class="it daysNumber"><span class="vh">14</span></div>
                         <div class="it daysNumber"><span class="vh">15</span></div>
-                        <div class="it daysNumber"><span class="vh">16</span></div>
                     </div>
                     <div class="month-grid">
                         <div class="it weekNumber">47</div>
+                        <div class="it daysNumber"><span>16</span></div>
                         <div class="it daysNumber"><span>17</span></div>
                         <div class="it daysNumber"><span>18</span></div>
                         <div class="it daysNumber"><span>19</span></div>
                         <div class="it daysNumber"><span>20</span></div>
-                        <div class="it daysNumber"><span>21</span></div>
+                        <div class="it daysNumber"><span class="vh">21</span></div>
                         <div class="it daysNumber"><span class="vh">22</span></div>
-                        <div class="it daysNumber"><span class="vh">23</span></div>
                     </div>
                     <div class="month-grid">
                         <div class="it weekNumber">48</div>
+                        <div class="it daysNumber"><span>23</span></div>
                         <div class="it daysNumber"><span>24</span></div>
                         <div class="it daysNumber"><span>25</span></div>
                         <div class="it daysNumber"><span>26</span></div>
                         <div class="it daysNumber"><span>27</span></div>
-                        <div class="it daysNumber"><span>28</span></div>
+                        <div class="it daysNumber"><span class="vh">28</span></div>
                         <div class="it daysNumber"><span class="vh">29</span></div>
-                        <div class="it daysNumber"><span class="vh">30</span></div>
+                    </div>
+                    <div class="month-grid">
+                        <div class="it weekNumber">49</div>
+                        <div class="it daysNumber"><span>30</span></div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span></span></div>
+                        <div class="it daysNumber"><span></span></div>
                     </div>
                 </div>
                 <div class="month">
@@ -1168,50 +1176,50 @@
                     </div>
                     <div class="month-grid">
                         <div class="it weekNumber">49</div>
+                        <div class="it daysNumber"><span></span></div>
                         <div class="it daysNumber"><span>1</span></div>
                         <div class="it daysNumber"><span>2</span></div>
                         <div class="it daysNumber"><span>3</span></div>
                         <div class="it daysNumber"><span>4</span></div>
-                        <div class="it daysNumber"><span>5</span></div>
+                        <div class="it daysNumber"><span class="vh">5</span></div>
                         <div class="it daysNumber"><span class="vh">6</span></div>
-                        <div class="it daysNumber"><span class="vh">7</span></div>
                     </div>
                     <div class="month-grid">
                         <div class="it weekNumber">50</div>
+                        <div class="it daysNumber"><span>7</span></div>
                         <div class="it daysNumber"><span>8</span></div>
                         <div class="it daysNumber"><span>9</span></div>
                         <div class="it daysNumber"><span>10</span></div>
                         <div class="it daysNumber"><span>11</span></div>
-                        <div class="it daysNumber"><span>12</span></div>
+                        <div class="it daysNumber"><span class="vh">12</span></div>
                         <div class="it daysNumber"><span class="vh">13</span></div>
-                        <div class="it daysNumber"><span class="vh">14</span></div>
                     </div>
                     <div class="month-grid">
                         <div class="it weekNumber">51</div>
+                        <div class="it daysNumber"><span>14</span></div>
                         <div class="it daysNumber"><span>15</span></div>
                         <div class="it daysNumber"><span>16</span></div>
                         <div class="it daysNumber"><span>17</span></div>
                         <div class="it daysNumber"><span>18</span></div>
-                        <div class="it daysNumber"><span>19</span></div>
+                        <div class="it daysNumber"><span class="vh">19</span></div>
                         <div class="it daysNumber"><span class="vh">20</span></div>
-                        <div class="it daysNumber"><span class="vh">21</span></div>
                     </div>
                     <div class="month-grid">
                         <div class="it weekNumber">52</div>
+                        <div class="it daysNumber"><span>21</span></div>
                         <div class="it daysNumber"><span>22</span></div>
                         <div class="it daysNumber"><span>23</span></div>
                         <div class="it daysNumber"><span>24</span></div>
                         <div class="it daysNumber"><span>25</span></div>
-                        <div class="it daysNumber"><span>26</span></div>
+                        <div class="it daysNumber"><span class="vh">26</span></div>
                         <div class="it daysNumber"><span class="vh">27</span></div>
-                        <div class="it daysNumber"><span class="vh">28</span></div>
                     </div>
                     <div class="month-grid">
                         <div class="it weekNumber">53</div>
+                        <div class="it daysNumber"><span>28</span></div>
                         <div class="it daysNumber"><span>29</span></div>
                         <div class="it daysNumber"><span>30</span></div>
                         <div class="it daysNumber"><span class="pr">31</span></div>
-                        <div class="it daysNumber"><span></span></div>
                         <div class="it daysNumber"><span></span></div>
                         <div class="it daysNumber"><span></span></div>
                         <div class="it daysNumber"><span></span></div>

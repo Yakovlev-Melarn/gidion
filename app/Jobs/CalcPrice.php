@@ -68,21 +68,12 @@ class CalcPrice implements ShouldQueue
             $price->save();
         }
         if (!empty($price->s_price)) {
-            $deliveryCost = CardLib::getDeliveryPrice($price->card);
             if ($this->percent == 1) {
                 $price->percent = ceil($commission);
-                $mrg = $commission * 2;
             } else {
-                $mrg = $commission;
                 $price->percent = $this->percent;
             }
-            /*echo "Доставка $deliveryCost\r\n";
-            echo "Комиссия $mrg\r\n";
-            echo "Доставка и себестоимость ". ($price->s_price + $deliveryCost) ."\r\n";
-            echo "Доставка и себестоимость + комиссия ". (($price->s_price + $deliveryCost) / (100 - $mrg)) ."\r\n";*/
-            //$price->price = ceil((($price->s_price + $deliveryCost) / (100 - $mrg)*100) / $this->percent * 100);
             $price->price = ceil($price->s_price * 5);
-            //echo "{$price->card->nmID} | {$price->s_price} | {$price->price} | {$commission} | {$deliveryCost}\r\n";
             if ($this->cardId) {
                 $price->holdPrice = 1;
                 $price->holdedAt = date("Y-m-d H:i:s");
@@ -129,12 +120,14 @@ class CalcPrice implements ShouldQueue
             }
         }
         $nmIds = implode(';', $nmIds);
-        if ($result = WBSupplier::getPrices($nmIds)) {
+        if ($result = WBSupplier::getPrices($nmIds,$this->seller)) {
             foreach ($result as $supplierSku => $price) {
                 $card = Card::where("supplierSku", $supplierSku)->first();
                 if ($card->prices->s_price != $price) {
-                    $card->prices->s_price = $price;
-                    $card->prices->save();
+                    if($price) {
+                        $card->prices->s_price = $price;
+                        $card->prices->save();
+                    }
                 }
             }
         }

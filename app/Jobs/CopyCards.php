@@ -12,6 +12,7 @@ use App\Models\Seller;
 use App\Models\Supplier;
 use App\Models\SupplierCaregory;
 use Exception;
+use GuzzleHttp\Exception\RequestException;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -32,6 +33,7 @@ class CopyCards implements ShouldQueue
     public int $catalog = 5;
     public int $supplierId;
     public array $categories = [];
+    public array $toTrash = [];
     public array $sortTypes = [
         'newly',
         'rate',
@@ -53,26 +55,34 @@ class CopyCards implements ShouldQueue
     public function handle(): void
     {
         $this->getSupplierCategories();
-        echo "Предварительно карточек товара будет создано: {$this->count}. \r\n";
+        echo "Предварительно в очереди: {$this->count}. \r\n";
         Helper::writeLog("CopyCardsInfo", "Будет создано {$this->count} карточек товара.");
         $categories = SupplierCaregory::where("supplierId", $this->supplierId)->orderBy('categoryId')->get();
         foreach ($categories as $category) {
             if (!$category->checked) {
                 if ($category->productsCount > 0) {
-                    echo "Опрашиваю категорию: {$category->name}. \r\n";
+                    echo "Опрашиваю cId: {$category->id}. \r\n";
                     if (!$this->count) {
                         break;
                     }
-                    echo "Осталось создать карточек:  {$this->count}\r\n";
-                    echo "Опрашиваю категорию: {$category->name}. Товаров: {$category->productsCount} \r\n";
+                    echo "Осталось:  {$this->count}\r\n";
+                    echo "Опрашиваю cId: {$category->id}... \r\n";
                     $pages = ceil($category->productsCount / 100);
                     for ($i = 1; $i <= $pages; $i++) {
-                        $this->prepareCopyCard($category->categoryId, $i);
+                        if (!$this->prepareCopyCard($category->categoryId, $i)) {
+                            break;
+                        }
                     }
                     $this->copyCard();
                 }
                 $category->checked = 1;
                 $category->save();
+            }
+            if (!empty($this->toTrash)) {
+                $parts = array_chunk($this->toTrash, 99);
+                foreach ($parts as $part) {
+                    Trash::dispatch($this->seller, $part);
+                }
             }
         }
         /*        $settings = [
@@ -97,7 +107,7 @@ class CopyCards implements ShouldQueue
                     $supplierCategory = new SupplierCaregory();
                     $supplierCategory->categoryId = $category['id'];
                     $supplierCategory->supplierId = $this->supplierId;
-                    $supplierCategory->productsCount = $category['count'];
+                    $supplierCategory->productsCount = 9999;
                     $supplierCategory->name = $category['name'];
                     $supplierCategory->save();
                 }
@@ -124,14 +134,17 @@ class CopyCards implements ShouldQueue
         return $supplierSkus['data']['products'];
     }
 
-    private function validateSupplierSku($supplierSku, $prefixSku): bool
+    public static function validateSupplierSku($supplierSku, $prefixSku): bool
     {
         if (Card::where("vendorCode", "{$prefixSku}-{$supplierSku['id']}-1")->first()) {
             Helper::writeLog("CopyCardsInfo", "Карточка nmId {$supplierSku['id']} уже создана.", 'issetCopiedCard');
             return false;
         }
-        if ($supplierSku['totalQuantity'] < 5) {
+        if ($supplierSku['totalQuantity'] < 1) {
             Helper::writeLog("CopyCardsInfo", "Карточка nmId {$supplierSku['id']} без остатка.", 'zeroQuantityCopiedCard');
+            return false;
+        }
+        if ($supplierSku['sizes'][0]['price']['product'] < 500000) {
             return false;
         }
         if (empty($supplierSku['name'])) {
@@ -144,7 +157,7 @@ class CopyCards implements ShouldQueue
     private function setCopyCards($copySkus, $prefixSku)
     {
         foreach ($copySkus as $supplierSku) {
-            if ($this->validateSupplierSku($supplierSku, $prefixSku)) {
+            if (self::validateSupplierSku($supplierSku, $prefixSku)) {
                 $this->addQueueCopyCards($supplierSku, $prefixSku);
             }
         }
@@ -153,7 +166,7 @@ class CopyCards implements ShouldQueue
     private function addQueueCopyCards($supplierSku, $prefixSku)
     {
         if (!CopyCard::find($supplierSku['id'])) {
-            $price = $supplierSku['salePriceU'] * 5 / 100;
+            $price = $supplierSku['sizes'][0]['price']['product'] * 5 / 100;
             $copyCard = new CopyCard();
             $copyCard->id = $supplierSku['id'];
             $copyCard->price = $price;
@@ -169,30 +182,29 @@ class CopyCards implements ShouldQueue
     {
         foreach ($copyCards as $copyCard) {
             $data = WBSupplier::getCardInfo($copyCard->id);
-            if (empty($data)) {
-                dd($copyCard);
-            }
-            $data['imt_name'] = $copyCard->name;
-            if ($cardData = self::fillCardData(
-                $data, $copyCard->subjectId, $this->seller, $copyCard->prefix, 1, $copyCard->price
-            )) {
-                $result = WBContent::create($this->seller, $cardData);
-                if (!empty($result['error'])) {
-                    Helper::writeLog("CopyCardsInfo", $result['errorText'], 'errorCopiedCard');
+            if (!empty($data)) {
+                $data['imt_name'] = $copyCard->name;
+                if ($cardData = self::fillCardData(
+                    $data, $copyCard->subjectId, $this->seller, $copyCard->prefix, 1, $copyCard->price
+                )) {
+                    $result = WBContent::create($this->seller, $cardData);
+                    if (!empty($result['error'])) {
+                        Helper::writeLog("CopyCardsInfo", $result['errorText'], 'errorCopiedCard');
+                    }
+                    $cardData['vendorCode'] = "RS-X-{$copyCard->id}-1";
+                    CardLib::makeJobAfterCreateCard($this->seller, $cardData);
                 }
-                $cardData['vendorCode'] = "RS-X-{$copyCard->id}-1";
-                CardLib::makeJobAfterCreateCard($this->seller, $cardData);
-                $copyCard->delete();
-                $this->count--;
             }
+            $copyCard->delete();
+            $this->count--;
         }
     }
 
     private function copyCard()
     {
         $copyCards = CopyCard::where("price", '>', '0')->limit($this->count)->get();
-        echo "Обработка окочена. Карточек в очереди на создание: {$copyCards->count()}\r\n";
-        Helper::writeLog("CopyCardsInfo", "Обработка окочена. Карточек в очереди на создание: {$copyCards->count()}");
+        echo "Обработка окочена. Очередь: {$copyCards->count()}\r\n";
+        Helper::writeLog("CopyCardsInfo", "Обработка окочена. Очередь: {$copyCards->count()}");
         if ($copyCards->count() > 0) {
             $this->sendCopyCards($copyCards);
         }
@@ -200,109 +212,153 @@ class CopyCards implements ShouldQueue
 
     private function prepareCopyCard($categoryId, $page)
     {
-        $supplierSkus = WBSupplier::getSkusByPage($this->competitor, $categoryId, $page);
+        try {
+            $supplierSkus = WBSupplier::getSkusByPage($this->competitor, $categoryId, $page);
+        } catch (RequestException) {
+            sleep(30);
+            $supplierSkus = WBSupplier::getSkusByPage($this->competitor, $categoryId, $page);
+        }
         if ($copySkus = $this->getCopyProducts($supplierSkus)) {
             $prefixSku = $this->getPrefixSku();
             $this->setCopyCards($copySkus, $prefixSku);
+            return true;
+        } else {
+            return false;
         }
     }
 
-    public static function fillCardData($data, $subjectId, $seller, $prefix = 'RS-X', $pack = 1, $price = null): array|bool
+    public static function copyOneCard($nmID, $seller, $prefix = 'RS-X', $pack = 1, $sku = null, $price = 0)
+    {
+        $data = WBSupplier::getDetail($nmID);
+        if (!empty($data['products'])) {
+            if (CopyCards::validateSupplierSku($data['products'][0], 'RS-X')) {
+                if (isset($data['products'][0]['subjectId'])) {
+                    $productData = WBSupplier::getCardInfo($nmID);
+                    if (!empty($productData)) {
+                        $subjectId = $data['products'][0]['subjectId'];
+                        $productData['imt_name'] = $data['products'][0]['name'];
+                        $cardData = CopyCards::fillCardData($productData, $subjectId, $seller, $prefix, $pack, $price, $sku);
+                        $result = WBContent::create($seller, $cardData);
+                        if (!empty($result['error'])) {
+                            return false;
+                        }
+                        if (!empty($sku)) {
+                            $cardData['vendorCode'] = "{$prefix}-{$sku}-{$pack}";
+                        } else {
+                            $cardData['vendorCode'] = "{$prefix}-{$nmID}-{$pack}";
+                        }
+                        CardLib::makeJobAfterCreateCard($seller, $cardData);
+                    }
+                }
+            }
+        }
+    }
+
+    public static function fillCardData($data, $subjectId, $seller, $prefix = 'RS-X', $pack = 1, $price = null, $sku = null): array|bool
     {
         if (!empty($data['description'])) {
             $data['description'] = mb_substr($data['description'], 0, 1999);
         }
-        $data['sellPrice'] = WBSupplier::getPrice($data['nm_id']);
-        if (isset($data['media']['photo_count'])) {
-            $photos = CardLib::getPhotosBySupplierProduct($data['nm_id'], $data['media']['photo_count']);
-            if (!empty($photos)) {
-                $chrs = WBContent::charcs($seller, $subjectId);
-                if (!empty($chrs['data'])) {
-                    $dimensions = ['width' => 10, 'length' => 10, 'height' => 10];
-                    $characteristics = [];
-                    if (!empty($data['options'])) {
-                        foreach ($data['options'] as &$option) {
-                            foreach ($chrs['data'] as $chr) {
-                                if ($chr['name'] == $option['name']) {
-                                    $option['charcID'] = $chr['charcID'];
-                                    $option['maxCount'] = $chr['maxCount'];
+        if ($data['sellPrice'] = WBSupplier::getPrice($data['nm_id'])) {
+            if (isset($data['media']['photo_count'])) {
+                $photos = CardLib::getPhotosBySupplierProduct($data['nm_id'], $data['media']['photo_count']);
+                if (!empty($photos)) {
+                    $chrs = WBContent::charcs($seller, $subjectId);
+                    if (!empty($chrs['data'])) {
+                        $dimensions = ['width' => 10, 'length' => 10, 'height' => 10];
+                        $characteristics = [];
+                        if (!empty($data['options'])) {
+                            foreach ($data['options'] as &$option) {
+                                foreach ($chrs['data'] as $chr) {
+                                    if ($chr['name'] == $option['name']) {
+                                        $option['charcID'] = $chr['charcID'];
+                                        $option['maxCount'] = $chr['maxCount'];
+                                    }
                                 }
-                            }
-                            if (!empty($option['charcID'])) {
-                                if ($option['charcID'] == 90849) {
-                                    $dimensions['width'] = (int)$option['value'];
-                                } elseif ($option['charcID'] == 90846) {
-                                    $dimensions['length'] = (int)$option['value'];
-                                } elseif ($option['charcID'] == 90745) {
-                                    $dimensions['height'] = (int)$option['value'];
-                                } else {
-                                    $characteristics[] = [
-                                        'id' => $option['charcID'],
-                                        'value' => $option['value'],
-                                        'maxcount' => $option['maxCount']
-                                    ];
-                                }
-                            }
-                        }
-                    }
-                    $characteristicsList = [];
-                    foreach ($characteristics as $characteristic) {
-                        $values = explode("; ", $characteristic['value']);
-                        if ($characteristic['id'] == 18182) {
-                            $values = $characteristic['value'];
-                        } elseif ($characteristic['id'] == 19033) {
-                            $values = [$values[0]];
-                        } else {
-                            if ($characteristic['maxcount'] == 0 && count($values) == 1) {
-                                $values = (int)$characteristic['value'];
-                            }
-                            if ($characteristic['maxcount'] == 1 && count($values) > 1) {
-                                $values = [$values[0]];
-                            }
-                            if ($characteristic['id'] == 14177449) {
-                                foreach ($values as &$value) {
-                                    $value = str_replace('Чёрный', 'черный', $value);
-                                    if ($value == 1) {
-                                        unset($value);
+                                if (!empty($option['charcID'])) {
+                                    if ($option['charcID'] == 90849) {
+                                        $dimensions['width'] = (int)$option['value'];
+                                    } elseif ($option['charcID'] == 90846) {
+                                        $dimensions['length'] = (int)$option['value'];
+                                    } elseif ($option['charcID'] == 90745) {
+                                        $dimensions['height'] = (int)$option['value'];
+                                    } else {
+                                        $characteristics[] = [
+                                            'id' => $option['charcID'],
+                                            'value' => $option['value'],
+                                            'maxcount' => $option['maxCount']
+                                        ];
                                     }
                                 }
                             }
                         }
-                        $characteristicsList[] = [
-                            'id' => (int)$characteristic['id'],
-                            'value' => $values
-                        ];
-                    }
-                    if (empty($price)) {
-                        $price = (int)ceil((($data['sellPrice'] + 55) / (100 - $seller->percentageOfMargin)) * 100);
-                    }
-                    if (empty($data['selling']['brand_name'])) {
-                        $data['selling']['brand_name'] = 'TopGiper';
-                    }
-                    $result = [
-                        'card' => [
-                            "subjectID" => (int)$subjectId,
-                            "variants" => [
-                                [
-                                    "vendorCode" => "{$prefix}-{$data['nm_id']}-{$pack}",
-                                    "title" => Helper::mbUcfirst(mb_substr(mb_strtolower($data['imt_name']), 0, 59)),
-                                    "description" => empty($data['description']) ? $data['imt_name'] : $data['description'],
-                                    "brand" => Helper::getBrand($data['selling']['brand_name']),
-                                    "dimensions" => [
-                                        "height" => (int)$dimensions['height'],
-                                        "length" => (int)$dimensions['length'],
-                                        "width" => (int)$dimensions['width']
-                                    ],
-                                    "characteristics" => $characteristicsList,
-                                    'sizes' => [[
-                                        "price" => (int)$price
-                                    ]]
+                        $characteristicsList = [];
+                        foreach ($characteristics as $characteristic) {
+                            $values = explode("; ", $characteristic['value']);
+                            if ($characteristic['id'] == 18182) {
+                                $values = $characteristic['value'];
+                            } elseif ($characteristic['id'] == 19033) {
+                                $values = [$values[0]];
+                            } else {
+                                if ($characteristic['maxcount'] == 0 && count($values) == 1) {
+                                    $values = (int)$characteristic['value'];
+                                }
+                                if ($characteristic['maxcount'] == 1 && count($values) > 1) {
+                                    $values = [$values[0]];
+                                }
+                                if ($characteristic['id'] == 14177449) {
+                                    foreach ($values as &$value) {
+                                        $value = str_replace('Чёрный', 'черный', $value);
+                                        if ($value == 1) {
+                                            unset($value);
+                                        }
+                                    }
+                                }
+                            }
+                            $characteristicsList[] = [
+                                'id' => (int)$characteristic['id'],
+                                'value' => $values
+                            ];
+                        }
+                        if (empty($price)) {
+                            $price = (int)ceil((($data['sellPrice'] + 63) / (100 - $seller->percentageOfMargin)) * 100);
+                            if ($prefix != 'RS-X') {
+                                $price = (int)$data['sellPrice'];
+                            }
+                        }
+                        if (empty($data['selling']['brand_name'])) {
+                            $data['selling']['brand_name'] = 'Сималенд';
+                        }
+                        if (!empty($sku)) {
+                            $vendorC = "{$prefix}-{$sku}-{$pack}";
+                        } else {
+                            $vendorC = "{$prefix}-{$data['nm_id']}-{$pack}";
+                        }
+                        $result = [
+                            'card' => [
+                                "subjectID" => (int)$subjectId,
+                                "variants" => [
+                                    [
+                                        "vendorCode" => $vendorC,
+                                        "title" => Helper::mbUcfirst(mb_substr(mb_strtolower($data['imt_name']), 0, 59)),
+                                        "description" => empty($data['description']) ? $data['imt_name'] : $data['description'],
+                                        "brand" => Helper::getBrand($data['selling']['brand_name']),
+                                        "dimensions" => [
+                                            "height" => (int)$dimensions['height'],
+                                            "length" => (int)$dimensions['length'],
+                                            "width" => (int)$dimensions['width']
+                                        ],
+                                        "characteristics" => $characteristicsList,
+                                        'sizes' => [[
+                                            "price" => (int)$price
+                                        ]]
+                                    ]
                                 ]
-                            ]
-                        ],
-                        'photos' => $photos
-                    ];
-                    return $result;
+                            ],
+                            'photos' => $photos
+                        ];
+                        return $result;
+                    }
                 }
             }
         }

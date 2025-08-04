@@ -32,19 +32,14 @@ class CardController extends Controller
     public function catalog(Request $request)
     {
         if ($request->method() == 'POST') {
-            CatalogJob::dispatch("https://api.samsonopt.ru/v1/sku?api_key=635dba79ee799d90ce09e82e1f659c0f&photo_size=xl&pagination_count=1000");
+            CatalogJob::dispatch()->onQueue('samson');
         }
         $products = Catalog::whereNull('card_id')->where('blocked', 0)->limit(20)->inRandomOrder()->get();
         $rows = [];
         foreach ($products as $product) {
             $amount = Helper::arrSearch(SamsonLib::getProductStock($product->sku), 'type', 'idp') ?: 0;
+            $obPrice = Helper::arrSearch(SamsonLib::getProductPrice($product->sku), 'type', 'contract') ?: 0;
             if ($amount > 5) {
-                $obPrice = $product->obPrice;
-                if (!$obPrice) {
-                    $obPrice = OfficeBurg::getPrice($product->sku);
-                    $product->obPrice = $obPrice;
-                    $product->save();
-                }
                 if ($obPrice) {
                     $wbPrice = '-';
                     if ($card = Card::where('origSku', $product->sku)->where('supplier', 10)->first()) {
@@ -61,14 +56,14 @@ class CardController extends Controller
                     $height = Helper::arrSearch(json_decode($product->package_size, 1), 'type', 'height');
                     $depth = Helper::arrSearch(json_decode($product->package_size, 1), 'type', 'depth');
                     $volume = (floatval($width) * floatval($height) * floatval($depth)) / 1000;
-                    if ($volume > 0 && ceil($volume) < 6) {
+                    if ($volume > 0) {
                         $rows[] = [
                             'id' => $product->id,
                             'cardId' => $product->card_id,
                             'sku' => $product->sku,
                             'name' => mb_substr($product->name, 0, 50),
-                            'omPrice' => Helper::arrSearch(json_decode($product->price_list, 1), 'type', 'contract'),
-                            'obPrice' => OfficeBurg::getPrice($product->sku),
+                            'omPrice' => $obPrice,
+                            'obPrice' => $obPrice,
                             'wbPrice' => $wbPrice,
                             'volume' => ceil($volume)
                         ];
@@ -96,21 +91,7 @@ class CardController extends Controller
         if ($request->method() == 'POST') {
             if ((int)$request->nmID) {
                 $seller = Seller::find(session()->get('sellerId'));
-                $data = WBSupplier::getDetail($request->nmID);
-                if (isset($data['data']['products'][0]['subjectId'])) {
-                    $productData = WBSupplier::getCardInfo($request->nmID);
-                    if (!empty($productData)) {
-                        $subjectId = $data['data']['products'][0]['subjectId'];
-                        $productData['imt_name'] = $data['data']['products'][0]['name'];
-                        $cardData = CopyCards::fillCardData($productData, $subjectId, $seller, $request->prefix, $request->pack);
-                        $result = WBContent::create($seller, $cardData);
-                        if (!empty($result['error'])) {
-                            return false;
-                        }
-                        $cardData['vendorCode'] = "{$request->prefix}-{$request->nmID}-{$request->pack}";
-                        CardLib::makeJobAfterCreateCard($seller, $cardData);
-                    }
-                }
+                CopyCards::copyOneCard($request->nmID, $seller, $request->prefix, $request->pack, $request->sku, $request->price);
             }
         }
         return view('Cards/copycard');
@@ -121,6 +102,9 @@ class CardController extends Controller
         if ($request->method() == 'POST') {
             $seller = Seller::find(session()->get('sellerId'));
             $nmIds = explode("\r\n", $request->nmIds);
+            foreach ($nmIds as $nmId) {
+                Card::where('nmID', $nmId)->delete();
+            }
             $nmIds = array_map('intval', $nmIds);
             $parts = array_chunk($nmIds, 99);
             foreach ($parts as $part) {
@@ -145,9 +129,26 @@ class CardController extends Controller
         return redirect()->back();
     }
 
+    protected function getSamsonPrice(Card $card)
+    {
+        $card->supplierSku = $card->origSku;
+        $prices = SamsonLib::getProductPrice($card->supplierSku);
+        if (!empty($prices['error'])) {
+            $prices = Catalog::where("sku", $card->supplierSku)->first();
+            $card->prices->s_price = ceil(Helper::arrSearch(json_decode($prices->price_list, 1), 'type', 'contract'));
+        } else {
+            $card->prices->s_price = ceil(Helper::arrSearch($prices, 'type', 'contract'));
+        }
+        $card->prices->save();
+        return $card;
+    }
+
     protected function updateSupplier(Card $card, Request $request)
     {
         $card->supplier = $request->supplier;
+        if ($request->supplier == 2) {
+            $card = $this->getSamsonPrice($card);
+        }
         if ($card->save()) {
             return ['success' => 1];
         }
@@ -182,27 +183,33 @@ class CardController extends Controller
             $stocks = $card->stocks;
             $costOfLogistics = CardLib::getDeliveryPrice($card);
             if (empty($card->sizes->count())) {
-                ContentCard::dispatch($seller, [
-                    'cursor' => [
-                        'limit' => 10
-                    ],
-                    'filter' => [
-                        'textSearch' => (string)$card->vendorCode,
-                        "withPhoto" => -1
-                    ]
-                ], 'addSize');
+                Bus::chain([
+                    new ContentCard($seller, [
+                        'cursor' => [
+                            'limit' => 10
+                        ],
+                        'filter' => [
+                            'textSearch' => (string)$card->vendorCode,
+                            "withPhoto" => -1
+                        ]
+                    ], 'addSize'),
+                    new PriceInfo($seller, 0, $card->nmID)
+                ])->dispatch();
                 return view("Card/cardInfo", ['loaded' => 0]);
             }
             if (empty($card->photos->count())) {
-                ContentCard::dispatch($seller, [
-                    'cursor' => [
-                        'limit' => 10
-                    ],
-                    'filter' => [
-                        'textSearch' => (string)$card->vendorCode,
-                        "withPhoto" => -1
-                    ]
-                ], 'addPhoto');
+                Bus::chain([
+                    new ContentCard($seller, [
+                        'cursor' => [
+                            'limit' => 10
+                        ],
+                        'filter' => [
+                            'textSearch' => (string)$card->vendorCode,
+                            "withPhoto" => -1
+                        ]
+                    ], 'addPhoto'),
+                    new PriceInfo($seller, 0, $card->nmID)
+                ])->dispatch();
                 return view("Card/cardInfo", ['loaded' => 0]);
             }
             if (empty($card->prices)) {
@@ -211,11 +218,17 @@ class CardController extends Controller
             }
             $localStock = CardLib::getLocalStock($card->id, session()->get('sellerId'));
             if ($card->supplier == 10) {
-                if ($card->prices->s_price = WBSupplier::getPrice($card->supplierSku)) {
+                if ($sPrice = WBSupplier::getPrice($card->supplierSku)) {
+                    $card->prices->s_price = $sPrice;
                     $card->prices->save();
                 }
-                $card->slstock->amount = WBSupplier::getAmount($card->supplierSku);
-                $card->slstock->save();
+                if (!$localStock['amount']) {
+                    $card->slstock->amount = WBSupplier::getAmount($card->supplierSku);
+                    $card->slstock->save();
+                }
+            }
+            if ($card->supplier == 2) {
+                $card = $this->getSamsonPrice($card);
             }
             return view("Card/cardInfo", [
                 'loaded' => 1,
@@ -298,7 +311,7 @@ class CardController extends Controller
     public function getObjectsAll(Request $request)
     {
         $seller = Seller::find($request->seller);
-        return WBContent::objectsAll($seller, $request->name);
+        return WBContent::objectsAll2($seller, $request->name);
     }
 
     public function createcard($productId)
@@ -306,6 +319,7 @@ class CardController extends Controller
         $product = Catalog::find($productId);
         return view('Cards/createcard', [
             'product' => $product,
+            'sPrice' => Helper::arrSearch(SamsonLib::getProductPrice($product->sku), 'type', 'contract'),
             'photos' => json_decode($product->photo_list),
             'facets' => json_decode($product->facet_list, 1)
         ]);

@@ -3,9 +3,11 @@
 namespace App\Jobs;
 
 use App\Http\Libs\CardLib;
+use App\Http\Libs\Helper;
 use App\Http\Libs\WBMarketplace;
 use App\Http\Libs\WBSupplier;
 use App\Models\Card;
+use App\Models\Price;
 use App\Models\Seller;
 use App\Models\Stock;
 use Illuminate\Bus\Queueable;
@@ -41,6 +43,7 @@ class StockUpdate implements ShouldQueue
                 StockUpdate::dispatch($this->seller)->onQueue('updatestock');
             }
         }
+        PriceUpdate::dispatch($this->seller);
     }
 
     private function prepareUpload()
@@ -115,32 +118,72 @@ class StockUpdate implements ShouldQueue
             $offset += 300;
             $supplierSkus = [];
             if ($cards->count()) {
+                $nmIds = [];
                 foreach ($cards as $card) {
+                    /*if (empty($card->prices)) {
+                        continue;
+                    }
+                    if ($card->prices->s_price < 4000) {
+                        continue;
+                    }
+                    echo "{$card->supplierSku}\r\n";
                     if (self::NULL_STOCK) {
                         $this->saveStock($card, 0);
                         continue;
-                    }
+                    }*/
+                    $nmIds[] = $card->nmID;
                     $supplierSkus[] = $card->supplierSku;
                 }
+                //Trash::dispatch($this->seller,$nmIds);
                 if (!empty($supplierSkus)) {
                     $supplierSkus = implode(';', $supplierSkus);
-                    if ($results = WBSupplier::getAmounts($supplierSkus)) {
-                        $supplierSkus = explode(';', $supplierSkus);
+                    $results = WBSupplier::getAmounts($supplierSkus);
+                    $supplierSkus = explode(';', $supplierSkus);
+                    if ($results) {
+                        echo "Есть результат! Осталось обработать " . count($supplierSkus) . "\r\n";
                         foreach ($results as $supplierSku => $amount) {
                             $card = Card::where("supplierSku", $supplierSku)->first();
                             $card->detailedStockAt = date('Y-m-d H:i:s');
                             $card->save();
-                            $this->saveStock($card, $amount);
-                            $detailed++;
+                            if (empty($card->prices)) {
+                                $prices = new Price();
+                                $prices->card_id = $card->id;
+                                $prices->seller_id = $card->seller_id;
+                                $prices->nmId = $card->nmID;
+                                $prices->price = 10000;
+                                $prices->discount = 0;
+                                $prices->save();
+                                $card = Card::where("supplierSku", $supplierSku)->first();
+                            }
+                            if ((int)$card->prices->s_price === 0) {
+                                $card->prices->s_price = WBSupplier::getPrice($card->supplierSku);
+                                $card->prices->save();
+                                $card = Card::where("supplierSku", $supplierSku)->first();
+                                echo "sPrTo {$card->id} = {$card->prices->s_price}\r\n";
+                            }
+                            if ($card->prices->s_price > 3999) {
+                                $this->saveStock($card, 10); //(!!!)
+                                $card->prices->price = ceil($card->prices->s_price / 2);
+                                $card->prices->toUpload = 1;
+                                $card->prices->save();
+                                $detailed++;
+                            } else {
+                                $this->saveStock($card, 0);
+                                $detailed++;
+                            }
                             $k = array_search($supplierSku, $supplierSkus);
                             unset($supplierSkus[$k]);
+                            echo "Есть результат! Осталось обработать " . count($supplierSkus) . "\r\n";
                         }
-                        foreach ($supplierSkus as $key => $supplierSku) {
-                            $card = Card::where("supplierSku", $supplierSku)->first();
-                            $this->saveStock($card, 0);
-                            $detailed++;
-                            unset($supplierSkus[$key]);
-                        }
+                    }
+                    foreach ($supplierSkus as $key => $supplierSku) {
+                        $card = Card::where("supplierSku", $supplierSku)->first();
+                        $card->detailedStockAt = date('Y-m-d H:i:s');
+                        $card->save();
+                        $this->saveStock($card, 0);
+                        $detailed++;
+                        unset($supplierSkus[$key]);
+                        echo "НЕТ результата! Осталось обработать " . count($supplierSkus) . "\r\n";
                     }
                 }
             }

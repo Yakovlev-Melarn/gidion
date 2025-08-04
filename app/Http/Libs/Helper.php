@@ -46,7 +46,7 @@ class Helper
     public static function getBrand($brand)
     {
         if (empty($brand) || $brand == "Сима Ленд" || $brand == "Сималенд" || strtolower($brand) == 'сималенд' || strtolower($brand) == 'сима-ленд' || strtolower($brand) == 'сима ленд') {
-            $brand = 'TopGiper';
+            $brand = 'Сималенд';
         }
         return $brand;
     }
@@ -89,8 +89,24 @@ class Helper
             $basket = '16';
         } elseif ($small < 2838) {
             $basket = '17';
-        } else {
+        } elseif ($small < 3054) {
             $basket = '18';
+        } elseif ($small < 3270) {
+            $basket = '19';
+        } elseif ($small < 3486) {
+            $basket = '20';
+        } elseif ($small < 3702) {
+            $basket = '21';
+        } elseif ($small < 3918) {
+            $basket = '22';
+        } elseif ($small < 4134) {
+            $basket = '23';
+        } elseif ($small < 4350) {
+            $basket = '24';
+        } elseif ($small < 4566) {
+            $basket = '25';
+        } else {
+            $basket = '26';
         }
         return [
             'basket' => $basket,

@@ -20,18 +20,33 @@ use App\Models\Catalog;
 use App\Models\Seller;
 use App\Models\Stock;
 use App\Models\Supplier;
+use App\Http\Libs\Telegramm;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Bus;
 use Exception as Exc;
 
 class CardLib
 {
-    public static float $costOfLogistics = 55;
-    public static float $liter = 7;
-    public static float $tariff = 4.5;
+    public static float $costOfLogistics = 63;
+    public static float $liter = 12;
+    public static float $tariff = 6;
+
+    public static function createDimensions($card)
+    {
+        $dimensions = new CardDimensions();
+        $dimensions->card_id = $card->id;
+        $dimensions->width = 10;
+        $dimensions->height = 10;
+        $dimensions->length = 10;
+        $dimensions->save();
+    }
 
     public static function getDeliveryPrice($card)
     {
+        if (empty($card->dimensions)) {
+            self::createDimensions($card);
+            $card = Card::find($card->id);
+        }
         $volumetricWeight = ($card->dimensions->width * $card->dimensions->height * $card->dimensions->length) / 1000;
         $costOfLogistics = self::$costOfLogistics;
         if ($volumetricWeight > 1) {
@@ -43,6 +58,7 @@ class CardLib
     public static function getComission($card)
     {
         if (!$card->comission) {
+            Telegramm::send("Нет комиссии для товара категории {$card->subjectName}", $card->seller->user->id);
             throw new Exc("Нет комиссии для товара категории {$card->subjectName}");
         }
         return $card->comission->comission + self::$tariff;
@@ -113,6 +129,7 @@ class CardLib
             $card->slstock->amount = $request->localAmount;
             $card->slstock->address = $request->address;
             $card->slstock->save();
+            $card->save();
             if ($uploadStocks) {
                 foreach ($card->sizes as $size) {
                     ProductStockUpdate::dispatch($seller, $card->slstock->amount, $size->skus);
@@ -154,24 +171,29 @@ class CardLib
     public static function getSellStockPrice($id)
     {
         $card = Card::find($id);
+        $result = [
+            'price' => false
+        ];
         if (empty($card->prices)) {
-            return [
-                'price' => false
-            ];
+            return $result;
         }
         if (!$card->prices->s_price) {
-            $card->prices->s_price = WBSupplier::getPrice($card->supplierSku);
-            $card->prices->save();
+            if ($card->prices->s_price = WBSupplier::getPrice($card->supplierSku)) {
+                $card->prices->save();
+            } else {
+                return $result;
+            }
         }
         $deliveryPrice = self::getDeliveryPrice($card);
         $comissionPercent = self::getComission($card) / 100;
         $comission = ceil($card->prices->price * $comissionPercent);
-        $profit = $card->prices->price - $comission - $deliveryPrice - $card->prices->s_price;
+        $profit = $card->prices->price - $comission - $deliveryPrice - ($card->prices->s_price + 50);
         $price = ceil($card->prices->price - ($profit / (100 - ($comissionPercent * 100))) * 100);
         return [
             'status' => 1,
             'discount' => 0,
-            'price' => $price
+            'price' => $price,
+            's_price' => $card->prices->s_price
         ];
     }
 
@@ -216,7 +238,7 @@ class CardLib
     public static function addSize(array $cardData)
     {
         $card = Card::where("nmID", $cardData['nmID'])->first();
-        self::addSizes($card->id, $cardData['photos'], $card->seller_id);
+        self::addSizes($card->id, $cardData['sizes'], $card->seller_id);
     }
 
     public static function addCard(array $cardData, $seller): Card
@@ -318,6 +340,9 @@ class CardLib
             $cardSize = new CardSizes();
             $cardSize->card_id = $id;
             $cardSize->seller_id = $sellerId;
+            if (!isset($size['chrtID'])) {
+                print_r($size);
+            }
             $cardSize->chrtID = $size['chrtID'];
             $cardSize->techSize = $size['techSize'];
             $cardSize->wbSize = $size['wbSize'];

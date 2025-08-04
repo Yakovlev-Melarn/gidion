@@ -13,4 +13,8 @@ class MarketplaceOrder extends Model
     {
         return $this->hasOne(Card::class, 'nmID', 'nmId');
     }
+    public function size()
+    {
+        return $this->hasOne(CardSizes::class, 'skus', 'skus');
+    }
 }

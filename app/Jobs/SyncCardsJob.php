@@ -17,7 +17,7 @@ class SyncCardsJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public $tries = 5;
+    public $tries = 15;
     public $uniqueFor = 3600;
     public $timeout = 3600;
     private $seller;

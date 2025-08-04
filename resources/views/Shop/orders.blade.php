@@ -32,6 +32,11 @@
                             </div>
                             <div class="col-md-7 col-xxl-12">
                                 <div class="new-arrival-content position-relative">
+                                    @php
+                                        if(empty($order->card)){
+                                            $order->card = new \App\Models\Card();
+                                        }
+                                    @endphp
                                     <h4><a href="/card/{{ $order->card->id }}"
                                            target="_blank">{{ $order->card->title }}</a></h4>
                                     <div class="comment-review star-rating">
@@ -49,6 +54,7 @@
                                             <p>Наличие: <span class="item"> У поставщика {{ $order->card->slstock->amount }} <i
                                                         class="fa fa-check-circle text-warning"></i></span></p>
                                             @php
+                                            if(!empty($order->card->dimensions)){
                                                 if($order->card->dimensions->width == 10 && $order->card->dimensions->height == 10 && $order->card->dimensions->length==10){
                                                         if($order->card->cardcatalog){
                                                             $order->card->dimensions->width = ceil(\App\Http\Libs\Helper::arrSearch(json_decode($order->card->cardcatalog->package_size,1),'type','width'));
@@ -59,6 +65,9 @@
                                                             $order->card->dimensions->height = 0;
                                                             $order->card->dimensions->length = 0;
                                                         }
+                                                }
+                                                } else {
+    dd($order->card);
                                                 }
                                             @endphp
                                             <p>Габариты:

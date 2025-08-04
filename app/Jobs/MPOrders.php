@@ -105,7 +105,9 @@ class MPOrders implements ShouldQueue
                 $order->rid = $mporder['rid'];
                 $order->createdAt = $mporder['createdAt'];
                 $order->offices = json_encode($mporder['offices'], JSON_UNESCAPED_UNICODE);
-                $order->skus = $mporder['skus'][0];
+                if(!empty($mporder['skus'][0])) {
+                    $order->skus = $mporder['skus'][0];
+                }
                 $order->shipmentId = $shipment['id'];
                 $order->seller_id = $seller->id;
                 if (!empty($this->shipmentId)) {
@@ -129,18 +131,20 @@ class MPOrders implements ShouldQueue
                     } else {
                         $supplier = "Неизвестен";
                     }
+                    if (!$order->card->slstock) {
+                        CardLib::createEmptyStock($order->card->id, $seller->id);
+                        $order->save();
+                        $order = MarketplaceOrder::find($order->id);
+                    }
                     if ($order->card->supplier == 10) {
-                        if (!$order->card->slstock) {
-                            CardLib::createEmptyStock($order->card->id, $seller->id);
-                        } else {
-                            if (!$order->card->slstock->is_local) {
-                                if ($results = WBSupplier::getAmounts($order->card->supplierSku)) {
-                                    foreach ($results as $supplierSku => $amount) {
-                                        if ($supplierSku == $order->card->supplierSku) {
-                                            $order->card->slstock->amount = $amount;
-                                            $order->card->slstock->toUpload = 1;
-                                            $order->card->slstock->save();
-                                        }
+                        if (!$order->card->slstock->is_local && $order->card->removeByStock == 0) {
+                            if ($results = WBSupplier::getAmounts($order->card->supplierSku)) {
+                                foreach ($results as $supplierSku => $amount) {
+                                    if ($supplierSku == $order->card->supplierSku) {
+                                        $order->card->slstock->amount = $amount;
+                                        $order->card->slstock->toUpload = 1;
+                                        $order->card->slstock->save();
+                                        ProductStockUpdate::dispatch($seller, $amount, $order->size->skus);
                                     }
                                 }
                             }
@@ -150,7 +154,16 @@ class MPOrders implements ShouldQueue
                     if ($order->card->supplier == 11) {
                         $supplier = "{$supplier}\r\nhttps://office-burg.ru/search/?q={$order->card->supplierSku}\r\nOZON: https://www.ozon.ru/search/?from_global=true&text={$order->card->origSku}";
                     }
-                    Telegramm::send("Новый заказ\r\n
+                    $local = '';
+                    if ($order->card->slstock->is_local) {
+                        $order->card->slstock->amount -=1;
+                        if($order->card->slstock->amount == 0){
+                            $order->card->slstock->is_local = 0;
+                        }
+                        $order->card->slstock->save();
+                        $local = ' С НАШЕГО СКЛАДА';
+                    }
+                    Telegramm::send("Новый заказ{$local}\r\n
                     Магазин: {$seller->name}\r\n
                     Товар: {$order->card->title}\r\n
                     Поставщик: {$supplier}\r\n

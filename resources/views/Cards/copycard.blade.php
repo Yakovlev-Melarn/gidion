@@ -15,6 +15,12 @@
                         </div>
                     </div>
                     <div class="row">
+                        <div class="col-md-6"><label for="nmIDField">Артикул</label></div>
+                        <div class="col-md-6 input-group-sm">
+                            <input type="text" name="sku" id="skuField" required class="form-control w-25">
+                        </div>
+                    </div>
+                    <div class="row">
                         <div class="col-md-6"><label for="prefixField">Префикс</label></div>
                         <div class="col-md-6 input-group-sm">
                             <input type="text" name="prefix" id="prefixField" value="RS-X" class="form-control w-25">
@@ -24,6 +30,12 @@
                         <div class="col-md-6"><label for="packField">Упаковка</label></div>
                         <div class="col-md-6 input-group-sm">
                             <input type="number" id="packField" name="pack" value="1" class="form-control w-25">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6"><label for="packField">Цена</label></div>
+                        <div class="col-md-6 input-group-sm">
+                            <input type="number" id="priceField" name="price" value="0" class="form-control w-25">
                         </div>
                     </div>
                     <div class="row mt-3">

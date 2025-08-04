@@ -368,7 +368,7 @@
     @else
         <div class="welcome-text text-center">
             <h4>Данные в процессе загрузки. Автоматическое обновление страницы через: <span
-                    class="timer">60</span> сек.</h4>
+                    class="timer">5</span> сек.</h4>
             <div class="sk-three-bounce" style="background-color:transparent; height: 100px">
                 <div class="sk-child sk-bounce1"></div>
                 <div class="sk-child sk-bounce2"></div>

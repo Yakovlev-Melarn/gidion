@@ -10,6 +10,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Bus;
 
 class UploadImages implements ShouldQueue
 {
@@ -23,7 +24,7 @@ class UploadImages implements ShouldQueue
     private $vendorCode;
     private $reload;
 
-    public function __construct(Seller $seller, array $photos, $vendorCode, $reload = 0)
+    public function __construct(Seller $seller, array $photos, $vendorCode, $reload = 1)
     {
         $this->seller = $seller;
         $this->photos = $photos;
@@ -33,7 +34,23 @@ class UploadImages implements ShouldQueue
 
     public function handle(): void
     {
-        $card = Card::where('vendorCode', '=', $this->vendorCode)->first();
-        WBContent::uploadPhotos($this->seller, $this->photos, $card->nmID);
+        if ($card = Card::where('vendorCode', '=', $this->vendorCode)->where("seller_id", '=', $this->seller->id)->first()) {
+            WBContent::uploadPhotos($this->seller, $this->photos, $card->nmID);
+        } else {
+            if ($this->reload) {
+                Bus::chain([
+                    new ContentCard($this->seller, [
+                        'cursor' => [
+                            'limit' => 1
+                        ],
+                        'filter' => [
+                            'textSearch' => (string)$this->vendorCode,
+                            "withPhoto" => -1
+                        ]
+                    ]),
+                    new UploadImages($this->seller, $this->photos, $this->vendorCode, 0)
+                ])->dispatch();
+            }
+        }
     }
 }

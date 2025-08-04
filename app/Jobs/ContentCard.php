@@ -33,7 +33,7 @@ class ContentCard implements ShouldQueue
     {
         $result = WBContent::cardsList($this->seller, $this->settings);
         if (empty($result['cards'])) {
-            throw new \Exception(json_encode($result,256));
+            return;
         }
         foreach ($result['cards'] as $cardData) {
             CardLib::{$this->action}($cardData, $this->seller);

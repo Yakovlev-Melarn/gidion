@@ -4,7 +4,9 @@ namespace App\Console\Commands;
 
 use App\Jobs\CalcPrice;
 use App\Jobs\ContentCard;
+use App\Jobs\OrigSkusJob;
 use App\Jobs\PriceInfo;
+use App\Jobs\Resale;
 use App\Jobs\StatisticsOrders;
 use App\Jobs\StatisticsSales;
 use App\Jobs\StatisticsStocks;
@@ -12,6 +14,7 @@ use App\Jobs\StockUpdate;
 use App\Jobs\Trash;
 use App\Models\Card;
 use App\Models\Catalog;
+use App\Models\Job;
 use App\Models\Seller;
 use App\Models\StateSuppliers;
 use Illuminate\Console\Command;
@@ -38,6 +41,16 @@ class Statistics extends Command
         foreach ($sellers as $seller) {
             StatisticsOrders::dispatch($seller);
         }
+    }
+
+    protected function resale()
+    {
+        Resale::dispatch();
+    }
+
+    protected function origSkus()
+    {
+        OrigSkusJob::dispatch();
     }
 
     protected function prices()
@@ -96,7 +109,9 @@ class Statistics extends Command
     {
         $sellers = Seller::all();
         foreach ($sellers as $seller) {
-            StockUpdate::dispatch($seller)->onQueue('updatestock');
+            if ($seller->id == 16) {
+                StockUpdate::dispatch($seller)->onQueue('updatestock');
+            }
         }
     }
 
@@ -158,7 +173,7 @@ class Statistics extends Command
                 ->timeout(180)
                 ->connectTimeout(180)
                 ->acceptJson()
-                ->get("https://catalog.wb.ru/sellers/v2/catalog?ab_testing=false&appType=1&curr=rub&dest=-1412209&hide_dtype=10&lang=ru&sort=popular&spp=30&supplier={$i}&uclusters=8");
+                ->get("https://catalog.wildberries.ru/sellers/v2/catalog?ab_testing=false&appType=1&curr=rub&dest=-1412209&hide_dtype=10&lang=ru&sort=popular&spp=30&supplier={$i}&uclusters=8");
             $response = $response->json();
             if (!empty($response['data'])) {
                 if ($response['data']['total'] > 0) {
@@ -175,6 +190,29 @@ class Statistics extends Command
             $bar->advance();
         }
         $bar->finish();
+    }
+
+    protected function trash()
+    {
+        $seller = Seller::find(16);
+        $jobs = Job::where('payload', 'like', '%Trash%')->get();
+        echo $jobs->count();
+        $i = 0;
+        $k = 0;
+        foreach ($jobs as $job) {
+            $json = json_decode($job->payload, true);
+            $jsonData = unserialize($json['data']['command']);
+            $nmIds[$k][] = $jsonData->nmIds[0];
+            $i++;
+            if ($i > 999) {
+                $i = 0;
+                $k++;
+            }
+            $job->delete();
+        }
+        foreach ($nmIds as $nm) {
+            Trash::dispatch($seller, $nm);
+        }
     }
 
     protected function deloldcards()

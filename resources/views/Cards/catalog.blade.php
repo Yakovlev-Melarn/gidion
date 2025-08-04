@@ -29,7 +29,6 @@
                             <th>Sku</th>
                             <th>Нименование</th>
                             <th>Цена (Офисмаг)</th>
-                            <th>Цена (Офисбург)</th>
                             <th>Цена (WB)</th>
                             <th>Объемный вес</th>
                             <th>Действия</th>
@@ -40,7 +39,6 @@
                                 <td>{{ $row['sku'] }}</td>
                                 <td>{{ $row['name'] }}</td>
                                 <td>{{ $row['omPrice'] }}</td>
-                                <td>{{ $row['obPrice'] }}</td>
                                 <td>{{ $row['wbPrice'] }}</td>
                                 <td>{{ $row['volume'] }}</td>
                                 <td>@if($row['wbPrice'] > 0)
@@ -63,4 +61,5 @@
     </form>
 @endsection
 @section('js')
+    <script src="{{ url('/js/catalog/index.js') }}"></script>
 @endsection
